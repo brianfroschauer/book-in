@@ -35,7 +35,7 @@ docker-compose up
 4. Run the application
 
 ```bash
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
 ## Running the tests

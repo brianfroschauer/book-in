@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+
+  database:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: bookin
+      MYSQL_DATABASE: bookin
+    ports:
+      - "3306:3306"

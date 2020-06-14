@@ -4,6 +4,7 @@ import com.austral.bookin.dto.user.UpdateUserDTO;
 import com.austral.bookin.dto.user.UserDTO;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.service.user.UserService;
+import com.austral.bookin.specification.UserSpecification;
 import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> find() {
-        final List<User> users = userService.find();
+    public ResponseEntity<List<UserDTO>> find(UserSpecification specification) {
+        final List<User> users = userService.find(specification);
         return ResponseEntity.ok(objectMapper.map(users, UserDTO.class));
     }
 

@@ -1,6 +1,7 @@
 package com.austral.bookin.service.user;
 
 import com.austral.bookin.entity.User;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface UserService {
      *
      * @return all users or an empty list if there are no users.
      */
-    List<User> find();
+    List<User> find(Specification<User> specification);
 
     /**
      * Find the user with the provided id.

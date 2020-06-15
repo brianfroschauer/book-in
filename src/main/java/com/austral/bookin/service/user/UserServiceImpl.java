@@ -3,6 +3,8 @@ package com.austral.bookin.service.user;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.entity.User;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +19,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> find() {
+    public List<User> find(Specification<User> specification) {
         return repository
-                .findAll();
+                .findAll(specification);
     }
 
     @Override

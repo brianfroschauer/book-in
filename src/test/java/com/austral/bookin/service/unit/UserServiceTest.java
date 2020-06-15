@@ -4,8 +4,10 @@ import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.service.user.UserService;
+import com.austral.bookin.specification.UserSpecification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +22,9 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class UserServiceTest {
+
+    @Mock
+    private UserSpecification userSpecification;
 
     @MockBean
     private UserRepository userRepository;
@@ -37,11 +42,11 @@ public class UserServiceTest {
     public void givenUserList_whenFindAll_thenReturnUsers() {
         doReturn(Arrays.asList(new User(), new User()))
                 .when(userRepository)
-                .findAll();
+                .findAll(userSpecification);
 
-        final List<User> users = userService.find();
+        final List<User> users = userService.find(userSpecification);
 
-        verify(userRepository).findAll();
+        verify(userRepository).findAll(userSpecification);
         assertEquals(2, users.size());
     }
 
@@ -50,12 +55,12 @@ public class UserServiceTest {
     public void givenEmptyList_whenFindAll_ThenReturnEmptyList() {
         doReturn(Collections.emptyList())
                 .when(userRepository)
-                .findAll();
+                .findAll(userSpecification);
 
-        final List<User> users = userService.find();
+        final List<User> users = userService.find(userSpecification);
 
         assertTrue(users.isEmpty());
-        verify(userRepository).findAll();
+        verify(userRepository).findAll(userSpecification);
     }
 
     @Test

@@ -6,8 +6,10 @@ import com.austral.bookin.dto.user.UserDTO;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.service.user.UserService;
+import com.austral.bookin.specification.UserSpecification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,9 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class UserControllerTest {
 
+    @Mock
+    private UserSpecification userSpecification;
+
     @MockBean
     private UserService userService;
 
@@ -41,13 +46,13 @@ public class UserControllerTest {
     public void whenFindAll_thenReturnOkResponse() {
         doReturn(Collections.emptyList())
                 .when(userService)
-                .find();
+                .find(userSpecification);
 
-        final ResponseEntity<List<UserDTO>> responseEntity = userController.find();
+        final ResponseEntity<List<UserDTO>> responseEntity = userController.find(userSpecification);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertTrue(Objects.requireNonNull(responseEntity.getBody()).isEmpty());
-        verify(userService, times(1)).find();
+        verify(userService, times(1)).find(userSpecification);
     }
 
     @Test

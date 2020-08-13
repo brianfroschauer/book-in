@@ -22,8 +22,8 @@ public class SignupUserDTO {
     @Size(min = 2, max = 20)
     private String lastName;
 
-    @Pattern(regexp = Patterns.PATTERN_USERNAME)
-    private String username;
+    @Pattern(regexp = Patterns.PATTERN_EMAIL)
+    private String email;
 
     @Pattern(regexp = Patterns.PATTERN_PASSWORD)
     private String password;

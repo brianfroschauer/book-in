@@ -46,7 +46,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("lastName");
-        signupUserDTO.setUsername("username");
+        signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword1");
 
         Mockito.doReturn(new User())
@@ -65,7 +65,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("lastName");
-        signupUserDTO.setUsername("username");
+        signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword");
 
         mockMvc.perform(post("/signup")
@@ -80,7 +80,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstNameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         signupUserDTO.setLastName("lastName");
-        signupUserDTO.setUsername("username");
+        signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword1");
 
         mockMvc
@@ -96,7 +96,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("");
-        signupUserDTO.setUsername("username");
+        signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword1");
 
         mockMvc
@@ -112,7 +112,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("lastNameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-        signupUserDTO.setUsername("username");
+        signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword1");
 
         mockMvc
@@ -128,7 +128,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("lastName");
-        signupUserDTO.setUsername("user__name");
+        signupUserDTO.setEmail("usergmail.com");
         signupUserDTO.setPassword("P@ssword1");
 
         mockMvc
@@ -144,7 +144,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("lastName");
-        signupUserDTO.setUsername("username");
+        signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword");
 
         mockMvc
@@ -160,7 +160,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("lastName");
-        signupUserDTO.setUsername("username");
+        signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("Password1");
 
         mockMvc
@@ -176,7 +176,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("lastName");
-        signupUserDTO.setUsername("username");
+        signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("1234567890@");
 
         mockMvc
@@ -192,7 +192,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("lastName");
-        signupUserDTO.setUsername("username");
+        signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("Pass");
 
         mockMvc
@@ -208,7 +208,7 @@ public class SignupControllerTest {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("lastName");
-        signupUserDTO.setUsername("username");
+        signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword1111111111111111111111111111111111111111111");
 
         mockMvc

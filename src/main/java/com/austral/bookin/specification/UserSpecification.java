@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 @And({
         @Spec(path = "firstName", spec = Equal.class),
         @Spec(path = "lastName", spec = Equal.class),
-        @Spec(path = "username", spec = Equal.class),
+        @Spec(path = "email", spec = Equal.class),
 })
 public interface UserSpecification extends Specification<User> {
 }

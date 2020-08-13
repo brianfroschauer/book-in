@@ -24,4 +24,16 @@ public class Patterns {
      * $                 # end-of-string.
      */
     public final static String PATTERN_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,50}$";
+
+    /**
+     * ^                 # start-of-string.
+     * (?=.{8,50}$)      # anything, at least eight places and maximum fifty.
+     * (?![_.])          # no _ or . at the beginning.
+     * (?=.*[@])         # one @ must occur
+     * (?=.*[.])         # one . must occur
+     * (?<![_.])         # no _ or . at the end.
+     * ([a-zA-Z0-9._@]+) # allowed characters.
+     * $                 # end-of-string.
+     */
+    public final static String PATTERN_EMAIL = "^(?=.{8,50}$)(?![_.])(?=.*[@])(?=.*[.])(?<![_.])([a-zA-Z0-9._@]+)$";
 }

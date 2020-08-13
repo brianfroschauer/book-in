@@ -92,12 +92,12 @@ public class UserServiceTest {
     public void givenPresentOptionalUser_whenFindByUsername_ThenReturnUser() {
         doReturn(Optional.of(new User()))
                 .when(userRepository)
-                .findByUsername("username");
+                .findByEmail("user@gmail.com");
 
-        final User user = userService.find("username");
+        final User user = userService.find("user@gmail.com");
 
         assertNotNull(user);
-        verify(userRepository).findByUsername("username");
+        verify(userRepository).findByEmail("user@gmail.com");
     }
 
     @Test
@@ -105,10 +105,10 @@ public class UserServiceTest {
     public void givenEmptyOptionalUser_whenFindByUsername_ThenThrowNotFoundException() {
         doReturn(Optional.empty())
                 .when(userRepository)
-                .findByUsername("username");
+                .findByEmail("user@gmail.com");
 
-        assertThrows(NotFoundException.class, () -> userService.find("username"));
-        verify(userRepository).findByUsername("username");
+        assertThrows(NotFoundException.class, () -> userService.find("user@gmail.com"));
+        verify(userRepository).findByEmail("user@gmail.com");
     }
 
     @Test

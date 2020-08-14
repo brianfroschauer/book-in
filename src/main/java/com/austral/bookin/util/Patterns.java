@@ -4,14 +4,13 @@ public class Patterns {
 
     /**
      * ^                 # start-of-string.
-     * (?=.{8,50}$)      # anything, at least eight places and maximum fifty.
-     * (?![_.])          # no _ or . at the beginning.
-     * (?!.*[_.]{2})     # no __ or _. or ._ or .. inside.
-     * (?<![_.])         # no _ or . at the end.
-     * ([a-zA-Z0-9._]+)  # allowed characters.
+     * [\w-\.]{3,50}     # any alphanumeric value, _, - or . but only between 3 and 50 characters.
+     * @                 # one @ in that position.
+     * ([\w-]+\.)        # any alphanumeric value, _, - or .
+     * [\w-]{2,4}        # any alphanumeric value, _ or - but only 2, 3 or 4 characters.
      * $                 # end-of-string.
      */
-    public final static String PATTERN_USERNAME = "^(?=.{8,50}$)(?![_.])(?!.*[_.]{2})(?<![_.])([a-zA-Z0-9._]+)$";
+    public final static String PATTERN_EMAIL = "^[\\w-\\.]{3,50}@([\\w-]+\\.)+[\\w-]{2,4}$";
 
     /**
      * ^                 # start-of-string.
@@ -24,16 +23,4 @@ public class Patterns {
      * $                 # end-of-string.
      */
     public final static String PATTERN_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,50}$";
-
-    /**
-     * ^                 # start-of-string.
-     * (?=.{8,50}$)      # anything, at least eight places and maximum fifty.
-     * (?![_.])          # no _ or . at the beginning.
-     * (?=.*[@])         # one @ must occur
-     * (?=.*[.])         # one . must occur
-     * (?<![_.])         # no _ or . at the end.
-     * ([a-zA-Z0-9._@]+) # allowed characters.
-     * $                 # end-of-string.
-     */
-    public final static String PATTERN_EMAIL = "^(?=.{8,50}$)(?![_.])(?=.*[@])(?=.*[.])(?<![_.])([a-zA-Z0-9._@]+)$";
 }

@@ -123,8 +123,8 @@ public class SignupControllerTest {
     }
 
     @Test
-    @DisplayName("Given user with invalid username, when signup, then return Bad Request response")
-    public void givenUserWithInvalidUsername_whenSignup_thenReturnBadRequestResponse() throws Exception {
+    @DisplayName("Given user with email without at (@), when signup, then return Bad Request response")
+    public void givenUserWithEmailWithoutAtSymbol_whenSignup_thenReturnBadRequestResponse() throws Exception {
         final SignupUserDTO signupUserDTO = new SignupUserDTO();
         signupUserDTO.setFirstName("firstName");
         signupUserDTO.setLastName("lastName");
@@ -135,6 +135,38 @@ public class SignupControllerTest {
                 .perform(post("/signup")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(signupUserDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Given user with email with at (@) in the wrong place, when signup, then return Bad Request response")
+    public void givenUserWithEmailWithAtSymbolInWrongPlace_whenSignup_thenReturnBadRequestResponse() throws Exception {
+        final SignupUserDTO signupUserDTO = new SignupUserDTO();
+        signupUserDTO.setFirstName("firstName");
+        signupUserDTO.setLastName("lastName");
+        signupUserDTO.setEmail("usergmail.com@");
+        signupUserDTO.setPassword("P@ssword1");
+
+        mockMvc
+                .perform(post("/signup")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(signupUserDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Given user with email without dot (.), when signup, then return Bad Request response")
+    public void givenUserWithEmailWithoutDot_whenSignup_thenReturnBadRequestResponse() throws Exception {
+        final SignupUserDTO signupUserDTO = new SignupUserDTO();
+        signupUserDTO.setFirstName("firstName");
+        signupUserDTO.setLastName("lastName");
+        signupUserDTO.setEmail("user@gmail");
+        signupUserDTO.setPassword("P@ssword1");
+
+        mockMvc
+                .perform(post("/signup")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(signupUserDTO)))
                 .andExpect(status().isBadRequest());
     }
 

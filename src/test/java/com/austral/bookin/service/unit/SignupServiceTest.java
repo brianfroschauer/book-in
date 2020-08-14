@@ -51,8 +51,8 @@ public class SignupServiceTest {
     }
 
     @Test
-    @DisplayName("Given user with an username that already exists, when signup, then throw already exists exception")
-    public void givenUserWithUsernameThatAlreadyExists_whenSignup_thenThrowAlreadyExistsException() {
+    @DisplayName("Given user with an email that already exists, when signup, then throw already exists exception")
+    public void givenUserWithEMailThatAlreadyExists_whenSignup_thenThrowAlreadyExistsException() {
         final User user = new User();
         user.setEmail("user@gmail.com");
         user.setPassword("password");

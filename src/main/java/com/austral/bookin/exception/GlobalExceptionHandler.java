@@ -18,6 +18,11 @@ public class GlobalExceptionHandler {
         return handle(HttpStatus.CONFLICT, exception.getMessage());
     }
 
+    @ExceptionHandler(BadFormatException.class)
+    public ResponseEntity<ApiError> handle(BadFormatException exception) {
+        return handle(HttpStatus.NOT_ACCEPTABLE, exception.getMessage());
+    }
+
     private ResponseEntity<ApiError> handle(HttpStatus status, String message) {
         return new ResponseEntity<>(new ApiError(status, message), status);
     }

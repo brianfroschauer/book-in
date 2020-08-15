@@ -2,6 +2,7 @@ package com.austral.bookin.service.unit;
 
 import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.AlreadyExistsException;
+import com.austral.bookin.exception.BadFormatException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.service.signup.SignupService;
 import org.junit.jupiter.api.DisplayName;
@@ -39,7 +40,7 @@ public class SignupServiceTest {
     @DisplayName("Given user, when signup, then return user")
     public void givenUser_whenSignup_thenReturnUser() {
         final User user = new User();
-        user.setUsername("username");
+        user.setEmail("pepepe@mail.com");
         user.setPassword("password");
 
         doReturn(user)
@@ -52,23 +53,37 @@ public class SignupServiceTest {
 
     @Test
     @DisplayName("Given user with an username that already exists, when signup, then throw already exists exception")
-    public void givenUserWithUsernameThatAlreadyExists_whenSignup_thenThrowAlreadyExistsException() {
+    public void givenUserWithEmailThatAlreadyExists_whenSignup_thenThrowAlreadyExistsException() {
         final User user = new User();
-        user.setUsername("username");
+        user.setEmail("email@email.com");
         user.setPassword("password");
 
         doReturn(Optional.of(user))
                 .when(userRepository)
-                .findByUsername("username");
+                .findByEmail("email@email.com");
 
         assertThrows(AlreadyExistsException.class, () -> signupService.signup(user));
+    }
+
+    @Test
+    @DisplayName("Given user with a malformed email, when signup, then throw a Bad Format Exception")
+    public void givenUserWithBadEmailFormat_whenSignup_thenThrowBadFormatException() {
+        final User user = new User();
+        user.setEmail("iamnotanemail.com");
+        user.setPassword("password");
+
+        doReturn(Optional.of(user))
+                .when(userRepository)
+                .save(user);
+
+        assertThrows(BadFormatException.class, () -> signupService.signup(user));
     }
 
     @Test
     @DisplayName("Given user, when signup, then encode password")
     public void givenUser_whenSignup_thenEncodePassword() {
         final User user = new User();
-        user.setUsername("username");
+        user.setEmail("email@email.com");
         user.setPassword("password");
 
         doReturn(user)

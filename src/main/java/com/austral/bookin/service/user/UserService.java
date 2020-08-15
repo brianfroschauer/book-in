@@ -24,10 +24,10 @@ public interface UserService {
     /**
      * Find the user with the provided {@param username}.
      *
-     * @param username of the user to be found.
+     * @param email of the user to be found.
      * @return the user found.
      */
-    User find(String username);
+    User find(String email);
 
     /**
      * Persist the provided {@param user}.

@@ -11,10 +11,10 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     /**
-     * Find user by {@param username}.
+     * Find user by {@param email}.
      *
-     * @param username of the user to be found.
+     * @param email of the user to be found.
      * @return an optional user.
      */
-    Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }

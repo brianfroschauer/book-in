@@ -23,12 +23,12 @@ public interface UserService {
     User find(Long id);
 
     /**
-     * Find the user with the provided {@param username}.
+     * Find the user with the provided {@param email}.
      *
-     * @param username of the user to be found.
+     * @param email of the user to be found.
      * @return the user found.
      */
-    User find(String username);
+    User find(String email);
 
     /**
      * Persist the provided {@param user}.

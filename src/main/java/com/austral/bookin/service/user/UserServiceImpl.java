@@ -32,9 +32,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User find(String username) {
+    public User find(String email) {
         return repository
-                .findByUsername(username)
+                .findByEmail(email)
                 .orElseThrow(NotFoundException::new);
     }
 

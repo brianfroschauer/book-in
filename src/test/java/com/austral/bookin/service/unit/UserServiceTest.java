@@ -88,27 +88,27 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Given present optional user, when find by username, then return user")
-    public void givenPresentOptionalUser_whenFindByUsername_ThenReturnUser() {
+    @DisplayName("Given present optional user, when find by email, then return user")
+    public void givenPresentOptionalUser_whenFindByEmail_ThenReturnUser() {
         doReturn(Optional.of(new User()))
                 .when(userRepository)
-                .findByUsername("username");
+                .findByEmail("user@gmail.com");
 
-        final User user = userService.find("username");
+        final User user = userService.find("user@gmail.com");
 
         assertNotNull(user);
-        verify(userRepository).findByUsername("username");
+        verify(userRepository).findByEmail("user@gmail.com");
     }
 
     @Test
-    @DisplayName("Given empty optional user, when find by username, then throw not found exception")
-    public void givenEmptyOptionalUser_whenFindByUsername_ThenThrowNotFoundException() {
+    @DisplayName("Given empty optional user, when find by email, then throw not found exception")
+    public void givenEmptyOptionalUser_whenFindByEmail_ThenThrowNotFoundException() {
         doReturn(Optional.empty())
                 .when(userRepository)
-                .findByUsername("username");
+                .findByEmail("user@gmail.com");
 
-        assertThrows(NotFoundException.class, () -> userService.find("username"));
-        verify(userRepository).findByUsername("username");
+        assertThrows(NotFoundException.class, () -> userService.find("user@gmail.com"));
+        verify(userRepository).findByEmail("user@gmail.com");
     }
 
     @Test

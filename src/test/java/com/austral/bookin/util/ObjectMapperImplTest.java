@@ -25,14 +25,14 @@ public class ObjectMapperImplTest {
         user.setId(1L);
         user.setFirstName("firstName");
         user.setLastName("lastName");
-        user.setUsername("username");
+        user.setEmail("user@gmail.com");
         user.setPassword("password");
 
         final UserDTO userDTO = objectMapperImpl.map(user, UserDTO.class);
         assertNotNull(userDTO);
         assertEquals("firstName", userDTO.getFirstName());
         assertEquals("lastName", userDTO.getLastName());
-        assertEquals("username", userDTO.getUsername());
+        assertEquals("user@gmail.com", userDTO.getEmail());
     }
 
     @Test

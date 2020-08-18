@@ -39,7 +39,7 @@ public class SignupServiceTest {
     @DisplayName("Given user, when signup, then return user")
     public void givenUser_whenSignup_thenReturnUser() {
         final User user = new User();
-        user.setUsername("username");
+        user.setEmail("user@gmail.com");
         user.setPassword("password");
 
         doReturn(user)
@@ -51,15 +51,15 @@ public class SignupServiceTest {
     }
 
     @Test
-    @DisplayName("Given user with an username that already exists, when signup, then throw already exists exception")
-    public void givenUserWithUsernameThatAlreadyExists_whenSignup_thenThrowAlreadyExistsException() {
+    @DisplayName("Given user with an email that already exists, when signup, then throw already exists exception")
+    public void givenUserWithEMailThatAlreadyExists_whenSignup_thenThrowAlreadyExistsException() {
         final User user = new User();
-        user.setUsername("username");
+        user.setEmail("user@gmail.com");
         user.setPassword("password");
 
         doReturn(Optional.of(user))
                 .when(userRepository)
-                .findByUsername("username");
+                .findByEmail("user@gmail.com");
 
         assertThrows(AlreadyExistsException.class, () -> signupService.signup(user));
     }
@@ -68,7 +68,7 @@ public class SignupServiceTest {
     @DisplayName("Given user, when signup, then encode password")
     public void givenUser_whenSignup_thenEncodePassword() {
         final User user = new User();
-        user.setUsername("username");
+        user.setEmail("user@gmail.com");
         user.setPassword("password");
 
         doReturn(user)

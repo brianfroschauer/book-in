@@ -4,14 +4,13 @@ public class Patterns {
 
     /**
      * ^                 # start-of-string.
-     * (?=.{8,50}$)      # anything, at least eight places and maximum fifty.
-     * (?![_.])          # no _ or . at the beginning.
-     * (?!.*[_.]{2})     # no __ or _. or ._ or .. inside.
-     * (?<![_.])         # no _ or . at the end.
-     * ([a-zA-Z0-9._]+)  # allowed characters.
+     * [\w-\.]{3,50}     # any alphanumeric value, _, - or . but only between 3 and 50 characters.
+     * @                 # one @ in that position.
+     * ([\w-]+\.)        # any alphanumeric value, _, - or .
+     * [\w-]{2,4}        # any alphanumeric value, _ or - but only 2, 3 or 4 characters.
      * $                 # end-of-string.
      */
-    public final static String PATTERN_USERNAME = "^(?=.{8,50}$)(?![_.])(?!.*[_.]{2})(?<![_.])([a-zA-Z0-9._]+)$";
+    public final static String PATTERN_EMAIL = "^[\\w-\\.]{3,50}@([\\w-]+\\.)+[\\w-]{2,4}$";
 
     /**
      * ^                 # start-of-string.

@@ -5,13 +5,22 @@ import com.austral.bookin.dto.author.SignupAuthorDTO;
 import com.austral.bookin.dto.author.UpdateAuthorDTO;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.service.author.AuthorService;
+import com.austral.bookin.service.author.AuthorServiceImpl;
 import com.austral.bookin.specification.AuthorSpecification;
 import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -32,9 +41,9 @@ public class AuthorController {
         return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
     }
 
-    @PostMapping("signup")
-    public ResponseEntity<AuthorDTO> signup(@RequestBody @Valid SignupAuthorDTO signupAuthor) {
-        final Author author = authorService.save(objectMapper.map(signupAuthor, Author.class));
+    @PostMapping(value = "signup", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<AuthorDTO> signup(@RequestBody @Valid SignupAuthorDTO signupAuthor, @RequestParam("photo") MultipartFile file) throws IOException {
+        final Author author = authorService.save(objectMapper.map(signupAuthor, Author.class), file);
         return ResponseEntity.ok(objectMapper.map(author, AuthorDTO.class));
     }
 
@@ -54,5 +63,10 @@ public class AuthorController {
     public ResponseEntity<AuthorDTO> delete(@PathVariable Long id) {
         authorService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private boolean checkDate(Date date) {
+        Date now = Calendar.getInstance().getTime();
+        return now.after(date);
     }
 }

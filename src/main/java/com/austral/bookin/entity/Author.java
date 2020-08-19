@@ -2,7 +2,6 @@ package com.austral.bookin.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,6 +28,7 @@ public class Author {
     @Column(name = "birthday")
     private Date birthday;
 
-    @Column(name = "photo")
-    private String photo;
+    @Lob
+    @Column(name = "photo", columnDefinition="longblob")
+    private byte[] photo;
 }

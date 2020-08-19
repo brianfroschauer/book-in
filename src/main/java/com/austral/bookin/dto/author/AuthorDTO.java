@@ -3,7 +3,9 @@ package com.austral.bookin.dto.author;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Data
@@ -15,6 +17,6 @@ public class AuthorDTO {
     private String firstname;
     private String lastname;
     private String nationality;
-    private Date date_of_birth;
-    private String photo;
+    @Past
+    private Date birthday;
 }

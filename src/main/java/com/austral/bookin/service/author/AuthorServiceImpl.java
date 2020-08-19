@@ -6,7 +6,9 @@ import com.austral.bookin.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +30,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author save(Author author) {
+    public Author save(Author author, MultipartFile file) throws IOException {
+        author.setPhoto(file.getBytes());
         return repository.save(author);
     }
 
@@ -42,7 +45,7 @@ public class AuthorServiceImpl implements AuthorService {
                     if (author.getNationality() != null) {
                         old.setNationality(author.getNationality());
                     }
-                    if (author.getBirthday() != null && checkDate(author.getBirthday())) {
+                    if (author.getBirthday() != null) {
                         old.setBirthday(author.getBirthday());
                     }
                     if (author.getPhoto() != null) {
@@ -61,10 +64,5 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public void delete(Author author) {
         repository.delete(author);
-    }
-
-    public boolean checkDate(Date date) {
-        Date now = Calendar.getInstance().getTime();
-        return now.after(date);
     }
 }

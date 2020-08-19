@@ -3,7 +3,9 @@ package com.austral.bookin.service.author;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.entity.User;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public interface AuthorService {
      * @param author to be persisted.
      * @return the persisted author with.
      */
-    Author save(Author author);
+    Author save(Author author, MultipartFile file) throws IOException;
 
     /**
      * Update the provided {@param author}.
@@ -55,11 +57,4 @@ public interface AuthorService {
      * @param author of the author to be found.
      */
     void delete(Author author);
-
-    /**
-     * Check the provided date is before the actual date.
-     *
-     * @param date of the birth of author to be saved.
-     */
-    boolean checkDate(Date date);
 }

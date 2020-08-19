@@ -3,17 +3,17 @@ package com.austral.bookin.service.signup;
 import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.entity.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SignupServiceImpl implements SignupService {
 
     private final UserRepository repository;
-    private final PasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
 
     public SignupServiceImpl(UserRepository repository,
-                             PasswordEncoder encoder) {
+                             BCryptPasswordEncoder encoder) {
         this.repository = repository;
         this.encoder = encoder;
     }

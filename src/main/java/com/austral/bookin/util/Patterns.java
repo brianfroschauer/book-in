@@ -13,14 +13,29 @@ public class Patterns {
     public final static String PATTERN_EMAIL = "^[\\w-\\.]{3,50}@([\\w-]+\\.)+[\\w-]{2,4}$";
 
     /**
+     *
+     * ^                    Start of string
+     * [A-Za-z]             ANY uppercase letter and any lowercase letter
+     * +                    Must be 1 or inf operand of previous exp
+     * S                    end of string
+     *
+     */
+    public final static String PATTERN_NAME = "^[A-Za-z]+$";
+
+    /**
      * ^                 # start-of-string.
      * (?=.*[0-9])       # a digit must occur at least once.
      * (?=.*[a-z])       # a lower case letter must occur at least once.
-     * (?=.*[A-Z])       # an upper case letter must occur at least once.
-     * (?=.*[@#$%^&+=])  # a special character must occur at least once.
      * (?=\S+$)          # no whitespace allowed in the entire string.
-     * .{8,50}           # anything, at least eight places and maximum fifty.
+     * .{6,50}           # anything, at least six places and maximum fifty.
      * $                 # end-of-string.
+     * /i                # ignore case
      */
-    public final static String PATTERN_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,50}$";
+    public final static String PATTERN_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=\\S+$).{6,50}$/i";
+
+
+    /**
+     *  MUST BE EITHER M or F or A ONLY ONCE...
+     */
+    public final static String PATTERN_GENDER = "^[MFA]{1}$";
 }

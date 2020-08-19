@@ -3,13 +3,18 @@ package com.austral.bookin.controller.integration;
 import com.austral.bookin.controller.SignupController;
 import com.austral.bookin.dto.user.SignupUserDTO;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.security.WebSecurity;
+import com.austral.bookin.service.authentication.AuthenticationService;
 import com.austral.bookin.service.signup.SignupService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -17,13 +22,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = SignupController.class)
 public class SignupControllerTest {
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,6 +39,7 @@ public class SignupControllerTest {
 
     @MockBean
     private SignupService signupService;
+
 
     @Test
     public void contextLoads() {
@@ -48,6 +55,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastName");
         signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword1");
+        signupUserDTO.setGender("M");
 
         Mockito.doReturn(new User())
                 .when(signupService)
@@ -67,6 +75,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastName");
         signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword");
+        signupUserDTO.setGender("M");
 
         mockMvc.perform(post("/signup")
                 .contentType("application/json")
@@ -82,6 +91,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastName");
         signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword1");
+        signupUserDTO.setGender("M");
 
         mockMvc
                 .perform(post("/signup")
@@ -98,6 +108,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("");
         signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword1");
+        signupUserDTO.setGender("M");
 
         mockMvc
                 .perform(post("/signup")
@@ -114,6 +125,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastNameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword1");
+        signupUserDTO.setGender("M");
 
         mockMvc
                 .perform(post("/signup")
@@ -130,6 +142,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastName");
         signupUserDTO.setEmail("usergmail.com");
         signupUserDTO.setPassword("P@ssword1");
+        signupUserDTO.setGender("M");
 
         mockMvc
                 .perform(post("/signup")
@@ -146,6 +159,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastName");
         signupUserDTO.setEmail("usergmail.com@");
         signupUserDTO.setPassword("P@ssword1");
+        signupUserDTO.setGender("M");
 
         mockMvc
                 .perform(post("/signup")
@@ -162,6 +176,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastName");
         signupUserDTO.setEmail("user@gmail");
         signupUserDTO.setPassword("P@ssword1");
+        signupUserDTO.setGender("M");
 
         mockMvc
                 .perform(post("/signup")
@@ -178,6 +193,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastName");
         signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword");
+        signupUserDTO.setGender("M");
 
         mockMvc
                 .perform(post("/signup")
@@ -186,21 +202,6 @@ public class SignupControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    @DisplayName("Given user with password without special characters, when signup, then return Bad Request response")
-    public void givenUserWithPasswordWithoutSpecialCharacters_whenSignup_thenReturnBadRequestResponse() throws Exception {
-        final SignupUserDTO signupUserDTO = new SignupUserDTO();
-        signupUserDTO.setFirstName("firstName");
-        signupUserDTO.setLastName("lastName");
-        signupUserDTO.setEmail("user@gmail.com");
-        signupUserDTO.setPassword("Password1");
-
-        mockMvc
-                .perform(post("/signup")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(signupUserDTO)))
-                .andExpect(status().isBadRequest());
-    }
 
     @Test
     @DisplayName("Given user with password without letters, when signup, then return Bad Request response")
@@ -210,6 +211,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastName");
         signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("1234567890@");
+        signupUserDTO.setGender("M");
 
         mockMvc
                 .perform(post("/signup")
@@ -226,6 +228,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastName");
         signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("Pass");
+        signupUserDTO.setGender("M");
 
         mockMvc
                 .perform(post("/signup")
@@ -242,6 +245,7 @@ public class SignupControllerTest {
         signupUserDTO.setLastName("lastName");
         signupUserDTO.setEmail("user@gmail.com");
         signupUserDTO.setPassword("P@ssword1111111111111111111111111111111111111111111");
+        signupUserDTO.setGender("M");
 
         mockMvc
                 .perform(post("/signup")
@@ -249,4 +253,23 @@ public class SignupControllerTest {
                 .content(objectMapper.writeValueAsString(signupUserDTO)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    @DisplayName("Given user with invalid gender, when signup, then return Bad Request response")
+    public void givenUserWithInvalidGender_whenSignup_thenReturnBadRequestResponse() throws Exception {
+        final SignupUserDTO signupUserDTO = new SignupUserDTO();
+        signupUserDTO.setFirstName("firstName");
+        signupUserDTO.setLastName("lastName");
+        signupUserDTO.setEmail("user@gmail.com");
+        signupUserDTO.setPassword("P@ssword11");
+        signupUserDTO.setGender("L"); //Must be M F OR A
+
+        mockMvc
+                .perform(post("/signup")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(signupUserDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+
 }

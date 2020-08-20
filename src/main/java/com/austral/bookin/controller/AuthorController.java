@@ -41,10 +41,14 @@ public class AuthorController {
         return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
     }
 
-    @PostMapping(value = "signup", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<AuthorDTO> signup(@RequestBody @Valid SignupAuthorDTO signupAuthor, @RequestParam("photo") MultipartFile file) throws IOException {
-        final Author author = authorService.save(objectMapper.map(signupAuthor, Author.class), file);
-        return ResponseEntity.ok(objectMapper.map(author, AuthorDTO.class));
+    @PostMapping(value = "signup")
+    public ResponseEntity<?> signup(@RequestPart("author") AuthorDTO authorDTO,
+                                    @RequestPart(value = "photo", required = false) MultipartFile file) throws IOException {
+        //final Author author = authorService.save(objectMapper.map(signupAuthor, Author.class), file);
+        System.out.println(authorDTO.getFirstname());
+        System.out.println(file);
+        //return ResponseEntity.ok(objectMapper.map(author, AuthorDTO.class));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("{id}")

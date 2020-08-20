@@ -1,12 +1,10 @@
 package com.austral.bookin.service.author;
 
 import com.austral.bookin.entity.Author;
-import com.austral.bookin.entity.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 public interface AuthorService {
@@ -28,21 +26,23 @@ public interface AuthorService {
 
 
     /**
-     * Persist the provided {@param author}.
+     * Persist the provided {@param author} and {@param file}.
      *
      * @param author to be persisted.
+     * @param file to be persisted.
      * @return the persisted author with.
      */
     Author save(Author author, MultipartFile file) throws IOException;
 
     /**
-     * Update the provided {@param author}.
+     * Update the provided {@param author} and {@param file}.
      *
      * @param id of the author to be updated.
      * @param author to be updated.
+     * @param file to be updated.
      * @return the updated author.
      */
-    Author update(Long id, Author author);
+    Author update(Long id, Author author, MultipartFile file);
 
     /**
      * Delete the provided author.

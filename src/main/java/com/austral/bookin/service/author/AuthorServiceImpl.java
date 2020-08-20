@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,25 +29,25 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author save(Author author, MultipartFile file) throws IOException {
-        author.setPhoto(file.getBytes());
+        if (file != null) author.setPhoto(file.getBytes());
         return repository.save(author);
     }
 
     @Override
-    public Author update(Long id, Author author) {
+    public Author update(Long id, Author author, MultipartFile file) {
         return repository
                 .findById(id)
                 .map(old -> {
                     old.setFirstName(author.getFirstName());
                     old.setLastName(author.getLastName());
-                    if (author.getNationality() != null) {
-                        old.setNationality(author.getNationality());
-                    }
-                    if (author.getBirthday() != null) {
-                        old.setBirthday(author.getBirthday());
-                    }
-                    if (author.getPhoto() != null) {
-                        old.setPhoto(author.getPhoto());
+                    if (author.getNationality() != null) old.setNationality(author.getNationality());
+                    if (author.getBirthday() != null) old.setBirthday(author.getBirthday());
+                    if (file != null) {
+                        try {
+                            old.setPhoto(file.getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     return repository.save(old);
                 })

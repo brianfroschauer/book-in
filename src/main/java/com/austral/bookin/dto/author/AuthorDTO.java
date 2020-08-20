@@ -3,7 +3,6 @@ package com.austral.bookin.dto.author;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Past;
 import java.util.Date;

@@ -25,13 +25,13 @@ public class Patterns {
     /**
      * ^                 # start-of-string.
      * (?=.*[0-9])       # a digit must occur at least once.
-     * (?=.*[a-z])       # a lower case letter must occur at least once.
+     * (?=.*[A-Za-z])    # any case letter must occur at least once.
      * (?=\S+$)          # no whitespace allowed in the entire string.
      * .{6,50}           # anything, at least six places and maximum fifty.
      * $                 # end-of-string.
      * /i                # ignore case
      */
-    public final static String PATTERN_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=\\S+$).{6,50}$/i";
+    public final static String PATTERN_PASSWORD = "^(?=.*[0-9])(?=.*[A-Za-z])(?=\\S+$).{6,50}$";
 
 
     /**

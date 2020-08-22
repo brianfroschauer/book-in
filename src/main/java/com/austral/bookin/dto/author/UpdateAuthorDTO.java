@@ -22,7 +22,9 @@ public class UpdateAuthorDTO {
     @NotNull
     @Pattern(regexp = Patterns.PATTERN_NAME)
     private String lastName;
+
     private String nationality;
+
     @Past
     private Date birthday;
 }

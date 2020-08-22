@@ -24,7 +24,6 @@ public interface AuthorService {
      */
     Author find(Long id);
 
-
     /**
      * Persist the provided {@param author} and {@param file}.
      *

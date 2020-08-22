@@ -4,7 +4,6 @@ import com.austral.bookin.entity.Author;
 import com.austral.bookin.exception.InternalServerException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.AuthorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,8 +14,11 @@ import java.util.List;
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
-    @Autowired
-    private AuthorRepository repository;
+    private final AuthorRepository repository;
+
+    public AuthorServiceImpl(AuthorRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public List<Author> find(Specification<Author> specification) {

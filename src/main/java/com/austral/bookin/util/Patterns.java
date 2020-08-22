@@ -15,14 +15,19 @@ public class Patterns {
     /**
      * ^                 # start-of-string.
      * (?=.*[0-9])       # a digit must occur at least once.
-     * (?=.*[a-z])       # a lower case letter must occur at least once.
-     * (?=.*[A-Z])       # an upper case letter must occur at least once.
-     * (?=.*[@#$%^&+=])  # a special character must occur at least once.
+     * (?=.*[A-Za-z])    # any case letter must occur at least once.
      * (?=\S+$)          # no whitespace allowed in the entire string.
-     * .{8,50}           # anything, at least eight places and maximum fifty.
+     * .{6,50}           # anything, at least six places and maximum fifty.
      * $                 # end-of-string.
      */
-    public final static String PATTERN_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,50}$";
+    public final static String PATTERN_PASSWORD = "^(?=.*[0-9])(?=.*[A-Za-z])(?=\\S+$).{6,50}$";
+
+    /**
+     * ^                 # start-of-string.
+     * [MFA]{1}          # Must be either M or F or A only once.
+     * $                 # end-of-string.
+     */
+    public final static String PATTERN_GENDER = "^[MFA]{1}$";
 
     /**
      * ^                 # start-of-string.

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
     /**
-     * Find Role by {@param authority}.
+     * Find role by {@param authority}.
      *
      * @param authority of the roles to be found.
      * @return an optional role.

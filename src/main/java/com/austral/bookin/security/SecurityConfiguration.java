@@ -3,6 +3,7 @@ package com.austral.bookin.security;
 import com.austral.bookin.service.authentication.AuthenticationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,21 +15,19 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.austral.bookin.security.SecurityConstants.SIGN_UP_URL;
 
+@Profile("!test")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class WebSecurity extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final AuthenticationService authenticationService;
     private final PasswordEncoder bCryptPasswordEncoder;
 
-    public WebSecurity(AuthenticationService authenticationService,
-                       PasswordEncoder bCryptPasswordEncoder) {
+    public SecurityConfiguration(AuthenticationService authenticationService,
+                                 PasswordEncoder bCryptPasswordEncoder) {
         this.authenticationService = authenticationService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }

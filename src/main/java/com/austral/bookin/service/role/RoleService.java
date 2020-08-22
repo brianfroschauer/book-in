@@ -12,20 +12,19 @@ public interface RoleService {
      * @param authority of the role to be found.
      * @return the role with the provided authority.
      */
-    Role findByAuthority(String authority);
+    Role find(String authority);
 
     /**
      * Persist the provided {@param role}.
      *
      * @param role to be persisted.
-     * @return the persisted role.
      */
-    Role create(Role role);
+    void create(Role role);
 
     /**
-     * Add a new role to the specified user.
+     * Make admin the user with the provided {@param userId}.
      *
-     * @param userId id of the user to update role.
+     * @param userId id of the user to make admin.
      */
-    void updateAuthority(Long userId);
+    void makeAdmin(Long userId);
 }

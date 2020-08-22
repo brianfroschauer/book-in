@@ -6,18 +6,17 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
-
 @Data
 @NoArgsConstructor
 @Entity(name = "role")
-public class Role implements GrantedAuthority { //ROLES IMPLEMENT AUTHS.
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "authority",unique = true)
+    @Column(name = "authority", unique = true)
     private String authority;
 
     public Role(String authority) {

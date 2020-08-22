@@ -1,19 +1,17 @@
 package com.austral.bookin.controller.integration;
 
-import com.austral.bookin.controller.AuthorController;
 import com.austral.bookin.dto.author.CreateAuthorDTO;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.service.author.AuthorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -25,9 +23,9 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = AuthorController.class)
-public class CreateAuthorControllerTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+public class AuthorControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,6 +41,8 @@ public class CreateAuthorControllerTest {
         assertNotNull(mockMvc);
         assertNotNull(objectMapper);
     }
+
+
 
     @Test
     @DisplayName("Given valid author, when create, then return Ok response")

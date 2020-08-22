@@ -25,19 +25,19 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role findByAuthority(String authority) {
+    public Role find(String authority) {
         return roleRepository
                 .findByAuthority(authority)
                 .orElseThrow(() -> new EntityNotFoundException("Role, " + authority + ", is not found"));
     }
 
     @Override
-    public Role create(Role role) {
-        return roleRepository.save(role);
+    public void create(Role role) {
+        roleRepository.save(role);
     }
 
     @Override
-    public void updateAuthority(Long userId) {
+    public void makeAdmin(Long userId) {
         final User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User, " + userId + ", is not found"));

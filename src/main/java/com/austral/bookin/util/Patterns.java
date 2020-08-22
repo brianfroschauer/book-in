@@ -22,14 +22,12 @@ public class Patterns {
      */
     public final static String PATTERN_PASSWORD = "^(?=.*[0-9])(?=.*[A-Za-z])(?=\\S+$).{6,50}$";
 
-
     /**
      * ^                 # start-of-string.
      * [MFA]{1}          # Must be either M or F or A only once.
      * $                 # end-of-string.
      */
     public final static String PATTERN_GENDER = "^[MFA]{1}$";
-
 
     /**
      * ^                 # start-of-string.

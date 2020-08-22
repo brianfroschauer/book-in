@@ -11,5 +11,4 @@ import org.springframework.data.jpa.domain.Specification;
         @Spec(path = "lastName", spec = Equal.class),
         @Spec(path = "email", spec = Equal.class),
 })
-public interface UserSpecification extends Specification<User> {
-}
+public interface UserSpecification extends Specification<User> {}

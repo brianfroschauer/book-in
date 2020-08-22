@@ -1,7 +1,7 @@
 package com.austral.bookin.controller;
 
 import com.austral.bookin.dto.author.AuthorDTO;
-import com.austral.bookin.dto.author.SignupAuthorDTO;
+import com.austral.bookin.dto.author.CreateAuthorDTO;
 import com.austral.bookin.dto.author.UpdateAuthorDTO;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.service.author.AuthorService;
@@ -33,10 +33,10 @@ public class AuthorController {
         return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
     }
 
-    @PostMapping("signup")
-    public ResponseEntity<AuthorDTO> signup(@RequestPart("author") SignupAuthorDTO signupAuthor,
+    @PostMapping("create")
+    public ResponseEntity<AuthorDTO> create(@RequestPart("author") CreateAuthorDTO createAuthorDTO,
                                             @RequestPart(value = "photo", required = false) MultipartFile file) throws IOException {
-        final Author author = authorService.save(objectMapper.map(signupAuthor, Author.class), file);
+        final Author author = authorService.save(objectMapper.map(createAuthorDTO, Author.class), file);
         return ResponseEntity.ok(objectMapper.map(author, AuthorDTO.class));
     }
 
@@ -48,9 +48,9 @@ public class AuthorController {
 
     @PutMapping("{id}")
     public ResponseEntity<AuthorDTO> update(@PathVariable Long id,
-                                            @RequestPart("author") UpdateAuthorDTO authorUp,
+                                            @RequestPart("author") UpdateAuthorDTO updateAuthorDTO,
                                             @RequestPart(value = "photo", required = false) MultipartFile file) {
-        final Author author = authorService.update(id, objectMapper.map(authorUp, Author.class), file);
+        final Author author = authorService.update(id, objectMapper.map(updateAuthorDTO, Author.class), file);
         return ResponseEntity.ok(objectMapper.map(author, AuthorDTO.class));
     }
 

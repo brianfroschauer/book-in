@@ -11,5 +11,4 @@ import org.springframework.data.jpa.domain.Specification;
         @Spec(path = "lastName", spec = Equal.class),
 })
 
-public interface AuthorSpecification extends Specification<Author> {
-}
+public interface AuthorSpecification extends Specification<Author> {}

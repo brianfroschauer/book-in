@@ -1,6 +1,7 @@
 package com.austral.bookin.service.unit;
 
 import com.austral.bookin.entity.Author;
+import com.austral.bookin.exception.InternalServerException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.AuthorRepository;
 import com.austral.bookin.service.author.AuthorService;
@@ -11,8 +12,10 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

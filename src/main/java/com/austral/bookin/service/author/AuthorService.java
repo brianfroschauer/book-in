@@ -12,7 +12,7 @@ public interface AuthorService {
     /**
      * Find all authors.
      *
-     * @return all authors or an empty list if there are no users.
+     * @return all authors or an empty list if there are no authors.
      */
     List<Author> find(Specification<Author> specification);
 
@@ -50,11 +50,4 @@ public interface AuthorService {
      * @param id of the author to be found.
      */
     void delete(Long id);
-
-    /**
-     * Delete the provided author.
-     *
-     * @param author of the author to be found.
-     */
-    void delete(Author author);
 }

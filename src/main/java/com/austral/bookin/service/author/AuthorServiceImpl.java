@@ -1,6 +1,7 @@
 package com.austral.bookin.service.author;
 
 import com.austral.bookin.entity.Author;
+import com.austral.bookin.exception.InternalServerException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author find(Long id) {
-        return repository.findById(id).orElseThrow(NotFoundException::new);
+        return repository
+                .findById(id)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -42,13 +45,7 @@ public class AuthorServiceImpl implements AuthorService {
                     old.setLastName(author.getLastName());
                     if (author.getNationality() != null) old.setNationality(author.getNationality());
                     if (author.getBirthday() != null) old.setBirthday(author.getBirthday());
-                    if (file != null) {
-                        try {
-                            old.setPhoto(file.getBytes());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    if (file != null) old.setPhoto(getBytes(file));
                     return repository.save(old);
                 })
                 .orElseThrow(NotFoundException::new);
@@ -59,8 +56,11 @@ public class AuthorServiceImpl implements AuthorService {
         repository.delete(find(id));
     }
 
-    @Override
-    public void delete(Author author) {
-        repository.delete(author);
+    private byte[] getBytes(MultipartFile file) {
+        try {
+            return file.getBytes();
+        } catch (IOException e) {
+            throw new InternalServerException();
+        }
     }
 }

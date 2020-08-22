@@ -30,6 +30,5 @@ public class Patterns {
      * (?:[\s]           # space
      * $                 # end-of-string.
      */
-
-    public static final String NAME_LASTNAME = "^[a-zA-Z]+(?:[\\s]+[a-zA-Z]+)*$";
+    public static final String PATTERN_NAME = "^([a-zA-Z]+(?:[\\s]+[a-zA-Z]+)*){3,30}$";
 }

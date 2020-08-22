@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Data
@@ -13,9 +12,9 @@ import java.util.Date;
 public class AuthorDTO {
 
     private Long id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String nationality;
-    @Past
     private Date birthday;
+    private byte[] photo;
 }

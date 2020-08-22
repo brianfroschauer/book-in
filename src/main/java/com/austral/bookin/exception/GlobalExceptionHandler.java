@@ -18,6 +18,11 @@ public class GlobalExceptionHandler {
         return handle(HttpStatus.CONFLICT, exception.getMessage());
     }
 
+    @ExceptionHandler(InternalServerException.class)
+    public ResponseEntity<ApiError> handle(InternalServerException exception) {
+        return handle(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+    }
+
     private ResponseEntity<ApiError> handle(HttpStatus status, String message) {
         return new ResponseEntity<>(new ApiError(status, message), status);
     }

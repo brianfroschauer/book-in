@@ -8,22 +8,19 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignupAuthorDTO {
+public class CreateAuthorDTO {
 
     @NotNull
-    @Size(min = 3, max = 30)
-    @Pattern(regexp = Patterns.NAME_LASTNAME)
+    @Pattern(regexp = Patterns.PATTERN_NAME)
     private String firstName;
 
     @NotNull
-    @Size(min = 3, max = 30)
-    @Pattern(regexp = Patterns.NAME_LASTNAME)
+    @Pattern(regexp = Patterns.PATTERN_NAME)
     private String lastName;
     private String nationality;
     @Past

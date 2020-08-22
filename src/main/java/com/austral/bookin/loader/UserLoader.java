@@ -33,7 +33,7 @@ public class UserLoader implements CommandLineRunner, Ordered {
                 "password123",
                 "M");
 
-        final Role role = roleService.findByAuthority("ROLE_ADMIN");
+        final Role role = roleService.find("ROLE_ADMIN");
         user.setRoles(Collections.singleton(role));
         signupService.signup(user);
     }

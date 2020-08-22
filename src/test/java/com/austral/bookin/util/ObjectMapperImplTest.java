@@ -1,6 +1,6 @@
 package com.austral.bookin.util;
 
-import com.austral.bookin.dto.user.LoginUserDTO;
+import com.austral.bookin.dto.credentials.CredentialsDTO;
 import com.austral.bookin.dto.user.UserDTO;
 import com.austral.bookin.entity.User;
 import org.junit.jupiter.api.DisplayName;
@@ -43,10 +43,10 @@ public class ObjectMapperImplTest {
         user.setEmail("user@gmail.com");
         user.setPassword("password");
 
-        final LoginUserDTO loginUserDTO = objectMapperImpl.map(user, LoginUserDTO.class);
-        assertNotNull(loginUserDTO);
-        assertEquals("user@gmail.com", loginUserDTO.getEmail());
-        assertEquals("password",loginUserDTO.getPassword());
+        final CredentialsDTO credentialsDTO = objectMapperImpl.map(user, CredentialsDTO.class);
+        assertNotNull(credentialsDTO);
+        assertEquals("user@gmail.com", credentialsDTO.getEmail());
+        assertEquals("password", credentialsDTO.getPassword());
     }
 
     @Test

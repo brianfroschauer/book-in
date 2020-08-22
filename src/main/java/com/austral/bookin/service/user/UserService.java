@@ -34,7 +34,7 @@ public interface UserService {
      * Persist the provided {@param user}.
      *
      * @param user to be persisted.
-     * @return the persisted user with.
+     * @return the persisted user.
      */
     User save(User user);
 

@@ -15,6 +15,14 @@ public interface RoleService {
     Role findByAuthority(String authority);
 
     /**
+     * Persist the provided {@param role}.
+     *
+     * @param role to be persisted.
+     * @return the persisted role.
+     */
+    Role create(Role role);
+
+    /**
      * Add a new role to the specified user.
      *
      * @param userId id of the user to update role.

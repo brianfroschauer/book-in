@@ -1,4 +1,4 @@
-package com.austral.bookin.dto.user;
+package com.austral.bookin.dto.credentials;
 
 import com.austral.bookin.util.Patterns;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,7 @@ import javax.validation.constraints.Pattern;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginUserDTO {
-
+public class CredentialsDTO {
 
     @Pattern(regexp = Patterns.PATTERN_EMAIL)
     private String email;

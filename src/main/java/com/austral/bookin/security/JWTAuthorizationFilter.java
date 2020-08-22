@@ -16,38 +16,31 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
-
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    JWTAuthorizationFilter(AuthenticationManager manager) {
+    public JWTAuthorizationFilter(AuthenticationManager manager) {
         super(manager);
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain chain)
-            throws IOException, ServletException {
-
-        String header = request.getHeader(SecurityConstants.HEADER_STRING);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        final String header = request.getHeader(SecurityConstants.HEADER_STRING);
 
         if (header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
             return;
         }
 
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
+        final UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-
-        String token = request.getHeader(SecurityConstants.HEADER_STRING);
+        final String token = request.getHeader(SecurityConstants.HEADER_STRING);
 
         if (token != null) {
-
             final DecodedJWT claims = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes())).build()
                     .verify(token.replace(SecurityConstants.TOKEN_PREFIX, ""));
 

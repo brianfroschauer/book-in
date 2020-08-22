@@ -25,7 +25,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public void addRoleAdmin(Long id) {
-
         final User user = userRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User, " + id + ", is not found"));

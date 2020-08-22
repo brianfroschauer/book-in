@@ -35,7 +35,7 @@ public class Patterns {
 
 
     /**
-     *  MUST BE EITHER M or F or A ONLY ONCE...
+     * Must be either M or F or A only once...
      */
     public final static String PATTERN_GENDER = "^[MFA]{1}$";
 }

@@ -1,6 +1,6 @@
 package com.austral.bookin.security;
 
-import com.austral.bookin.dto.user.LoginUserDTO;
+import com.austral.bookin.dto.credentials.CredentialsDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,8 +21,7 @@ import com.auth0.jwt.JWT;
 import static com.austral.bookin.security.SecurityConstants.*;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
-
-public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {  //ACA SE IMPLEMENTA EL /LOGIN!!!
+public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager manager;
 
@@ -33,17 +32,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response)
-            throws AuthenticationException {
-
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            LoginUserDTO loginUserDTO = new ObjectMapper()
-                        .readValue(request.getInputStream(),LoginUserDTO.class);
+            final CredentialsDTO credentialsDTO = new ObjectMapper()
+                        .readValue(request.getInputStream(), CredentialsDTO.class);
 
             return manager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginUserDTO.getEmail(),
-                    loginUserDTO.getPassword(),
+                    credentialsDTO.getEmail(),
+                    credentialsDTO.getPassword(),
                     null));
 
         } catch (IOException e) {
@@ -52,20 +48,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            FilterChain chain,
-                                            Authentication auth) {
-
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) {
         final String[] authorities = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toArray(String[]::new);
 
-        String token = JWT.create()
+        final String token = JWT.create()
                 .withSubject(((UserDetails) auth.getPrincipal()).getUsername())
                 .withArrayClaim("authorities", authorities)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
+
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     }
 }

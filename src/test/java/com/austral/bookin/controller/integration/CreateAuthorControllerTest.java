@@ -60,7 +60,7 @@ public class CreateAuthorControllerTest {
         MockMultipartFile author = new MockMultipartFile("author", "", "application/json", objectMapper.writeValueAsString(createAuthorDTO).getBytes());
 
         mockMvc
-                .perform(MockMvcRequestBuilders.multipart("/authors/create")
+                .perform(MockMvcRequestBuilders.multipart("/authors")
                         .file(author))
                 .andExpect(status().isOk());
     }
@@ -79,7 +79,7 @@ public class CreateAuthorControllerTest {
                 .save(any(Author.class), isNull());
 
         mockMvc
-                .perform(post("/authors/create")
+                .perform(post("/authors")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(createAuthorDTO)))
                 .andExpect(status().isBadRequest());
@@ -95,7 +95,7 @@ public class CreateAuthorControllerTest {
         createAuthorDTO.setBirthday(new Date(100, Calendar.MAY, 6));
 
         mockMvc
-                .perform(post("/authors/create")
+                .perform(post("/authors")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(createAuthorDTO)))
                 .andExpect(status().isBadRequest());
@@ -111,7 +111,7 @@ public class CreateAuthorControllerTest {
         createAuthorDTO.setBirthday(new Date(100, Calendar.MAY, 6));
 
         mockMvc
-                .perform(post("/authors/create")
+                .perform(post("/authors")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(createAuthorDTO)))
                 .andExpect(status().isBadRequest());
@@ -127,7 +127,7 @@ public class CreateAuthorControllerTest {
         createAuthorDTO.setBirthday(new Date(100, Calendar.MAY, 6));
 
         mockMvc
-                .perform(post("/authors/create")
+                .perform(post("/authors")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(createAuthorDTO)))
                 .andExpect(status().isBadRequest());
@@ -143,7 +143,7 @@ public class CreateAuthorControllerTest {
         createAuthorDTO.setBirthday(new Date((2021-1900), Calendar.MAY, 6));
 
         mockMvc
-                .perform(post("/authors/create")
+                .perform(post("/authors")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(createAuthorDTO)))
                 .andExpect(status().isBadRequest());

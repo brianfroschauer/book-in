@@ -1,4 +1,4 @@
-package com.austral.bookin.dto.user;
+package com.austral.bookin.dto.author;
 
 import com.austral.bookin.util.Patterns;
 import lombok.AllArgsConstructor;
@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignupUserDTO {
+public class CreateAuthorDTO {
 
     @NotNull
     @Pattern(regexp = Patterns.PATTERN_NAME)
@@ -21,12 +23,8 @@ public class SignupUserDTO {
     @Pattern(regexp = Patterns.PATTERN_NAME)
     private String lastName;
 
-    @Pattern(regexp = Patterns.PATTERN_EMAIL)
-    private String email;
+    private String nationality;
 
-    @Pattern(regexp = Patterns.PATTERN_PASSWORD)
-    private String password;
-
-    @Pattern(regexp = Patterns.PATTERN_GENDER)
-    private String gender;
+    @Past
+    private Date birthday;
 }

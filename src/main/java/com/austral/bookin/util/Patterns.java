@@ -23,4 +23,12 @@ public class Patterns {
      * $                 # end-of-string.
      */
     public final static String PATTERN_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,50}$";
+
+    /**
+     * ^                 # start-of-string.
+     * [a-zA-Z]          # any alphanumeric value
+     * (?:[\s]           # space
+     * $                 # end-of-string.
+     */
+    public static final String PATTERN_NAME = "^([a-zA-Z]+(?:[\\s]+[a-zA-Z]+)*){3,30}$";
 }

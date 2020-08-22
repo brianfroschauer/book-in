@@ -4,11 +4,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@Entity(name = "user")
-public class User {
+@Entity(name = "author")
+public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,9 +22,13 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
+    @Column(name = "nationality")
+    private String nationality;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name = "birthday")
+    private Date birthday;
+
+    @Lob
+    @Column(name = "photo", columnDefinition="longblob")
+    private byte[] photo;
 }

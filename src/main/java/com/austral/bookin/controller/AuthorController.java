@@ -33,7 +33,7 @@ public class AuthorController {
         return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
     }
 
-    @PostMapping("create")
+    @PostMapping()
     public ResponseEntity<AuthorDTO> create(@RequestPart("author") CreateAuthorDTO createAuthorDTO,
                                             @RequestPart(value = "photo", required = false) MultipartFile file) throws IOException {
         final Author author = authorService.save(objectMapper.map(createAuthorDTO, Author.class), file);

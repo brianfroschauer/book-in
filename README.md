@@ -1,5 +1,7 @@
 # Book In
 
+[![CircleCI](https://circleci.com/gh/brianfroschauer/book-in/tree/teesloane-patch-5.svg?style=shield&circle-token=f65fc3e0cd9e99a09bd230eca7e21805c3ba2229)](https://circleci.com/gh/brianfroschauer/book-in/tree/develop)
+
 Backend of the Book In application.
 
 ## Getting Started

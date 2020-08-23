@@ -9,6 +9,7 @@ import com.austral.bookin.specification.AuthorSpecification;
 import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,6 +41,7 @@ public class AuthorController {
         return ResponseEntity.ok(objectMapper.map(author, AuthorDTO.class));
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<AuthorDTO> create(@RequestPart("author") @Valid CreateAuthorDTO createAuthorDTO,
                                             @RequestPart(value = "photo", required = false) MultipartFile file) throws IOException {
@@ -47,6 +49,7 @@ public class AuthorController {
         return ResponseEntity.ok(objectMapper.map(author, AuthorDTO.class));
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("{id}")
     public ResponseEntity<AuthorDTO> update(@PathVariable Long id,
                                             @RequestPart("author") @Valid UpdateAuthorDTO updateAuthorDTO,
@@ -55,6 +58,7 @@ public class AuthorController {
         return ResponseEntity.ok(objectMapper.map(author, AuthorDTO.class));
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("{id}")
     public ResponseEntity<AuthorDTO> delete(@PathVariable Long id) {
         authorService.delete(id);

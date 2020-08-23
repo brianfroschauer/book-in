@@ -20,11 +20,4 @@ public interface RoleService {
      * @param role to be persisted.
      */
     void create(Role role);
-
-    /**
-     * Make admin the user with the provided {@param userId}.
-     *
-     * @param userId id of the user to make admin.
-     */
-    void makeAdmin(Long userId);
 }

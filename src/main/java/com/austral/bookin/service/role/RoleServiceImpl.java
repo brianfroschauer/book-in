@@ -15,13 +15,10 @@ import java.util.Set;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
 
     @Autowired
-    public RoleServiceImpl(RoleRepository roleRepository,
-                           UserRepository userRepository) {
+    public RoleServiceImpl(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -34,22 +31,6 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void create(Role role) {
         roleRepository.save(role);
-    }
-
-    @Override
-    public void makeAdmin(Long userId) {
-        final User user = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User, " + userId + ", is not found"));
-
-        final Optional<Role> optionalRole = roleRepository.findByAuthority("ROLE_ADMIN");
-
-        optionalRole.ifPresent(role -> {
-            final Set<Role> roles = user.getRoles();
-            roles.add(role);
-            user.setRoles(roles);
-            userRepository.save(user);
-        });
     }
 }
 

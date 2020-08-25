@@ -9,6 +9,7 @@ import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -37,10 +38,17 @@ public class UserController {
         return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> findMe() {
+        final User me = userService.findMe();
+        return ResponseEntity.ok(objectMapper.map(me, UserDTO.class));
+    }
+
     @PutMapping("{id}")
     public ResponseEntity<UserDTO> update(@PathVariable Long id,
-                                          @RequestBody @Valid UpdateUserDTO updateUserDTO) {
-        final User user = userService.update(id, objectMapper.map(updateUserDTO, User.class));
+                                          @RequestPart("user") @Valid UpdateUserDTO updateUserDTO,
+                                          @RequestPart(value = "photo", required = false) MultipartFile file) {
+        final User user = userService.update(id, objectMapper.map(updateUserDTO, User.class), file);
         return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
     }
 

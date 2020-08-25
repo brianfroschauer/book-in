@@ -2,6 +2,7 @@ package com.austral.bookin.service.user;
 
 import com.austral.bookin.entity.User;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,6 +32,11 @@ public interface UserService {
     User find(String email);
 
     /**
+     * @return the user with provided token.
+     */
+    User findMe();
+
+    /**
      * Persist the provided {@param user}.
      *
      * @param user to be persisted.
@@ -43,9 +49,10 @@ public interface UserService {
      *
      * @param id of the user to be updated.
      * @param user to be updated.
+     * @param file to be updated.
      * @return the updated user.
      */
-    User update(Long id, User user);
+    User update(Long id, User user, MultipartFile file);
 
     /**
      * Delete the provided user.

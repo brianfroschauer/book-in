@@ -55,6 +55,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void delete(Long id) {
+        Author author = find(id);
+        author.setBooks(null);
+        repository.save(author);
         repository.delete(find(id));
     }
 

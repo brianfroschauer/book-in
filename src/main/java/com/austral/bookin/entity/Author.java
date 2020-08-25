@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -31,4 +32,7 @@ public class Author {
     @Lob
     @Column(name = "photo", columnDefinition="longblob")
     private byte[] photo;
+
+    @ManyToMany(mappedBy = "authors")
+    private List<Book> books;
 }

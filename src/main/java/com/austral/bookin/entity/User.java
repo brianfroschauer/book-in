@@ -39,6 +39,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 
+    @Lob
+    @Column(name = "photo", columnDefinition="longblob")
+    private byte[] photo;
+
     public User(String firstName, String lastName, String email, String password, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;

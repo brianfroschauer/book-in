@@ -2,7 +2,6 @@ package com.austral.bookin.service.user;
 
 import com.austral.bookin.entity.User;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;

@@ -8,10 +8,12 @@ import com.austral.bookin.specification.UserSpecification;
 import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -39,9 +41,9 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserDTO> findMe() {
-        final User me = userService.findMe();
-        return ResponseEntity.ok(objectMapper.map(me, UserDTO.class));
+    public ResponseEntity<UserDTO> findMe(Principal principal) {
+        final User user = userService.findMe(principal);
+        return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
     }
 
     @PutMapping("{id}")

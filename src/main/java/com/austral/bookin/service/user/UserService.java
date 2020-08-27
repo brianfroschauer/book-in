@@ -38,7 +38,7 @@ public interface UserService {
      * @param principal the authenticated user.
      * @return the user with provided token.
      */
-    User findMe(Principal principal);
+    User find(Principal principal);
 
     /**
      * Persist the provided {@param user}.

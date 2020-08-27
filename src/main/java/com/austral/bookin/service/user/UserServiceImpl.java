@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findMe(Principal principal) {
+    public User find(Principal principal) {
         final String email = principal.getName();
         return repository
                 .findByEmail(email)

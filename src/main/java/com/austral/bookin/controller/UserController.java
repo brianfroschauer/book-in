@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDTO> findMe(Principal principal) {
-        final User user = userService.findMe(principal);
+        final User user = userService.find(principal);
         return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
     }
 

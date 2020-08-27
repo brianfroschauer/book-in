@@ -20,14 +20,18 @@ public class CreateBookDTO {
     @NotNull
     @Pattern(regexp = Patterns.PATTERN_TITLE)
     private String title;
+
     @NotNull
     @Pattern(regexp = Patterns.PATTERN_GENRE)
     private String genre;
+
     @NotNull
     @Pattern(regexp = Patterns.PATTERN_LANGUAGE)
     private String language;
-    @Past
+
     @NotNull
+    @Past
     private Date date;
+
     private List<AuthorDTO> authors;
 }

@@ -1,12 +1,9 @@
 package com.austral.bookin.service.author;
 
 import com.austral.bookin.entity.Author;
-import com.austral.bookin.entity.Book;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.AuthorRepository;
-import com.austral.bookin.repository.BookRepository;
 import com.austral.bookin.util.FileHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,9 +14,6 @@ import java.util.List;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository repository;
-
-    @Autowired
-    private BookRepository bookRepository;
 
     public AuthorServiceImpl(AuthorRepository repository) {
         this.repository = repository;
@@ -60,19 +54,6 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void delete(Long id) {
-        List<Book> books = bookRepository.findAllByAuthor(id);
-        for (Book b : books) {
-            List<Author> authors = b.getAuthors();
-            for (int i = 0; i < authors.size(); i++) {
-                if (authors.get(i).getId().equals(id)) {
-                    authors.remove(i);
-                    break;
-                }
-            }
-        }
-        Author author = find(id);
-        author.setBooks(null);
-        repository.save(author);
         repository.delete(find(id));
     }
 }

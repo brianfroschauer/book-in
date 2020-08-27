@@ -6,8 +6,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
+
+    Optional<Book> findBookByTitle(String title);
 
     @Query(value = "select * from book b where b.id in (select ba.book_id from book_author ba where ba.author_id = ?1)", nativeQuery = true)
     List<Book> findAllByAuthor(Long id);

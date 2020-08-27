@@ -1,6 +1,5 @@
 package com.austral.bookin.service.book;
 
-import com.austral.bookin.entity.Author;
 import com.austral.bookin.entity.Book;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.multipart.MultipartFile;

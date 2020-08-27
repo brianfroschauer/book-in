@@ -40,7 +40,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @Lob
-    @Column(name = "photo", columnDefinition="longblob")
+    @Column(name = "photo", columnDefinition = "longblob")
     private byte[] photo;
 
     public User(String firstName, String lastName, String email, String password, String gender) {

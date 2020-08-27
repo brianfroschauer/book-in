@@ -4,6 +4,7 @@ import com.austral.bookin.exception.InternalServerException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.util.FileHandler;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -70,10 +71,8 @@ public class UserServiceImpl implements UserService {
                 .map(old -> {
                     old.setFirstName(user.getFirstName());
                     old.setLastName(user.getLastName());
-                    if (user.getPassword() != null) old.setPassword(encode(user.getPassword()));
-                    if (user.getEmail() != null) old.setEmail(user.getEmail());
                     if (user.getGender() != null) old.setGender(user.getGender());
-                    if (file != null) old.setPhoto(getBytes(file));
+                    if (file != null) old.setPhoto(FileHandler.getBytes(file));
                     return repository.save(old);
                 })
                 .orElseThrow(NotFoundException::new);
@@ -82,17 +81,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         repository.delete(find(id));
-    }
-
-    private byte[] getBytes(MultipartFile file) {
-        try {
-            return file.getBytes();
-        } catch (IOException e) {
-            throw new InternalServerException();
-        }
-    }
-
-    private String encode(String password) {
-        return encoder.encode(password);
     }
 }

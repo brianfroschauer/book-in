@@ -2,15 +2,15 @@ package com.austral.bookin.service.book;
 
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.entity.Book;
-import com.austral.bookin.exception.InternalServerException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.BookRepository;
+import com.austral.bookin.service.author.AuthorService;
+import com.austral.bookin.util.FileHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,21 +36,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findByAuthor(Long id) {
-        List<Book> books = repository.findAll();
-        List<Book> booksByAuthor = new ArrayList<>();
-        for(Book book : books) {
-            for (Author author : book.getAuthors()) {
-                if (author.getId().equals(id)) {
-                    booksByAuthor.add(book);
-                }
-            }
-        }
-        return booksByAuthor;
+        return repository.findAllByAuthor(id);
     }
 
     @Override
     public Book save(Book book, MultipartFile file) {
-        if (file != null) book.setPhoto(getBytes(file));
+        if (file != null) book.setPhoto(FileHandler.getBytes(file));
         return repository.save(book);
     }
 
@@ -61,13 +52,5 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void delete(Long id) {
-    }
-
-    private byte[] getBytes(MultipartFile file) {
-        try {
-            return file.getBytes();
-        } catch (IOException e) {
-            throw new InternalServerException();
-        }
     }
 }

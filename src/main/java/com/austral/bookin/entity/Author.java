@@ -2,8 +2,6 @@ package com.austral.bookin.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -32,10 +30,14 @@ public class Author {
     private Date birthday;
 
     @Lob
-    @Column(name = "photo", columnDefinition="longblob")
+    @Column(name = "photo", columnDefinition = "longblob")
     private byte[] photo;
 
-    @ManyToMany(mappedBy = "authors")
-    @LazyCollection(LazyCollectionOption.TRUE)
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
     private List<Book> books;
+
+    @PreRemove
+    private void removeBooks() {
+        books.forEach(book -> book.getAuthors().remove(this));
+    }
 }

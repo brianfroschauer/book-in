@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -39,9 +40,9 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserDTO> findMe() {
-        final User me = userService.findMe();
-        return ResponseEntity.ok(objectMapper.map(me, UserDTO.class));
+    public ResponseEntity<UserDTO> find(Principal principal) {
+        final User user = userService.find(principal);
+        return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
     }
 
     @PutMapping("{id}")

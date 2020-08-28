@@ -1,30 +1,24 @@
 package com.austral.bookin.service.user;
 
-import com.austral.bookin.exception.InternalServerException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.util.FileHandler;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
-import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
-    private final PasswordEncoder encoder;
 
-    public UserServiceImpl(UserRepository repository, PasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
-        this.encoder = encoder;
     }
 
     @Override
@@ -48,14 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findMe() {
-        final Authentication authentication = SecurityContextHolder
-                .getContext()
-                .getAuthentication();
-        final String principal = (String) authentication.getPrincipal();
+    public User find(Principal principal) {
+        final String email = principal.getName();
         return repository
-                .findByEmail(principal)
-                .orElseThrow(() -> new EntityNotFoundException("User, " + principal + ", is not found"));
+                .findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User, " + email + ", is not found"));
     }
 
     @Override

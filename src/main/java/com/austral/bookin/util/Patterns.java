@@ -54,8 +54,8 @@ public class Patterns {
 
     /**
      * ^                 # start-of-string.
-     * [a-zA-Z]          # any alphabetic value
+     * [a-zA-Zñ]         # any alphabetic value
      * $                 # end-of-string.
      */
-    public static final String PATTERN_LANGUAGE = "^([a-zA-Z]+)$";
+    public static final String PATTERN_LANGUAGE = "^([a-zA-Zñ]+)$";
 }

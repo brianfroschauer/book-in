@@ -1,12 +1,10 @@
 package com.austral.bookin.service.book;
 
-import com.austral.bookin.entity.Author;
 import com.austral.bookin.entity.Book;
+import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.BookRepository;
-import com.austral.bookin.service.author.AuthorService;
 import com.austral.bookin.util.FileHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +39,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book save(Book book, MultipartFile file) {
+        repository
+                .findBookByTitle(book.getTitle())
+                .ifPresent(found -> { throw new AlreadyExistsException(); });
+
         if (file != null) book.setPhoto(FileHandler.getBytes(file));
         return repository.save(book);
     }

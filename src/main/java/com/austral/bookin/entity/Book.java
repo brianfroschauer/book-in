@@ -31,10 +31,10 @@ public class Book {
     private Date date;
 
     @Lob
-    @Column(name = "photo", columnDefinition="longblob", nullable = false)
+    @Column(name = "photo", columnDefinition = "longblob", nullable = false)
     private byte[] photo;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "book_author",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))

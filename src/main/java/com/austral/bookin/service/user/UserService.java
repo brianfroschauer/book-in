@@ -4,6 +4,7 @@ import com.austral.bookin.entity.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface UserService {
@@ -32,9 +33,12 @@ public interface UserService {
     User find(String email);
 
     /**
+     * Find the authenticated user.
+     *
+     * @param principal the authenticated user.
      * @return the user with provided token.
      */
-    User findMe();
+    User find(Principal principal);
 
     /**
      * Persist the provided {@param user}.

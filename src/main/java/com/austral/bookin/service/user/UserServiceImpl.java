@@ -3,9 +3,13 @@ package com.austral.bookin.service.user;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.util.FileHandler;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -38,19 +42,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User find(Principal principal) {
+        final String email = principal.getName();
+        return repository
+                .findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User, " + email + ", is not found"));
+    }
+
+    @Override
     public User save(User user) {
         return repository
                 .save(user);
     }
 
     @Override
-    public User update(Long id, User user) {
+    public User update(Long id, User user, MultipartFile file) {
         return repository
                 .findById(id)
                 .map(old -> {
                     old.setFirstName(user.getFirstName());
                     old.setLastName(user.getLastName());
-                    return repository.save(user);
+                    if (user.getGender() != null) old.setGender(user.getGender());
+                    if (file != null) old.setPhoto(FileHandler.getBytes(file));
+                    return repository.save(old);
                 })
                 .orElseThrow(NotFoundException::new);
     }

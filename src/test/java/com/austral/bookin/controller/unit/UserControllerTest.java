@@ -88,13 +88,13 @@ public class UserControllerTest {
 
         doReturn(new User())
                 .when(userService)
-                .update(eq(1L), any(User.class));
+                .update(eq(1L), any(User.class), isNull());
 
-        final ResponseEntity<UserDTO> responseEntity = userController.update(1L, updateUserDTO);
+        final ResponseEntity<UserDTO> responseEntity = userController.update(1L, updateUserDTO, null);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
-        verify(userService, times(1)).update(eq(1L), any(User.class));
+        verify(userService, times(1)).update(eq(1L), any(User.class), isNull());
     }
 
     @Test
@@ -106,10 +106,10 @@ public class UserControllerTest {
 
         doThrow(NotFoundException.class)
                 .when(userService)
-                .update(eq(1L), any(User.class));
+                .update(eq(1L), any(User.class), isNull());
 
-        assertThrows(NotFoundException.class, () -> userController.update(1L, updateUserDTO));
-        verify(userService, times(1)).update(eq(1L), any(User.class));
+        assertThrows(NotFoundException.class, () -> userController.update(1L, updateUserDTO, null));
+        verify(userService, times(1)).update(eq(1L), any(User.class), isNull());
     }
 
     @Test

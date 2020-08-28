@@ -31,7 +31,7 @@ public interface AuthorService {
      * @param file to be persisted.
      * @return the persisted author with.
      */
-    Author save(Author author, MultipartFile file) throws IOException;
+    Author save(Author author, MultipartFile file);
 
     /**
      * Update the provided {@param author} and {@param file}.

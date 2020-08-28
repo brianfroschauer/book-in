@@ -42,8 +42,6 @@ public class AuthorControllerTest {
         assertNotNull(objectMapper);
     }
 
-
-
     @Test
     @DisplayName("Given valid author, when create, then return Ok response")
     public void givenValidAuthor_whenCreate_thenReturnOkResponse() throws Exception {

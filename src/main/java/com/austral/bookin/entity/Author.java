@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -29,6 +30,14 @@ public class Author {
     private Date birthday;
 
     @Lob
-    @Column(name = "photo", columnDefinition="longblob")
+    @Column(name = "photo", columnDefinition = "longblob")
     private byte[] photo;
+
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
+    private List<Book> books;
+
+    @PreRemove
+    private void removeBooks() {
+        books.forEach(book -> book.getAuthors().remove(this));
+    }
 }

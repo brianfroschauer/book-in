@@ -38,6 +38,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public double getStars(Long id) {
+        return round(repository.getStars(id));
+    }
+
+    @Override
     public Book save(Book book, MultipartFile file) {
         repository
                 .findBookByTitle(book.getTitle())
@@ -49,10 +54,31 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book update(Long id, Book book, MultipartFile file) {
-        return null;
+        return repository
+                .findById(id)
+                .map(old -> {
+                    if (book.getTitle() != null) old.setTitle(book.getTitle());
+                    if (book.getGenre() != null) old.setGenre(book.getGenre());
+                    if (book.getLanguage() != null) old.setLanguage(book.getLanguage());
+                    if (book.getDate() != null) old.setDate(book.getDate());
+                    if (!book.getAuthors().isEmpty()) old.setAuthors(book.getAuthors());
+                    if (file != null) old.setPhoto(FileHandler.getBytes(file));
+                    return repository.save(old);
+                })
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
     public void delete(Long id) {
+        repository.delete(find(id));
+    }
+
+    private double round(double stars) {
+        if (stars == 0) return 0;
+        if(stars - Math.floor(stars) < 0.5) {
+            return (Math.floor(stars) + 0.5);
+        } else {
+            return Math.ceil(stars);
+        }
     }
 }

@@ -2,8 +2,6 @@ package com.austral.bookin.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.*;
@@ -39,4 +37,9 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
     private List<Author> authors = new ArrayList<>();
+
+    @PreRemove
+    private void removeAuthors() {
+        authors.forEach(author -> author.getBooks().remove(this));
+    }
 }

@@ -29,8 +29,15 @@ public interface BookService {
      * @param id of the author.
      * @return the books found.
      */
-
     List<Book> findByAuthor(Long id);
+
+    /**
+     * Find the average stars of the book with the provided id.
+     *
+     * @param id of the book.
+     * @return the average stars.
+     */
+    double getStars(Long id);
 
     /**
      * Persist the provided {@param book} and {@param file}.

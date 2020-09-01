@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.io.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -93,7 +92,7 @@ public class AuthorServiceTest {
 
     @Test
     @DisplayName("Given author, when save, then return author")
-    public void givenAuthor_whenSave_thenReturnAuthor() throws IOException {
+    public void givenAuthor_whenSave_thenReturnAuthor() {
         doReturn(new Author())
                 .when(authorRepository)
                 .save(any(Author.class));

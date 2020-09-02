@@ -1,5 +1,6 @@
 package com.austral.bookin.dto.book;
 
+import com.austral.bookin.dto.author.AuthorDTO;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.util.Patterns;
 import lombok.AllArgsConstructor;
@@ -28,5 +29,5 @@ public class UpdateBookDTO {
     @Past
     private Date date;
 
-    private List<Author> authors;
+    private List<AuthorDTO> authors;
 }

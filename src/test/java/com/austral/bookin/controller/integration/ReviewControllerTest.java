@@ -15,6 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -45,6 +48,7 @@ public class ReviewControllerTest {
         final CreateReviewDTO createReviewDTO = new CreateReviewDTO();
         createReviewDTO.setStars(2);
         createReviewDTO.setComment("Very good");
+        createReviewDTO.setDate(new Date(119, Calendar.MAY, 6));
         createReviewDTO.setBook(new BookDTO());
         createReviewDTO.setUser(new UserDTO());
 
@@ -64,6 +68,7 @@ public class ReviewControllerTest {
         final CreateReviewDTO createReviewDTO = new CreateReviewDTO();
         createReviewDTO.setStars(0);
         createReviewDTO.setComment("Very good");
+        createReviewDTO.setDate(new Date(119, Calendar.MAY, 6));
         createReviewDTO.setBook(new BookDTO());
         createReviewDTO.setUser(new UserDTO());
 
@@ -80,6 +85,7 @@ public class ReviewControllerTest {
         final CreateReviewDTO createReviewDTO = new CreateReviewDTO();
         createReviewDTO.setStars(7);
         createReviewDTO.setComment("Very good");
+        createReviewDTO.setDate(new Date(119, Calendar.MAY, 6));
         createReviewDTO.setBook(new BookDTO());
         createReviewDTO.setUser(new UserDTO());
 
@@ -96,6 +102,7 @@ public class ReviewControllerTest {
         final CreateReviewDTO createReviewDTO = new CreateReviewDTO();
         createReviewDTO.setStars(2);
         createReviewDTO.setComment("Loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong");
+        createReviewDTO.setDate(new Date(119, Calendar.MAY, 6));
         createReviewDTO.setBook(new BookDTO());
         createReviewDTO.setUser(new UserDTO());
 
@@ -112,6 +119,7 @@ public class ReviewControllerTest {
         final CreateReviewDTO createReviewDTO = new CreateReviewDTO();
         createReviewDTO.setStars(2);
         createReviewDTO.setComment("Very good");
+        createReviewDTO.setDate(new Date(119, Calendar.MAY, 6));
         createReviewDTO.setBook(null);
         createReviewDTO.setUser(new UserDTO());
 
@@ -128,6 +136,7 @@ public class ReviewControllerTest {
         final CreateReviewDTO createReviewDTO = new CreateReviewDTO();
         createReviewDTO.setStars(2);
         createReviewDTO.setComment("Very good");
+        createReviewDTO.setDate(new Date(119, Calendar.MAY, 6));
         createReviewDTO.setBook(new BookDTO());
         createReviewDTO.setUser(null);
 

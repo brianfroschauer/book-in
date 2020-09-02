@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Calendar;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -26,4 +28,7 @@ public class Review {
 
     @ManyToOne
     private Book book;
+
+    @Column(name = "date", nullable = false)
+    private Date date;
 }

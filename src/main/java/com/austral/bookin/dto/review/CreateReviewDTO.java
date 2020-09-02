@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -27,4 +29,8 @@ public class CreateReviewDTO {
 
     @NotNull
     private BookDTO book;
+
+    @NotNull
+    @PastOrPresent
+    private Date date;
 }

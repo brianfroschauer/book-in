@@ -38,7 +38,6 @@ public class ReviewController {
         return ResponseEntity.ok(objectMapper.map(review, ReviewDTO.class));
     }
 
-    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<ReviewDTO> create(@RequestBody @Valid CreateReviewDTO createReviewDTO) {
         final Review review = reviewService.save(objectMapper.map(createReviewDTO, Review.class));

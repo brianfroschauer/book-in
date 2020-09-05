@@ -29,8 +29,4 @@ public class CreateReviewDTO {
 
     @NotNull
     private BookDTO book;
-
-    @NotNull
-    @PastOrPresent
-    private Date date;
 }

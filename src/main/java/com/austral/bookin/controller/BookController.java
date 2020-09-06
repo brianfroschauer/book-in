@@ -31,17 +31,13 @@ public class BookController {
     @GetMapping
     public ResponseEntity<List<BookDTO>> find(BookSpecification specification) {
         final List<Book> books = bookService.find(specification);
-        final List<BookDTO> booksDTO = objectMapper.map(books, BookDTO.class);
-        booksDTO.forEach(book -> book.setStars(bookService.getStars(book.getId())));
-        return ResponseEntity.ok(booksDTO);
+        return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
     }
 
     @GetMapping("{id}")
     public ResponseEntity<BookDTO> find(@PathVariable Long id) {
         final Book book = bookService.find(id);
-        final BookDTO bookDTO = objectMapper.map(book, BookDTO.class);
-        bookDTO.setStars(bookService.getStars(id));
-        return ResponseEntity.ok(bookDTO);
+        return ResponseEntity.ok(objectMapper.map(book, BookDTO.class));
     }
 
     @Secured("ROLE_ADMIN")

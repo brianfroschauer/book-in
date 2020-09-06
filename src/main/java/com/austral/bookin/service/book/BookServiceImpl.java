@@ -38,11 +38,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public double getStars(Long id) {
-        return round(repository.getStars(id));
-    }
-
-    @Override
     public Book save(Book book, MultipartFile file) {
         repository
                 .findBookByTitle(book.getTitle())
@@ -71,14 +66,5 @@ public class BookServiceImpl implements BookService {
     @Override
     public void delete(Long id) {
         repository.delete(find(id));
-    }
-
-    private double round(double stars) {
-        if (stars == 0) return 0;
-        if(stars - Math.floor(stars) < 0.5) {
-            return (Math.floor(stars) + 0.5);
-        } else {
-            return Math.ceil(stars);
-        }
     }
 }

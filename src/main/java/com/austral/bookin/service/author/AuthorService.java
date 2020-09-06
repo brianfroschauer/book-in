@@ -4,7 +4,6 @@ import com.austral.bookin.entity.Author;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface AuthorService {

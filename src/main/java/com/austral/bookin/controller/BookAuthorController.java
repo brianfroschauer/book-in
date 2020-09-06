@@ -25,7 +25,7 @@ public class BookAuthorController {
 
     @GetMapping("/authors/{id}/books")
     public ResponseEntity<List<BookDTO>> findByAuthor(@PathVariable Long id) {
-        List<Book> books = bookService.findByAuthor(id);
+        final List<Book> books = bookService.findByAuthor(id);
         return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
     }
 }

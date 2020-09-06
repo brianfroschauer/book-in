@@ -1,5 +1,6 @@
 package com.austral.bookin.service.user;
 
+import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.entity.User;
@@ -51,8 +52,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        return repository
-                .save(user);
+        repository
+                .findByEmail(user.getEmail())
+                .ifPresent(found -> { throw new AlreadyExistsException(); });
+
+        return repository.save(user);
     }
 
     @Override

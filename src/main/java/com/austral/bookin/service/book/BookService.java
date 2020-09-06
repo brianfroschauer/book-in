@@ -29,7 +29,6 @@ public interface BookService {
      * @param id of the author.
      * @return the books found.
      */
-
     List<Book> findByAuthor(Long id);
 
     /**

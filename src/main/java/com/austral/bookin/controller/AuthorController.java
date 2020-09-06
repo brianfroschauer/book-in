@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -44,7 +43,7 @@ public class AuthorController {
     @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<AuthorDTO> create(@RequestPart("author") @Valid CreateAuthorDTO createAuthorDTO,
-                                            @RequestPart(value = "photo", required = false) MultipartFile file) throws IOException {
+                                            @RequestPart(value = "photo", required = false) MultipartFile file) {
         final Author author = authorService.save(objectMapper.map(createAuthorDTO, Author.class), file);
         return ResponseEntity.ok(objectMapper.map(author, AuthorDTO.class));
     }

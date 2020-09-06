@@ -101,4 +101,58 @@ public class BookServiceTest {
         assertNotNull(book);
         verify(bookRepository).save(any(Book.class));
     }
+
+    @Test
+    @DisplayName("Given present optional book, when update, then update book")
+    public void givenPresentOptionalBook_whenUpdate_thenUpdateBook() {
+        doReturn(Optional.of(new Book()))
+                .when(bookRepository)
+                .findById(4L);
+
+        doReturn(new Book())
+                .when(bookRepository)
+                .save(any(Book.class));
+
+        final Book book = bookService.update(4L, new Book(), null);
+
+        assertNotNull(book);
+        verify(bookRepository).findById(4L);
+        verify(bookRepository).save(any(Book.class));
+    }
+
+    @Test
+    @DisplayName("Given present optional book, when update, then throw not found exception")
+    public void givenEmptyOptionalBook_whenUpdate_thenThrowNotFoundException() {
+        doReturn(Optional.empty())
+                .when(bookRepository)
+                .findById(4L);
+
+        assertThrows(NotFoundException.class, () -> bookService.update(4L, new Book(), null));
+        verify(bookRepository).findById(4L);
+        verify(bookRepository, never()).save(any(Book.class));
+    }
+
+    @Test
+    @DisplayName("Given present optional book, when delete, then delete book")
+    public void givenPresentOptionalBook_whenDelete_thenDeleteBook() {
+        doReturn(Optional.of(new Book()))
+                .when(bookRepository)
+                .findById(4L);
+
+        bookService.delete(4L);
+
+        verify(bookRepository).delete(any(Book.class));
+    }
+
+    @Test
+    @DisplayName("Given empty optional book, when delete, then throw not found exception")
+    public void givenEmptyOptionalBook_whenDelete_thenThrowNotFoundException() {
+        doReturn(Optional.empty())
+                .when(bookRepository)
+                .findById(4L);
+
+        assertThrows(NotFoundException.class, () -> bookService.delete(4L));
+        verify(bookRepository).findById(4L);
+        verify(bookRepository, never()).delete(any(Book.class));
+    }
 }

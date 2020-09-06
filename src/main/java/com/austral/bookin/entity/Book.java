@@ -38,8 +38,22 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
     private List<Author> authors = new ArrayList<>();
 
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
+
+    @Transient
+    private float stars;
+
     @PreRemove
     private void removeAuthors() {
         authors.forEach(author -> author.getBooks().remove(this));
+    }
+
+    @PostLoad
+    public void setStars() {
+        stars = reviews.isEmpty() ? 0 : (float) reviews
+                .stream()
+                .map(Review::getStars)
+                .reduce(0, Integer::sum) / reviews.size();
     }
 }

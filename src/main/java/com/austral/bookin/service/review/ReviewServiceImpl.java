@@ -46,9 +46,19 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review update(Long id, Review review) {
-        return null;
+        return repository
+                .findById(id)
+                .map(old -> {
+                    if (review.getStars() != 0) old.setStars(review.getStars());
+                    if (review.getComment() != null) old.setComment(review.getComment());
+                    old.setEdited(true);
+                    return repository.save(old);
+                })
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public void delete(Long id) {}
+    public void delete(Long id) {
+        repository.delete(find(id));
+    }
 }

@@ -1,5 +1,6 @@
 package com.austral.bookin.service.unit;
 
+import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.ReviewRepository;
@@ -99,5 +100,59 @@ public class ReviewServiceTest {
 
         assertNotNull(review);
         verify(reviewRepository).save(any(Review.class));
+    }
+
+    @Test
+    @DisplayName("Given present optional review, when update, then update review")
+    public void givenPresentOptionalReview_whenUpdate_thenUpdateReview() {
+        doReturn(Optional.of(new Review()))
+                .when(reviewRepository)
+                .findById(4L);
+
+        doReturn(new Review())
+                .when(reviewRepository)
+                .save(any(Review.class));
+
+        final Review review = reviewService.update(4L, new Review());
+
+        assertNotNull(review);
+        verify(reviewRepository).findById(4L);
+        verify(reviewRepository).save(any(Review.class));
+    }
+
+    @Test
+    @DisplayName("Given present optional review, when update, then throw not found exception")
+    public void givenEmptyOptionalReview_whenUpdate_thenThrowNotFoundException() {
+        doReturn(Optional.empty())
+                .when(reviewRepository)
+                .findById(4L);
+
+        assertThrows(NotFoundException.class, () -> reviewService.update(4L, new Review()));
+        verify(reviewRepository).findById(4L);
+        verify(reviewRepository, never()).save(any(Review.class));
+    }
+
+    @Test
+    @DisplayName("Given present optional review, when delete, then delete review")
+    public void givenPresentOptionalReview_whenDelete_thenDeleteReview() {
+        doReturn(Optional.of(new Review()))
+                .when(reviewRepository)
+                .findById(4L);
+
+        reviewService.delete(4L);
+
+        verify(reviewRepository).delete(any(Review.class));
+    }
+
+    @Test
+    @DisplayName("Given empty optional review, when delete, then throw not found exception")
+    public void givenEmptyOptionalReview_whenDelete_thenThrowNotFoundException() {
+        doReturn(Optional.empty())
+                .when(reviewRepository)
+                .findById(4L);
+
+        assertThrows(NotFoundException.class, () -> reviewService.delete(4L));
+        verify(reviewRepository).findById(4L);
+        verify(reviewRepository, never()).delete(any(Review.class));
     }
 }

@@ -51,7 +51,6 @@ public class ReviewServiceImpl implements ReviewService {
                 .map(old -> {
                     if (review.getStars() != 0) old.setStars(review.getStars());
                     if (review.getComment() != null) old.setComment(review.getComment());
-                    old.setEdited(true);
                     return repository.save(old);
                 })
                 .orElseThrow(NotFoundException::new);

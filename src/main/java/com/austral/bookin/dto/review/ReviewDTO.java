@@ -12,5 +12,4 @@ public class ReviewDTO {
     private Long id;
     private int stars;
     private String comment;
-    private boolean edited;
 }

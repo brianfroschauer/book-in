@@ -35,14 +35,14 @@ public class Patterns {
      * (?:[\s]           # space
      * $                 # end-of-string.
      */
-    public static final String PATTERN_NAME = "^([a-zA-Z]+(?:[\\s]+[a-zA-Z]+)*){3,30}$";
+    public static final String PATTERN_NAME = "^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s]+[A-Za-zÀ-ÖØ-öø-ÿ]+)*){3,30}$";
 
     /**
      * ^                 # start-of-string.
      * [\w\s]            # any alphanumeric value and spaces
      * $                 # end-of-string.
      */
-    public static final String PATTERN_TITLE = "^([\\w\\s]){3,30}$";
+    public static final String PATTERN_TITLE = "^([A-Za-zÀ-ÖØ-öø-ÿ]){3,30}$";
 
     /**
      * ^                 # start-of-string.
@@ -54,8 +54,8 @@ public class Patterns {
 
     /**
      * ^                 # start-of-string.
-     * [a-zA-Zñ]         # any alphabetic value
+     * A-Za-zÀ-ÖØ-öø-ÿ   # any alphabetic value
      * $                 # end-of-string.
      */
-    public static final String PATTERN_LANGUAGE = "^([a-zA-Zñ]+)$";
+    public static final String PATTERN_LANGUAGE = "^([A-Za-zÀ-ÖØ-öø-ÿ]+)$";
 }

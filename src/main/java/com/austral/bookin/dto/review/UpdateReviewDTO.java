@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 public class UpdateReviewDTO {
 
     @Range(min = 1, max = 5)
-    private Integer stars; /* Using Integer because int can't be null */
+    private Integer stars;
 
     @Size(max = 1000)
     private String comment;

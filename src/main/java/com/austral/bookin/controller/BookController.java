@@ -34,7 +34,7 @@ public class BookController {
 
     @GetMapping
     public Page<BookDTO> find(@And({
-                                @Spec(path = "title", spec = Like.class)})
+                                @Spec(path = "title", params = "key", spec = Like.class)})
                               Specification<Book> bookSpecification, Pageable pageable) {
         final Page<Book> books = bookService.findAll(bookSpecification, pageable);
         return books.map(book -> objectMapper.map(book, BookDTO.class));

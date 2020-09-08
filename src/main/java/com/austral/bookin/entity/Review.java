@@ -33,9 +33,6 @@ public class Review {
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @Column(name = "edited")
-    private boolean edited;
-
     @PrePersist
     public void setCreatedAt() {
         createdAt = new Date();

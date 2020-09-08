@@ -46,7 +46,7 @@ public class ReviewController {
 
     @PutMapping("{id}")
     public ResponseEntity<ReviewDTO> update(@PathVariable Long id,
-                                            @RequestPart("review") @Valid UpdateReviewDTO updateReviewDTO) {
+                                            @RequestBody @Valid UpdateReviewDTO updateReviewDTO) {
         final Review review = reviewService.update(id, objectMapper.map(updateReviewDTO, Review.class));
         return ResponseEntity.ok(objectMapper.map(review, ReviewDTO.class));
     }

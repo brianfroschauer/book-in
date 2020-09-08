@@ -55,7 +55,6 @@ public class UserServiceImpl implements UserService {
         repository
                 .findByEmail(user.getEmail())
                 .ifPresent(found -> { throw new AlreadyExistsException(); });
-
         return repository.save(user);
     }
 

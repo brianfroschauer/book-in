@@ -1,11 +1,8 @@
 package com.austral.bookin.controller.unit;
 
 import com.austral.bookin.controller.ReviewController;
-import com.austral.bookin.dto.book.BookDTO;
-import com.austral.bookin.dto.book.UpdateBookDTO;
 import com.austral.bookin.dto.review.ReviewDTO;
 import com.austral.bookin.dto.review.UpdateReviewDTO;
-import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.service.review.ReviewService;

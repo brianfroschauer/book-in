@@ -1,6 +1,5 @@
 package com.austral.bookin.service.unit;
 
-import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.ReviewRepository;

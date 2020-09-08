@@ -31,7 +31,7 @@ public class Patterns {
 
     /**
      * ^                 # start-of-string.
-     * [a-zA-Z]          # any alphabetic value
+     * * A-Za-zÀ-ÖØ-öø-ÿ # any alphabetic value and accents
      * (?:[\s]           # space
      * $                 # end-of-string.
      */
@@ -42,7 +42,7 @@ public class Patterns {
      * [\w\s]            # any alphanumeric value and spaces
      * $                 # end-of-string.
      */
-    public static final String PATTERN_TITLE = "^([A-Za-zÀ-ÖØ-öø-ÿ]){3,30}$";
+    public static final String PATTERN_TITLE = "^([A-Za-zÀ-ÖØ-öø-ÿ0-9]+(?:[\\s]+[A-Za-zÀ-ÖØ-öø-ÿ0-9]+)*){3,30}$";
 
     /**
      * ^                 # start-of-string.
@@ -54,7 +54,7 @@ public class Patterns {
 
     /**
      * ^                 # start-of-string.
-     * A-Za-zÀ-ÖØ-öø-ÿ   # any alphabetic value
+     * A-Za-zÀ-ÖØ-öø-ÿ   # any alphabetic value and accents
      * $                 # end-of-string.
      */
     public static final String PATTERN_LANGUAGE = "^([A-Za-zÀ-ÖØ-öø-ÿ]+)$";

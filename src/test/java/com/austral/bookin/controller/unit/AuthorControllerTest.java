@@ -6,18 +6,14 @@ import com.austral.bookin.dto.author.UpdateAuthorDTO;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.service.author.AuthorService;
-import com.austral.bookin.specification.AuthorSpecification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,9 +24,6 @@ import static org.mockito.Mockito.times;
 @SpringBootTest
 public class AuthorControllerTest {
 
-    @Mock
-    private AuthorSpecification authorSpecification;
-
     @MockBean
     private AuthorService authorService;
 
@@ -40,20 +33,6 @@ public class AuthorControllerTest {
     @Test
     public void contextLoads() {
         assertNotNull(authorController);
-    }
-
-    @Test
-    @DisplayName("When find all, then return Ok response")
-    public void whenFindAll_thenReturnOkResponse() {
-        doReturn(Collections.emptyList())
-                .when(authorService)
-                .find(authorSpecification);
-
-        final ResponseEntity<List<AuthorDTO>> responseEntity = authorController.find(authorSpecification);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertTrue(Objects.requireNonNull(responseEntity.getBody()).isEmpty());
-        verify(authorService, times(1)).find(authorSpecification);
     }
 
     @Test

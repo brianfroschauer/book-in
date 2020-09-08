@@ -5,6 +5,8 @@ import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.BookRepository;
 import com.austral.bookin.util.FileHandler;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +25,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> find(Specification<Book> specification) {
         return repository.findAll(specification);
+    }
+
+    @Override
+    public Page<Book> findAll(Specification<Book> specification, Pageable pageable) {
+        return repository.findAll(specification, pageable);
     }
 
     @Override

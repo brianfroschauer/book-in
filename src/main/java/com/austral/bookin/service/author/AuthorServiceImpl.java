@@ -32,6 +32,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public List<Author> findByBook(Long id) {
+        return repository.findAllByBook(id);
+    }
+
+    @Override
     public Author save(Author author, MultipartFile file) {
         if (file != null) author.setPhoto(FileHandler.getBytes(file));
         return repository.save(author);

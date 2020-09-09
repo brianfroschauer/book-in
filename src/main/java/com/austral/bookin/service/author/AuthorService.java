@@ -24,6 +24,14 @@ public interface AuthorService {
     Author find(Long id);
 
     /**
+     * Find all the authors from the book with the provided id.
+     *
+     * @param id of the book.
+     * @return the authors found.
+     */
+    List<Author> findByBook(Long id);
+
+    /**
      * Persist the provided {@param author} and {@param file}.
      *
      * @param author to be persisted.

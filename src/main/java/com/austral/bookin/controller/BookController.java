@@ -5,20 +5,17 @@ import com.austral.bookin.dto.book.CreateBookDTO;
 import com.austral.bookin.dto.book.UpdateBookDTO;
 import com.austral.bookin.entity.Book;
 import com.austral.bookin.service.book.BookService;
+import com.austral.bookin.specification.BookSpecification;
 import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
-import net.kaczmarzyk.spring.data.jpa.domain.Like;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("books")
@@ -33,11 +30,11 @@ public class BookController {
     }
 
     @GetMapping
-    public Page<BookDTO> find(@And({
-                                @Spec(path = "title", params = "key", spec = Like.class)})
-                              Specification<Book> bookSpecification, Pageable pageable) {
-        final Page<Book> books = bookService.findAll(bookSpecification, pageable);
-        return books.map(book -> objectMapper.map(book, BookDTO.class));
+    public ResponseEntity<List<BookDTO>> find(BookSpecification bookSpecification,
+                                              @RequestParam(name = "page", defaultValue = "0") int page,
+                                              @RequestParam(name = "size", defaultValue = "10") int size) {
+        final List<Book> books = bookService.findAll(bookSpecification, PageRequest.of(page, size));
+        return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
     }
 
     @GetMapping("{id}")

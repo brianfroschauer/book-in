@@ -1,7 +1,6 @@
 package com.austral.bookin.service.book;
 
 import com.austral.bookin.entity.Book;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,9 +19,9 @@ public interface BookService {
     /**
      * Find all books with the given specification and a pageable.
      *
-     * @return all books or an empty page if there are no books.
+     * @return all books or an empty list if there are no books.
      */
-    Page<Book> findAll(Specification<Book> specification, Pageable pageable);
+    List<Book> findAll(Specification<Book> specification, Pageable pageable);
 
     /**
      * Find the book with the provided id.

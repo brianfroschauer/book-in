@@ -6,21 +6,17 @@ import com.austral.bookin.dto.author.UpdateAuthorDTO;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.service.author.AuthorService;
 import com.austral.bookin.specification.AuthorSpecification;
+import com.austral.bookin.specification.SearchAuthorSpecification;
 import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
-import net.kaczmarzyk.spring.data.jpa.domain.Equal;
-import net.kaczmarzyk.spring.data.jpa.domain.Like;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("authors")
@@ -35,19 +31,19 @@ public class AuthorController {
     }
 
     @GetMapping
-    public Page<AuthorDTO> find(@Or({
-                                    @Spec(path = "firstName", params = "key", spec = Like.class),
-                                    @Spec(path = "lastName", params = "key", spec = Like.class)})
-                                Specification<Author> authorSpecification,
-                                Pageable pageable) {
-        final Page<Author> authors = authorService.findAll(authorSpecification, pageable);
-        return authors.map(author -> objectMapper.map(author, AuthorDTO.class));
+    public ResponseEntity<List<AuthorDTO>> find(SearchAuthorSpecification searchAuthorSpecification,
+                                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "size", defaultValue = "10") int size) {
+        final List<Author> authors = authorService.findAll(searchAuthorSpecification, PageRequest.of(page, size));
+        return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
     }
 
     @GetMapping("/search")
-    public Page<AuthorDTO> findByName(AuthorSpecification authorSpecification, Pageable pageable) {
-        final Page<Author> authors = authorService.findAll(authorSpecification, pageable);
-        return authors.map(author -> objectMapper.map(author, AuthorDTO.class));
+    public ResponseEntity<List<AuthorDTO>> find(AuthorSpecification authorSpecification,
+                                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "size", defaultValue = "10") int size) {
+        final List<Author> authors = authorService.findAll(authorSpecification, PageRequest.of(page, size));
+        return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
     }
 
     @GetMapping("{id}")

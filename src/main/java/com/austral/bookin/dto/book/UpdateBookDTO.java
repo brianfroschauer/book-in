@@ -1,7 +1,6 @@
 package com.austral.bookin.dto.book;
 
 import com.austral.bookin.dto.author.AuthorDTO;
-import com.austral.bookin.entity.Author;
 import com.austral.bookin.util.Patterns;
 import lombok.AllArgsConstructor;
 import lombok.Data;

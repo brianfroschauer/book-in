@@ -1,6 +1,7 @@
 package com.austral.bookin.service.author;
 
 import com.austral.bookin.entity.Author;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,13 @@ public interface AuthorService {
      * @return all authors or an empty list if there are no authors.
      */
     List<Author> find(Specification<Author> specification);
+
+    /**
+     * Find all authors with the given specification and a pageable.
+     *
+     * @return all authors or an empty list if there are no authors.
+     */
+    List<Author> findAll(Specification<Author> specification, Pageable pageable);
 
     /**
      * Find the author with the provided id.

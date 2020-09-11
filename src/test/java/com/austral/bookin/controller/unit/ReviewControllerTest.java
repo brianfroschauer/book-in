@@ -2,6 +2,7 @@ package com.austral.bookin.controller.unit;
 
 import com.austral.bookin.controller.ReviewController;
 import com.austral.bookin.dto.review.ReviewDTO;
+import com.austral.bookin.dto.review.UpdateReviewDTO;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.service.review.ReviewService;
@@ -77,5 +78,52 @@ public class ReviewControllerTest {
                 .find(1L);
 
         assertThrows(NotFoundException.class, () -> reviewController.find(1L));
+    }
+
+    @Test
+    @DisplayName("Given existing review, when update, then return Ok response")
+    public void givenExistingReview_whenUpdate_thenReturnOkResponse() {
+        final UpdateReviewDTO updateReviewDTO = new UpdateReviewDTO();
+        updateReviewDTO.setStars(2);
+        updateReviewDTO.setComment("Very interesting");
+
+        doReturn(new Review())
+                .when(reviewService)
+                .update(eq(1L), any(Review.class));
+
+        final ResponseEntity<ReviewDTO> responseEntity = reviewController.update(1L, updateReviewDTO);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+        verify(reviewService, times(1)).update(eq(1L), any(Review.class));
+    }
+
+    @Test
+    @DisplayName("Given non existent review, when update, then throw Not Found exception")
+    public void givenNonExistentReview_whenUpdate_thenReturnThrowNotFoundException() {
+        final UpdateReviewDTO updateReviewDTO = new UpdateReviewDTO();
+        updateReviewDTO.setStars(2);
+        updateReviewDTO.setComment("Very interesting");
+
+        doThrow(NotFoundException.class)
+                .when(reviewService)
+                .update(eq(1L), any(Review.class));
+
+        assertThrows(NotFoundException.class, () -> reviewController.update(1L, updateReviewDTO));
+        verify(reviewService, times(1)).update(eq(1L), any(Review.class));
+    }
+
+    @Test
+    @DisplayName("Given existing review, when delete, then return No Content response")
+    public void givenExistingReview_whenDelete_thenReturnNoContentResponse() {
+        doReturn(new Review())
+                .when(reviewService)
+                .find(1L);
+
+        final ResponseEntity<ReviewDTO> responseEntity = reviewController.delete(1L);
+
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+        verify(reviewService, times(1)).delete(1L);
     }
 }

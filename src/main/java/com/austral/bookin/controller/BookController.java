@@ -6,8 +6,10 @@ import com.austral.bookin.dto.book.UpdateBookDTO;
 import com.austral.bookin.entity.Book;
 import com.austral.bookin.service.book.BookService;
 import com.austral.bookin.specification.BookSpecification;
+import com.austral.bookin.specification.SearchBookSpecification;
 import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +31,18 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDTO>> find(BookSpecification specification) {
-        final List<Book> books = bookService.find(specification);
+    public ResponseEntity<List<BookDTO>> find(BookSpecification bookSpecification,
+                                              @RequestParam(name = "page", defaultValue = "0") int page,
+                                              @RequestParam(name = "size", defaultValue = "10") int size) {
+        final List<Book> books = bookService.findAll(bookSpecification, PageRequest.of(page, size));
+        return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<BookDTO>> find(SearchBookSpecification searchBookSpecification,
+                                              @RequestParam(name = "page", defaultValue = "0") int page,
+                                              @RequestParam(name = "size", defaultValue = "10") int size) {
+        final List<Book> books = bookService.findAll(searchBookSpecification, PageRequest.of(page, size));
         return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
     }
 

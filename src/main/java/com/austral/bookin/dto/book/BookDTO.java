@@ -17,5 +17,5 @@ public class BookDTO {
     private String language;
     private Date date;
     private byte[] photo;
-    private double stars;
+    private float stars;
 }

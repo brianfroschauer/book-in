@@ -6,8 +6,10 @@ import com.austral.bookin.dto.author.UpdateAuthorDTO;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.service.author.AuthorService;
 import com.austral.bookin.specification.AuthorSpecification;
+import com.austral.bookin.specification.SearchAuthorSpecification;
 import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +31,18 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AuthorDTO>> find(AuthorSpecification specification) {
-        final List<Author> authors = authorService.find(specification);
+    public ResponseEntity<List<AuthorDTO>> find(AuthorSpecification authorSpecification,
+                                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "size", defaultValue = "10") int size) {
+        final List<Author> authors = authorService.findAll(authorSpecification, PageRequest.of(page, size));
+        return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<AuthorDTO>> find(SearchAuthorSpecification searchAuthorSpecification,
+                                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "size", defaultValue = "10") int size) {
+        final List<Author> authors = authorService.findAll(searchAuthorSpecification, PageRequest.of(page, size));
         return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
     }
 

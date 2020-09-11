@@ -4,6 +4,7 @@ import com.austral.bookin.entity.Author;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.AuthorRepository;
 import com.austral.bookin.util.FileHandler;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +22,15 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<Author> find(Specification<Author> specification) {
-        return repository.findAll(specification);
+        return repository
+                .findAll(specification);
+    }
+
+    @Override
+    public List<Author> findAll(Specification<Author> specification, Pageable pageable) {
+        return repository
+                .findAll(specification, pageable)
+                .toList();
     }
 
     @Override

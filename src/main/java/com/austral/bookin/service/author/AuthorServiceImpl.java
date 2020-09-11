@@ -22,7 +22,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<Author> find(Specification<Author> specification) {
-        return repository.findAll(specification);
+        return repository
+                .findAll(specification);
     }
 
     @Override

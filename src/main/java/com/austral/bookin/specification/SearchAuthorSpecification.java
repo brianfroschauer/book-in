@@ -8,6 +8,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 @Or({
         @Spec(path = "firstName", params = "key", spec = Like.class),
-        @Spec(path = "lastName", params = "key", spec = Like.class)})
-
+        @Spec(path = "lastName", params = "key", spec = Like.class)
+})
 public interface SearchAuthorSpecification extends Specification<Author> {}

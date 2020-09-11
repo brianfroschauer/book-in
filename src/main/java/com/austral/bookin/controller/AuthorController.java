@@ -31,18 +31,18 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AuthorDTO>> find(SearchAuthorSpecification searchAuthorSpecification,
-                                                @RequestParam(name = "page", defaultValue = "0") int page,
-                                                @RequestParam(name = "size", defaultValue = "10") int size) {
-        final List<Author> authors = authorService.findAll(searchAuthorSpecification, PageRequest.of(page, size));
-        return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
-    }
-
-    @GetMapping("/search")
     public ResponseEntity<List<AuthorDTO>> find(AuthorSpecification authorSpecification,
                                                 @RequestParam(name = "page", defaultValue = "0") int page,
                                                 @RequestParam(name = "size", defaultValue = "10") int size) {
         final List<Author> authors = authorService.findAll(authorSpecification, PageRequest.of(page, size));
+        return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<AuthorDTO>> find(SearchAuthorSpecification searchAuthorSpecification,
+                                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "size", defaultValue = "10") int size) {
+        final List<Author> authors = authorService.findAll(searchAuthorSpecification, PageRequest.of(page, size));
         return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
     }
 

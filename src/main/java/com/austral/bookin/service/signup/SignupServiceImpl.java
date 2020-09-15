@@ -20,18 +20,18 @@ public class SignupServiceImpl implements SignupService {
 
     @Override
     public User signup(User user) {
-        validate(user.getUsername());
+        validate(user.getEmail());
         user.setPassword(encode(user.getPassword()));
         return repository.save(user);
     }
 
     /**
-     * Throw an AlreadyExistsException if the provided {@param username} already exists.
-     * @param username to be found.
+     * Throw an AlreadyExistsException if the provided {@param email} already exists.
+     * @param email to be found.
      */
-    private void validate(String username) {
+    private void validate(String email) {
         repository
-                .findByUsername(username)
+                .findByEmail(email)
                 .ifPresent(user -> { throw new AlreadyExistsException(); });
     }
 

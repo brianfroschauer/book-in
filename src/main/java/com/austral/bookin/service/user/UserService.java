@@ -1,7 +1,10 @@
 package com.austral.bookin.service.user;
 
 import com.austral.bookin.entity.User;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface UserService {
@@ -11,7 +14,7 @@ public interface UserService {
      *
      * @return all users or an empty list if there are no users.
      */
-    List<User> find();
+    List<User> find(Specification<User> specification);
 
     /**
      * Find the user with the provided id.
@@ -22,18 +25,26 @@ public interface UserService {
     User find(Long id);
 
     /**
-     * Find the user with the provided {@param username}.
+     * Find the user with the provided {@param email}.
      *
-     * @param username of the user to be found.
+     * @param email of the user to be found.
      * @return the user found.
      */
-    User find(String username);
+    User find(String email);
+
+    /**
+     * Find the authenticated user.
+     *
+     * @param principal the authenticated user.
+     * @return the user with provided token.
+     */
+    User find(Principal principal);
 
     /**
      * Persist the provided {@param user}.
      *
      * @param user to be persisted.
-     * @return the persisted user with.
+     * @return the persisted user.
      */
     User save(User user);
 
@@ -42,9 +53,10 @@ public interface UserService {
      *
      * @param id of the user to be updated.
      * @param user to be updated.
+     * @param file to be updated.
      * @return the updated user.
      */
-    User update(Long id, User user);
+    User update(Long id, User user, MultipartFile file);
 
     /**
      * Delete the provided user.

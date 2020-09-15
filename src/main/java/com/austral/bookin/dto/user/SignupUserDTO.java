@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -15,16 +14,19 @@ import javax.validation.constraints.Size;
 public class SignupUserDTO {
 
     @NotNull
-    @Size(min = 2, max = 20)
+    @Pattern(regexp = Patterns.PATTERN_NAME)
     private String firstName;
 
     @NotNull
-    @Size(min = 2, max = 20)
+    @Pattern(regexp = Patterns.PATTERN_NAME)
     private String lastName;
 
-    @Pattern(regexp = Patterns.PATTERN_USERNAME)
-    private String username;
+    @Pattern(regexp = Patterns.PATTERN_EMAIL)
+    private String email;
 
     @Pattern(regexp = Patterns.PATTERN_PASSWORD)
     private String password;
+
+    @Pattern(regexp = Patterns.PATTERN_GENDER)
+    private String gender;
 }

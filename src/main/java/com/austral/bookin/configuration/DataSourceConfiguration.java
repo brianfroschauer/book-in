@@ -17,20 +17,9 @@ public class DataSourceConfiguration {
     private String username;
     private String password;
 
-    @Profile("dev")
     @Bean
-    public DataSource devDatabaseConnection() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
-
-    @Profile("test")
-    @Bean
-    public DataSource testDatabaseConnection() {
+    @Profile({"dev", "test"})
+    public DataSource databaseConnection() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driverClassName);
         dataSource.setUrl(url);

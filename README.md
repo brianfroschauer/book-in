@@ -1,5 +1,7 @@
 # Book In
 
+[![CircleCI Build Status](https://circleci.com/gh/brianfroschauer/book-in.svg?style=shield)](https://circleci.com/gh/brianfroschauer/book-in)
+
 Backend of the Book In application.
 
 ## Getting Started
@@ -35,7 +37,7 @@ docker-compose up
 4. Run the application
 
 ```bash
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
 ## Running the tests

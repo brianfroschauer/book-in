@@ -4,8 +4,10 @@ import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.service.user.UserService;
+import com.austral.bookin.specification.UserSpecification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +22,9 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class UserServiceTest {
+
+    @Mock
+    private UserSpecification userSpecification;
 
     @MockBean
     private UserRepository userRepository;
@@ -37,11 +42,11 @@ public class UserServiceTest {
     public void givenUserList_whenFindAll_thenReturnUsers() {
         doReturn(Arrays.asList(new User(), new User()))
                 .when(userRepository)
-                .findAll();
+                .findAll(userSpecification);
 
-        final List<User> users = userService.find();
+        final List<User> users = userService.find(userSpecification);
 
-        verify(userRepository).findAll();
+        verify(userRepository).findAll(userSpecification);
         assertEquals(2, users.size());
     }
 
@@ -50,12 +55,12 @@ public class UserServiceTest {
     public void givenEmptyList_whenFindAll_ThenReturnEmptyList() {
         doReturn(Collections.emptyList())
                 .when(userRepository)
-                .findAll();
+                .findAll(userSpecification);
 
-        final List<User> users = userService.find();
+        final List<User> users = userService.find(userSpecification);
 
         assertTrue(users.isEmpty());
-        verify(userRepository).findAll();
+        verify(userRepository).findAll(userSpecification);
     }
 
     @Test
@@ -83,27 +88,27 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Given present optional user, when find by username, then return user")
-    public void givenPresentOptionalUser_whenFindByUsername_ThenReturnUser() {
+    @DisplayName("Given present optional user, when find by email, then return user")
+    public void givenPresentOptionalUser_whenFindByEmail_ThenReturnUser() {
         doReturn(Optional.of(new User()))
                 .when(userRepository)
-                .findByUsername("username");
+                .findByEmail("user@gmail.com");
 
-        final User user = userService.find("username");
+        final User user = userService.find("user@gmail.com");
 
         assertNotNull(user);
-        verify(userRepository).findByUsername("username");
+        verify(userRepository).findByEmail("user@gmail.com");
     }
 
     @Test
-    @DisplayName("Given empty optional user, when find by username, then throw not found exception")
-    public void givenEmptyOptionalUser_whenFindByUsername_ThenThrowNotFoundException() {
+    @DisplayName("Given empty optional user, when find by email, then throw not found exception")
+    public void givenEmptyOptionalUser_whenFindByEmail_ThenThrowNotFoundException() {
         doReturn(Optional.empty())
                 .when(userRepository)
-                .findByUsername("username");
+                .findByEmail("user@gmail.com");
 
-        assertThrows(NotFoundException.class, () -> userService.find("username"));
-        verify(userRepository).findByUsername("username");
+        assertThrows(NotFoundException.class, () -> userService.find("user@gmail.com"));
+        verify(userRepository).findByEmail("user@gmail.com");
     }
 
     @Test
@@ -130,7 +135,7 @@ public class UserServiceTest {
                 .when(userRepository)
                 .save(any(User.class));
 
-        final User user = userService.update(1L, new User());
+        final User user = userService.update(1L, new User(), null);
 
         assertNotNull(user);
         verify(userRepository).findById(1L);
@@ -144,7 +149,7 @@ public class UserServiceTest {
                 .when(userRepository)
                 .findById(1L);
 
-        assertThrows(NotFoundException.class, () -> userService.update(1L, new User()));
+        assertThrows(NotFoundException.class, () -> userService.update(1L, new User(), null));
         verify(userRepository).findById(1L);
         verify(userRepository, never()).save(any(User.class));
     }

@@ -30,27 +30,28 @@ public class Patterns {
     public final static String PATTERN_GENDER = "^[MFA]{1}$";
 
     /**
-     * ^                 # start-of-string.
-     * * A-Za-zÀ-ÖØ-öø-ÿ # any alphabetic value and accents
-     * (?:[\s]           # space
-     * $                 # end-of-string.
+     * ^                  # start-of-string.
+     * [A-Za-zÀ-ÖØ-öø-ÿ-] # any alphabetic value, accents and - symbol
+     * (?:[\s])           # space
+     * $                  # end-of-string.
      */
-    public static final String PATTERN_NAME = "^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s]+[A-Za-zÀ-ÖØ-öø-ÿ]+)*){3,30}$";
+    public static final String PATTERN_NAME = "^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s]+[A-Za-zÀ-ÖØ-öø-ÿ-]+)*){3,30}$";
+
+    /**
+     * ^                     # start-of-string.
+     * [A-Za-zÀ-ÖØ-öø-ÿ0-9¡] # any alphanumeric value and ¡ symbol
+     * (?:[\s]+.+)           # any symbol
+     * $                     # end-of-string.
+     */
+    public static final String PATTERN_TITLE = "^([A-Za-zÀ-ÖØ-öø-ÿ0-9¡]+(?:[\\s]+.+)*){3,30}$";
 
     /**
      * ^                 # start-of-string.
-     * [\w\s]            # any alphanumeric value and spaces
+     * [A-Za-zÀ-ÖØ-öø-ÿ] # any alphabetic value and accents
+     * (?:[\s])          # space
      * $                 # end-of-string.
      */
-    public static final String PATTERN_TITLE = "^([A-Za-zÀ-ÖØ-öø-ÿ0-9]+(?:[\\s]+[A-Za-zÀ-ÖØ-öø-ÿ0-9]+)*){3,30}$";
-
-    /**
-     * ^                 # start-of-string.
-     * [a-zA-Z]          # any alphabetic value
-     * (?:[\s]           # space
-     * $                 # end-of-string.
-     */
-    public static final String PATTERN_GENRE = "^([a-zA-Z]+(?:[\\s]+[a-zA-Z]+)*)$";
+    public static final String PATTERN_GENRE = "^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s]+[A-Za-zÀ-ÖØ-öø-ÿ]+)*)$";
 
     /**
      * ^                 # start-of-string.

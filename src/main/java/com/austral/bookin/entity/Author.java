@@ -40,4 +40,11 @@ public class Author {
     private void removeBooks() {
         books.forEach(book -> book.getAuthors().remove(this));
     }
+
+    public Author(String firstName, String lastName, String nationality, Date birthday) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nationality = nationality;
+        this.birthday = birthday;
+    }
 }

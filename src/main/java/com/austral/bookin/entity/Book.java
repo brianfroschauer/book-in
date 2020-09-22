@@ -56,4 +56,11 @@ public class Book {
                 .map(Review::getStars)
                 .reduce(0, Integer::sum) / reviews.size();
     }
+
+    public Book(String title, String genre, String language, Date date) {
+        this.title = title;
+        this.genre = genre;
+        this.language = language;
+        this.date = date;
+    }
 }

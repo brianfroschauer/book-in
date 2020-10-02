@@ -64,7 +64,7 @@ public class BookServiceImpl implements BookService {
                     if (book.getGenre() != null) old.setGenre(book.getGenre());
                     if (book.getLanguage() != null) old.setLanguage(book.getLanguage());
                     if (book.getDate() != null) old.setDate(book.getDate());
-                    if (!book.getAuthors().isEmpty()) old.setAuthors(book.getAuthors());
+                    old.setAuthors(book.getAuthors());
                     if (file != null) old.setPhoto(FileHandler.getBytes(file));
                     return repository.save(old);
                 })

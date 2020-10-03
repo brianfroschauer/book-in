@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShowReviewDTO {
+public class ReviewWithUserDTO {
 
     private Long id;
     private int stars;

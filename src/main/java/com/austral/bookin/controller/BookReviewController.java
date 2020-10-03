@@ -1,6 +1,6 @@
 package com.austral.bookin.controller;
 
-import com.austral.bookin.dto.review.ReviewDTO;
+import com.austral.bookin.dto.review.ReviewWithUserDTO;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.service.review.ReviewService;
 import com.austral.bookin.util.ObjectMapper;
@@ -24,8 +24,8 @@ public class BookReviewController {
     }
 
     @GetMapping("/books/{id}/reviews")
-    public ResponseEntity<List<ReviewDTO>> findByBook(@PathVariable Long id) {
+    public ResponseEntity<List<ReviewWithUserDTO>> findByBook(@PathVariable Long id) {
         List<Review> reviews = reviewService.findByBook(id);
-        return ResponseEntity.ok(objectMapper.map(reviews, ReviewDTO.class));
+        return ResponseEntity.ok(objectMapper.map(reviews, ReviewWithUserDTO.class));
     }
 }

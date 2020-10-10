@@ -41,7 +41,7 @@ public class Book {
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
-    @Transient
+    @Column(name = "stars", nullable = false)
     private float stars;
 
     @PreRemove
@@ -50,6 +50,7 @@ public class Book {
     }
 
     @PostLoad
+    @PrePersist
     public void setStars() {
         stars = reviews.isEmpty() ? 0 : (float) reviews
                 .stream()

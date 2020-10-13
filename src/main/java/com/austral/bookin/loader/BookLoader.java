@@ -30,10 +30,10 @@ public class BookLoader implements CommandLineRunner, Ordered {
     @Override
     public void run(String... args) throws IOException {
 
-        final List<Author> authors1 = Collections.singletonList(authorService.find(3L));
-        final List<Author> authors2 = Collections.singletonList(authorService.find(4L));
-        final List<Author> authors3 = Collections.singletonList(authorService.find(5L));
-        final List<Author> authors4 = Collections.singletonList(authorService.find(6L));
+        final List<Author> authors1 = Collections.singletonList(authorService.find(10L));
+        final List<Author> authors2 = Collections.singletonList(authorService.find(11L));
+        final List<Author> authors3 = Collections.singletonList(authorService.find(12L));
+        final List<Author> authors4 = Collections.singletonList(authorService.find(13L));
 
         final Book book1 = new Book(
                 "Adventures of Huckleberry Finn",

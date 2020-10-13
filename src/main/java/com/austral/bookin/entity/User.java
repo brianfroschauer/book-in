@@ -43,11 +43,12 @@ public class User {
     @Column(name = "photo", columnDefinition = "longblob")
     private byte[] photo;
 
-    public User(String firstName, String lastName, String email, String password, String gender) {
+    public User(String firstName, String lastName, String email, String password, String gender, Set<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.gender = gender;
+        this.roles = roles;
     }
 }

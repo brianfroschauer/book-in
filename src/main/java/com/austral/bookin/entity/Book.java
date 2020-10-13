@@ -41,21 +41,12 @@ public class Book {
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
-    @Column(name = "stars", nullable = false)
+    @Column(name = "stars")
     private float stars;
 
     @PreRemove
     private void removeAuthors() {
         authors.forEach(author -> author.getBooks().remove(this));
-    }
-
-    @PostLoad
-    @PrePersist
-    public void setStars() {
-        stars = reviews.isEmpty() ? 0 : (float) reviews
-                .stream()
-                .map(Review::getStars)
-                .reduce(0, Integer::sum) / reviews.size();
     }
 
     public Book(String title, String genre, String language, Date date, List<Author> authors) {

@@ -37,4 +37,11 @@ public class Review {
     public void setCreatedAt() {
         createdAt = new Date();
     }
+
+    public Review(int stars, String comment, User user, Book book) {
+        this.stars = stars;
+        this.comment = comment;
+        this.user = user;
+        this.book = book;
+    }
 }

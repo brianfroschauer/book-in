@@ -1,6 +1,7 @@
 package com.austral.bookin.service.book;
 
 import com.austral.bookin.entity.Book;
+import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.BookRepository;
@@ -52,6 +53,17 @@ public class BookServiceImpl implements BookService {
                 .ifPresent(found -> { throw new AlreadyExistsException(); });
 
         if (file != null) book.setPhoto(FileHandler.getBytes(file));
+        return repository.save(book);
+    }
+
+    @Override
+    public Book updateStars(long id, int stars) {
+        Book book = find(id);
+        float newStars = (float) (book.getReviews()
+                            .stream()
+                            .map(Review::getStars)
+                            .reduce(0, Integer::sum) + stars) / (book.getReviews().size() + 1);
+        book.setStars(newStars);
         return repository.save(book);
     }
 

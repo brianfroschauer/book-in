@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
         @Spec(path = "title", params = "title", spec = Like.class),
         @Spec(path = "genre", params = "genre", spec = Equal.class),
         @Spec(path = "language", params = "language", spec = Equal.class),
-        @Spec(path = "date", params = {"publishedAfter", "publishedBefore"}, spec = Between.class)
+        @Spec(path = "date", params = {"publishedAfter", "publishedBefore"}, spec = Between.class),
+        @Spec(path = "stars", params = {"lowRange", "topRange"}, spec = Between.class)
 })
 public interface SearchBookSpecification extends Specification<Book> {}

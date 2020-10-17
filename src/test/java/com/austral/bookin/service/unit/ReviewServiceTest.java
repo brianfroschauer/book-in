@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -86,19 +83,6 @@ public class ReviewServiceTest {
 
         assertThrows(NotFoundException.class, () -> reviewService.find(4L));
         verify(reviewRepository).findById(4L);
-    }
-
-    @Test
-    @DisplayName("Given review, when save, then return review")
-    public void givenReview_whenSave_thenReturnReview() {
-        doReturn(new Review())
-                .when(reviewRepository)
-                .save(any(Review.class));
-
-        final Review review = reviewService.save(new Review());
-
-        assertNotNull(review);
-        verify(reviewRepository).save(any(Review.class));
     }
 
     @Test

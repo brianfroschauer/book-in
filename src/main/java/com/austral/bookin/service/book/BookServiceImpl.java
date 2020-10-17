@@ -60,10 +60,10 @@ public class BookServiceImpl implements BookService {
         return repository
                 .findById(id)
                 .map(old -> {
-                    if (book.getTitle() != null) old.setTitle(book.getTitle());
-                    if (book.getGenre() != null) old.setGenre(book.getGenre());
-                    if (book.getLanguage() != null) old.setLanguage(book.getLanguage());
-                    if (book.getDate() != null) old.setDate(book.getDate());
+                    old.setTitle(book.getTitle());
+                    old.setGenre(book.getGenre());
+                    old.setLanguage(book.getLanguage());
+                    old.setDate(book.getDate());
                     old.setAuthors(book.getAuthors());
                     if (file != null) old.setPhoto(FileHandler.getBytes(file));
                     return repository.save(old);

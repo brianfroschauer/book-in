@@ -58,8 +58,8 @@ public class AuthorServiceImpl implements AuthorService {
                 .map(old -> {
                     old.setFirstName(author.getFirstName());
                     old.setLastName(author.getLastName());
-                    if (author.getNationality() != null) old.setNationality(author.getNationality());
-                    if (author.getBirthday() != null) old.setBirthday(author.getBirthday());
+                    old.setNationality(author.getNationality());
+                    old.setBirthday(author.getBirthday());
                     if (file != null) old.setPhoto(FileHandler.getBytes(file));
                     return repository.save(old);
                 })

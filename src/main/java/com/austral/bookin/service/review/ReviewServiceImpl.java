@@ -3,6 +3,7 @@ package com.austral.bookin.service.review;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.ReviewRepository;
+import com.austral.bookin.service.book.BookService;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,11 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository repository;
+    private final BookService bookService;
 
-    public ReviewServiceImpl(ReviewRepository repository) {
+    public ReviewServiceImpl(ReviewRepository repository, BookService bookService) {
         this.repository = repository;
+        this.bookService = bookService;
     }
 
     @Override
@@ -41,6 +44,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review save(Review review) {
+        review.setBook(bookService.updateStars(review.getBook().getId(), review.getStars()));
         return repository.save(review);
     }
 

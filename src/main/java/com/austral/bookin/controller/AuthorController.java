@@ -2,6 +2,7 @@ package com.austral.bookin.controller;
 
 import com.austral.bookin.dto.author.AuthorDTO;
 import com.austral.bookin.dto.author.CreateAuthorDTO;
+import com.austral.bookin.dto.author.SearchAuthorDTO;
 import com.austral.bookin.dto.author.UpdateAuthorDTO;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.service.author.AuthorService;
@@ -39,11 +40,11 @@ public class AuthorController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<AuthorDTO>> find(SearchAuthorSpecification searchAuthorSpecification,
+    public ResponseEntity<List<SearchAuthorDTO>> find(SearchAuthorSpecification searchAuthorSpecification,
                                                 @RequestParam(name = "page", defaultValue = "0") int page,
                                                 @RequestParam(name = "size", defaultValue = "10") int size) {
         final List<Author> authors = authorService.findAll(searchAuthorSpecification, PageRequest.of(page, size));
-        return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
+        return ResponseEntity.ok(objectMapper.map(authors, SearchAuthorDTO.class));
     }
 
     @GetMapping("{id}")

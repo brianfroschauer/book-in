@@ -2,6 +2,7 @@ package com.austral.bookin.controller;
 
 import com.austral.bookin.dto.book.BookDTO;
 import com.austral.bookin.dto.book.CreateBookDTO;
+import com.austral.bookin.dto.book.SearchBookDTO;
 import com.austral.bookin.dto.book.UpdateBookDTO;
 import com.austral.bookin.entity.Book;
 import com.austral.bookin.service.book.BookService;
@@ -39,11 +40,11 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<BookDTO>> find(SearchBookSpecification searchBookSpecification,
+    public ResponseEntity<List<SearchBookDTO>> find(SearchBookSpecification searchBookSpecification,
                                               @RequestParam(name = "page", defaultValue = "0") int page,
                                               @RequestParam(name = "size", defaultValue = "10") int size) {
         final List<Book> books = bookService.findAll(searchBookSpecification, PageRequest.of(page, size));
-        return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
+        return ResponseEntity.ok(objectMapper.map(books, SearchBookDTO.class));
     }
 
     @GetMapping("{id}")

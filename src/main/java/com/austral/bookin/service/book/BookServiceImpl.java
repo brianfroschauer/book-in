@@ -5,6 +5,7 @@ import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.BookRepository;
+import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.util.FileHandler;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,60 +17,65 @@ import java.util.List;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private final BookRepository repository;
+    private final BookRepository bookRepository;
+    private final ReviewRepository reviewRepository;
 
-    public BookServiceImpl(BookRepository repository) {
-        this.repository = repository;
+    public BookServiceImpl(BookRepository bookRepository,
+                           ReviewRepository reviewRepository) {
+        this.bookRepository = bookRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     @Override
     public List<Book> find(Specification<Book> specification) {
-        return repository.findAll(specification);
+        return bookRepository.findAll(specification);
     }
 
     @Override
     public List<Book> findAll(Specification<Book> specification, Pageable pageable) {
-        return repository
+        return bookRepository
                 .findAll(specification, pageable)
                 .toList();
     }
 
     @Override
     public Book find(Long id) {
-        return repository
+        return bookRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
     }
 
     @Override
     public List<Book> findByAuthor(Long id) {
-        return repository.findAllByAuthor(id);
+        return bookRepository.findAllByAuthor(id);
     }
 
     @Override
     public Book save(Book book, MultipartFile file) {
-        repository
+        bookRepository
                 .findBookByTitle(book.getTitle())
                 .ifPresent(found -> { throw new AlreadyExistsException(); });
 
         if (file != null) book.setPhoto(FileHandler.getBytes(file));
-        return repository.save(book);
+        return bookRepository.save(book);
     }
 
     @Override
     public Book updateStars(long id, int stars) {
-        Book book = find(id);
-        float newStars = (float) (book.getReviews()
+        final Book book = find(id);
+        final List<Review> reviews = reviewRepository.findByBook(book.getId());
+
+        float newStars = (float) (reviews
                             .stream()
                             .map(Review::getStars)
-                            .reduce(0, Integer::sum) + stars) / (book.getReviews().size() + 1);
+                            .reduce(0, Integer::sum) + stars) / (reviews.size() + 1);
         book.setStars(newStars);
-        return repository.save(book);
+        return bookRepository.save(book);
     }
 
     @Override
     public Book update(Long id, Book book, MultipartFile file) {
-        return repository
+        return bookRepository
                 .findById(id)
                 .map(old -> {
                     old.setTitle(book.getTitle());
@@ -78,13 +84,13 @@ public class BookServiceImpl implements BookService {
                     old.setDate(book.getDate());
                     old.setAuthors(book.getAuthors());
                     if (file != null) old.setPhoto(FileHandler.getBytes(file));
-                    return repository.save(old);
+                    return bookRepository.save(old);
                 })
                 .orElseThrow(NotFoundException::new);
     }
 
     @Override
     public void delete(Long id) {
-        repository.delete(find(id));
+        bookRepository.delete(find(id));
     }
 }

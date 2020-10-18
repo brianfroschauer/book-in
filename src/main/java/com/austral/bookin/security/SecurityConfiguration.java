@@ -15,7 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.austral.bookin.security.SecurityConstants.SIGN_UP_URL;
+import static com.austral.bookin.security.SecurityConstants.*;
 
 @Profile("!test")
 @Configuration
@@ -39,6 +39,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .csrf()
                     .disable().authorizeRequests()
                     .antMatchers(SIGN_UP_URL).permitAll()
+                    .antMatchers(BOOK_SEARCH_URL).permitAll()
+                    .antMatchers(AUTHOR_SEARCH_URL).permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .addFilter(new JWTAuthenticationFilter(authenticationManager()))

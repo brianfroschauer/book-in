@@ -19,7 +19,7 @@ public class Review {
     @Column(name = "stars", nullable = false)
     private int stars;
 
-    @Column(name = "comment")
+    @Column(name = "comment", length = 1000)
     private String comment;
 
     @Column(name = "created_at", nullable = false)

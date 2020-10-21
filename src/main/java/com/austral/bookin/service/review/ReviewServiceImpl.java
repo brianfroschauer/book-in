@@ -62,6 +62,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void delete(Long id) {
+        bookService.deleteStars(find(id).getBook().getId(), find(id).getStars());
         repository.delete(find(id));
     }
 }

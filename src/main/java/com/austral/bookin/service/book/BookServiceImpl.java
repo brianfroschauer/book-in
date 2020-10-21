@@ -74,6 +74,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public void deleteStars(long id, int stars) {
+        final Book book = find(id);
+        final List<Review> reviews = reviewRepository.findByBook(book.getId());
+
+        float newStars = reviews.size() > 1 ? (float) (reviews
+                .stream()
+                .map(Review::getStars)
+                .reduce(0, Integer::sum) - stars) / (reviews.size() - 1) : 0;
+        book.setStars(newStars);
+        bookRepository.save(book);
+    }
+
+    @Override
     public Book update(Long id, Book book, MultipartFile file) {
         return bookRepository
                 .findById(id)

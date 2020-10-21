@@ -58,6 +58,14 @@ public interface BookService {
     Book updateStars(long id, int stars);
 
     /**
+     * Updates the provided book {@param id} and {@param stars}.
+     *
+     * @param id of the book to be updated.
+     * @param stars added to book.
+     */
+    void deleteStars(long id, int stars);
+
+    /**
      * Update the provided {@param book} and {@param file}.
      *
      * @param id of the book to be updated.

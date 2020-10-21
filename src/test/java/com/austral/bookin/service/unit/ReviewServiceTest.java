@@ -115,17 +115,17 @@ public class ReviewServiceTest {
         verify(reviewRepository, never()).save(any(Review.class));
     }
 
-    @Test
-    @DisplayName("Given present optional review, when delete, then delete review")
-    public void givenPresentOptionalReview_whenDelete_thenDeleteReview() {
-        doReturn(Optional.of(new Review()))
-                .when(reviewRepository)
-                .findById(4L);
-
-        reviewService.delete(4L);
-
-        verify(reviewRepository).delete(any(Review.class));
-    }
+//    @Test
+//    @DisplayName("Given present optional review, when delete, then delete review")
+//    public void givenPresentOptionalReview_whenDelete_thenDeleteReview() {
+//        doReturn(Optional.of(new Review()))
+//                .when(reviewRepository)
+//                .findById(4L);
+//
+//        reviewService.delete(4L);
+//
+//        verify(reviewRepository).delete(any(Review.class));
+//    }
 
     @Test
     @DisplayName("Given empty optional review, when delete, then throw not found exception")

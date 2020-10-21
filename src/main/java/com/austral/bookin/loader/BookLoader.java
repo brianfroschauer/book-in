@@ -38,42 +38,42 @@ public class BookLoader implements CommandLineRunner, Ordered {
         final Book book1 = new Book(
                 "Adventures of Huckleberry Finn",
                 "Aventura",
-                "Inglés",
+                "en",
                 new Date(-16, Calendar.DECEMBER, 1),
                 authors1);
 
         final Book book2 = new Book(
                 "The Gilded Age: A Tale of Today",
                 "Educativos",
-                "Inglés",
+                "en",
                 new Date(-27, Calendar.JANUARY, 1),
                 authors2);
 
         final Book book3 = new Book(
                 "The Mystery of Edwin Drood",
                 "Terror",
-                "Inglés",
+                "en",
                 new Date(-30, Calendar.DECEMBER, 1),
                 authors2);
 
         final Book book4 = new Book(
                 "Hamlet, Macbeth and Othello",
                 "Aventura",
-                "Inglés",
+                "en",
                 new Date(115, Calendar.DECEMBER, 1),
                 authors3);
 
         final Book book5 = new Book(
                 "Fantastic Beasts and Where to Find Them",
                 "Fantasía",
-                "Inglés",
+                "en",
                 new Date(101, Calendar.DECEMBER, 1),
                 authors4);
 
         final Book book6 = new Book(
                 "Harry Potter and the Philosopher's Stone",
                 "Fantasía",
-                "Inglés",
+                "en",
                 new Date(97, Calendar.DECEMBER, 26),
                 authors4);
 

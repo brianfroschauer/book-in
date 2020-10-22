@@ -192,6 +192,37 @@ public class BookServiceTest {
     }
 
     @Test
+    @DisplayName("Updating review then update stars")
+    public void updatingReview_updateStars() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        User user = new User("Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+        User user2 = new User("Lalo", "Cammisa", "lalo@hotmail.com", "password123", "M", new HashSet<>());
+
+        Review review = new Review(5, "Muy bueno", user, book);
+        Review review2 = new Review(3, "Meh", user2, book);
+
+        List<Review> reviews = new ArrayList<>();
+        reviews.add(review);
+        reviews.add(review2);
+
+        doReturn(Optional.of(book))
+                .when(bookRepository)
+                .findById(1L);
+
+        doReturn(book)
+                .when(bookRepository)
+                .save(book);
+
+        doReturn(reviews)
+                .when(reviewRepository)
+                .findByBook(1L);
+
+        Book new_book = bookService.calculateStars(1L, 3, Strategy.UPDATE, 5);
+
+        assert new_book.getStars() == 3;
+    }
+
+    @Test
     @DisplayName("Deleting review then update stars")
     public void deletingReview_updateStars() {
         Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());

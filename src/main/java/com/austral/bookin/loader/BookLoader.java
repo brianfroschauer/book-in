@@ -52,14 +52,14 @@ public class BookLoader implements CommandLineRunner, Ordered {
         final Book book3 = new Book(
                 "The Mystery of Edwin Drood",
                 "Terror",
-                "en",
+                "es",
                 new Date(-30, Calendar.DECEMBER, 1),
                 authors2);
 
         final Book book4 = new Book(
                 "Hamlet, Macbeth and Othello",
                 "Aventura",
-                "en",
+                "es",
                 new Date(115, Calendar.DECEMBER, 1),
                 authors3);
 

@@ -7,6 +7,7 @@ import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.BookRepository;
 import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.util.FileHandler;
+import com.austral.bookin.util.Strategy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -61,29 +62,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book updateStars(long id, int stars) {
+    public Book calculateStars(long id, int stars, Strategy strategy) {
         final Book book = find(id);
         final List<Review> reviews = reviewRepository.findByBook(book.getId());
 
-        float newStars = (float) (reviews
-                            .stream()
-                            .map(Review::getStars)
-                            .reduce(0, Integer::sum) + stars) / (reviews.size() + 1);
+        float newStars = (float) (strategy == Strategy.CREATE ? (reviews
+                                    .stream()
+                                    .map(Review::getStars)
+                                    .reduce(0, Integer::sum) + stars) / (reviews.size() + 1)
+                                :reviews.size() > 1 ? (reviews
+                                    .stream()
+                                    .map(Review::getStars)
+                                    .reduce(0, Integer::sum) - stars) / (reviews.size() - 1) : 0);
+
         book.setStars(newStars);
         return bookRepository.save(book);
-    }
-
-    @Override
-    public void deleteStars(long id, int stars) {
-        final Book book = find(id);
-        final List<Review> reviews = reviewRepository.findByBook(book.getId());
-
-        float newStars = reviews.size() > 1 ? (float) (reviews
-                .stream()
-                .map(Review::getStars)
-                .reduce(0, Integer::sum) - stars) / (reviews.size() - 1) : 0;
-        book.setStars(newStars);
-        bookRepository.save(book);
     }
 
     @Override

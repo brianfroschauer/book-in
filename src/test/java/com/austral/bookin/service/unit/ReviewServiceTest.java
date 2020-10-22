@@ -119,7 +119,7 @@ public class ReviewServiceTest {
         final Review review = reviewService.update(4L, review1);
 
         assertNotNull(review);
-        verify(reviewRepository, times(3)).findById(4L);
+        verify(reviewRepository).findById(4L);
         verify(reviewRepository).save(any(Review.class));
     }
 

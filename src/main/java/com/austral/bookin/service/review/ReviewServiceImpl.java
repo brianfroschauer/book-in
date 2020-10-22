@@ -52,10 +52,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review update(Long id, Review review) {
-        Book updatedBook = bookService.calculateStars(find(id).getBook().getId(), review.getStars(), Strategy.UPDATE, find(id).getStars());
         return repository
                 .findById(id)
                 .map(old -> {
+                    Book updatedBook = bookService.calculateStars(old.getBook().getId(), review.getStars(), Strategy.UPDATE, old.getStars());
                     if (review.getStars() != 0) old.setStars(review.getStars());
                     if (review.getComment() != null) old.setComment(review.getComment());
                     old.setBook(updatedBook);
@@ -66,7 +66,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void delete(Long id) {
-        bookService.calculateStars(find(id).getBook().getId(), find(id).getStars(), Strategy.DELETE);
-        repository.delete(find(id));
+        Review review = find(id);
+        bookService.calculateStars(review.getBook().getId(), review.getStars(), Strategy.DELETE);
+        repository.delete(review);
     }
 }

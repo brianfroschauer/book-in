@@ -1,10 +1,14 @@
 package com.austral.bookin.service.unit;
 
 import com.austral.bookin.entity.Book;
+import com.austral.bookin.entity.Review;
+import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.BookRepository;
+import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.service.book.BookService;
 import com.austral.bookin.specification.BookSpecification;
+import com.austral.bookin.util.Strategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -30,6 +31,9 @@ public class BookServiceTest {
 
     @MockBean
     private BookRepository bookRepository;
+
+    @MockBean
+    private ReviewRepository reviewRepository;
 
     @Autowired
     private BookService bookService;
@@ -154,5 +158,95 @@ public class BookServiceTest {
         assertThrows(NotFoundException.class, () -> bookService.delete(4L));
         verify(bookRepository).findById(4L);
         verify(bookRepository, never()).delete(any(Book.class));
+    }
+
+    @Test
+    @DisplayName("Given new review, update stars")
+    public void givenNewReview_updateStars() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        User user = new User("Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+        User user2 = new User("Lalo", "Cammisa", "lalo@hotmail.com", "password123", "M", new HashSet<>());
+
+        Review review = new Review(5, "Muy bueno", user, book);
+        Review review2 = new Review(3, "Meh", user2, book);
+
+        List<Review> reviews = new ArrayList<>();
+        reviews.add(review);
+        reviews.add(review2);
+
+        doReturn(Optional.of(book))
+                .when(bookRepository)
+                .findById(1L);
+
+        doReturn(book)
+                .when(bookRepository)
+                .save(book);
+
+        doReturn(reviews)
+                .when(reviewRepository)
+                .findByBook(1L);
+
+        Book new_book = bookService.calculateStars(1L, 4, Strategy.CREATE);
+
+        assert new_book.getStars() == 4;
+    }
+
+    @Test
+    @DisplayName("Deleting review then update stars")
+    public void deletingReview_updateStars() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        User user = new User("Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+        User user2 = new User("Lalo", "Cammisa", "lalo@hotmail.com", "password123", "M", new HashSet<>());
+
+        Review review = new Review(5, "Muy bueno", user, book);
+        Review review2 = new Review(3, "Meh", user2, book);
+
+        List<Review> reviews = new ArrayList<>();
+        reviews.add(review);
+        reviews.add(review2);
+
+        doReturn(Optional.of(book))
+                .when(bookRepository)
+                .findById(1L);
+
+        doReturn(book)
+                .when(bookRepository)
+                .save(book);
+
+        doReturn(reviews)
+                .when(reviewRepository)
+                .findByBook(1L);
+
+        Book new_book = bookService.calculateStars(1L, 3, Strategy.DELETE);
+
+        assert new_book.getStars() == 5;
+    }
+
+    @Test
+    @DisplayName("Deleting last review of book then update stars")
+    public void deletingLastReview_updateStars() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        User user = new User("Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+
+        Review review = new Review(5, "Muy bueno", user, book);
+
+        List<Review> reviews = new ArrayList<>();
+        reviews.add(review);
+
+        doReturn(Optional.of(book))
+                .when(bookRepository)
+                .findById(1L);
+
+        doReturn(book)
+                .when(bookRepository)
+                .save(book);
+
+        doReturn(reviews)
+                .when(reviewRepository)
+                .findByBook(1L);
+
+        Book new_book = bookService.calculateStars(1L, 5, Strategy.DELETE);
+
+        assert new_book.getStars() == 0.0;
     }
 }

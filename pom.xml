@@ -131,6 +131,37 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.6</version>
+				<configuration combine.self="override">
+					<excludes>
+						<exclude>com/austral/bookin/DemoApplication*</exclude>
+						<exclude>com/austral/bookin/configuration/*.*</exclude>
+						<exclude>com/austral/bookin/dto/**/*.*</exclude>
+						<exclude>com/austral/bookin/entity/*.*</exclude>
+						<exclude>com/austral/bookin/exception/*.*</exclude>
+						<exclude>com/austral/bookin/loader/*.*</exclude>
+						<exclude>com/austral/bookin/security/*.*</exclude>
+						<exclude>com/austral/bookin/specification/*.*</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>

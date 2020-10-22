@@ -1,5 +1,6 @@
 package com.austral.bookin.service.review;
 
+import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.ReviewRepository;
@@ -51,11 +52,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review update(Long id, Review review) {
+        Book updated_book = bookService.calculateStars(find(id).getBook().getId(), review.getStars(), Strategy.UPDATE, find(id).getStars());
         return repository
                 .findById(id)
                 .map(old -> {
                     if (review.getStars() != 0) old.setStars(review.getStars());
                     if (review.getComment() != null) old.setComment(review.getComment());
+                    old.setBook(updated_book);
                     return repository.save(old);
                 })
                 .orElseThrow(NotFoundException::new);

@@ -57,7 +57,7 @@ public interface BookService {
      * @param strategy to be implemented.
      * @return the updated book.
      */
-    Book calculateStars(long id, int stars, Strategy strategy);
+    Book calculateStars(long id, int stars, Strategy strategy, int... old_stars);
 
     /**
      * Update the provided {@param book} and {@param file}.

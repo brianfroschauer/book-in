@@ -1,6 +1,7 @@
 package com.austral.bookin.service.book;
 
 import com.austral.bookin.entity.Book;
+import com.austral.bookin.util.Strategy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,13 +50,15 @@ public interface BookService {
     Book save(Book book, MultipartFile file);
 
     /**
-     * Updates the provided book {@param id} and {@param stars}.
+     * Updates the provided book {@param id}, {@param stars}, {@param strategy} and {@param oldStars}.
      *
      * @param id of the book to be updated.
-     * @param stars added to book.
+     * @param stars updated in book.
+     * @param strategy to be implemented.
+     * @param oldStars to change in case of updating review.
      * @return the updated book.
      */
-    Book updateStars(long id, int stars);
+    Book calculateStars(long id, int stars, Strategy strategy, int... oldStars);
 
     /**
      * Update the provided {@param book} and {@param file}.

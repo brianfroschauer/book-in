@@ -1,5 +1,6 @@
 package com.austral.bookin.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -50,6 +51,15 @@ public class Book {
     }
 
     public Book(String title, String genre, String language, Date date, List<Author> authors) {
+        this.title = title;
+        this.genre = genre;
+        this.language = language;
+        this.date = date;
+        this.authors = authors;
+    }
+
+    public Book(long id, String title, String genre, String language, Date date, List<Author> authors) {
+        this.id = id;
         this.title = title;
         this.genre = genre;
         this.language = language;

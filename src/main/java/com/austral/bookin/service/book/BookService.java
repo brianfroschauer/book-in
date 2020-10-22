@@ -50,14 +50,15 @@ public interface BookService {
     Book save(Book book, MultipartFile file);
 
     /**
-     * Updates the provided book {@param id}, {@param stars} and {@param strategy}.
+     * Updates the provided book {@param id}, {@param stars}, {@param strategy} and {@param oldStars}.
      *
      * @param id of the book to be updated.
-     * @param stars added to book.
+     * @param stars updated in book.
      * @param strategy to be implemented.
+     * @param oldStars to change in case of updating review.
      * @return the updated book.
      */
-    Book calculateStars(long id, int stars, Strategy strategy, int... old_stars);
+    Book calculateStars(long id, int stars, Strategy strategy, int... oldStars);
 
     /**
      * Update the provided {@param book} and {@param file}.

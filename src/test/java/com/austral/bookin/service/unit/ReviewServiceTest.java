@@ -1,7 +1,10 @@
 package com.austral.bookin.service.unit;
 
+import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
+import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.NotFoundException;
+import com.austral.bookin.repository.BookRepository;
 import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.service.review.ReviewService;
 import com.austral.bookin.specification.ReviewSpecification;
@@ -26,6 +29,9 @@ public class ReviewServiceTest {
 
     @MockBean
     private ReviewRepository reviewRepository;
+
+    @MockBean
+    private BookRepository bookRepository;
 
     @Autowired
     private ReviewService reviewService;
@@ -88,15 +94,29 @@ public class ReviewServiceTest {
     @Test
     @DisplayName("Given present optional review, when update, then update review")
     public void givenPresentOptionalReview_whenUpdate_thenUpdateReview() {
-        doReturn(Optional.of(new Review()))
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        Review review1 = new Review(5, "hola", new User(), book);
+
+        List<Review> reviews = new ArrayList<>();
+        reviews.add(review1);
+
+        doReturn(Optional.of(review1))
                 .when(reviewRepository)
                 .findById(4L);
 
-        doReturn(new Review())
+        doReturn(review1)
                 .when(reviewRepository)
                 .save(any(Review.class));
 
-        final Review review = reviewService.update(4L, new Review());
+        doReturn(reviews)
+                .when(reviewRepository)
+                .findByBook(1L);
+
+        doReturn(Optional.of(book))
+                .when(bookRepository)
+                .findById(1L);
+
+        final Review review = reviewService.update(4L, review1);
 
         assertNotNull(review);
         verify(reviewRepository).findById(4L);
@@ -113,18 +133,6 @@ public class ReviewServiceTest {
         assertThrows(NotFoundException.class, () -> reviewService.update(4L, new Review()));
         verify(reviewRepository).findById(4L);
         verify(reviewRepository, never()).save(any(Review.class));
-    }
-
-    @Test
-    @DisplayName("Given present optional review, when delete, then delete review")
-    public void givenPresentOptionalReview_whenDelete_thenDeleteReview() {
-        doReturn(Optional.of(new Review()))
-                .when(reviewRepository)
-                .findById(4L);
-
-        reviewService.delete(4L);
-
-        verify(reviewRepository).delete(any(Review.class));
     }
 
     @Test

@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book calculateStars(long id, int stars, Strategy strategy, int... old_stars) {
+    public Book calculateStars(long id, int stars, Strategy strategy, int... oldStars) {
         final Book book = find(id);
         final List<Review> reviews = reviewRepository.findByBook(book.getId());
 
@@ -77,7 +77,7 @@ public class BookServiceImpl implements BookService {
                                 : ((float) reviews
                                     .stream()
                                     .map(Review::getStars)
-                                    .reduce(0, Integer::sum) + stars - old_stars[0]) / (reviews.size())));
+                                    .reduce(0, Integer::sum) + stars - oldStars[0]) / (reviews.size())));
 
         book.setStars(newStars);
         return bookRepository.save(book);

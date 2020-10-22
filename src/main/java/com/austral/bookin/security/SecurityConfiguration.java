@@ -41,6 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers(SIGN_UP_URL).permitAll()
                     .antMatchers(BOOK_SEARCH_URL).permitAll()
                     .antMatchers(AUTHOR_SEARCH_URL).permitAll()
+                    .antMatchers(REVIEW_SEARCH_URL).permitAll()
+                    .antMatchers(USER_SEARCH_URL).permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .addFilter(new JWTAuthenticationFilter(authenticationManager()))

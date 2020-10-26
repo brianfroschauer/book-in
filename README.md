@@ -1,6 +1,7 @@
 # Book In
 
 [![CircleCI Build Status](https://circleci.com/gh/brianfroschauer/book-in.svg?style=shield)](https://circleci.com/gh/brianfroschauer/book-in)
+[![codecov](https://codecov.io/gh/brianfroschauer/book-in/branch/develop/graph/badge.svg?token=3QBUAZRICH)](https://codecov.io/gh/brianfroschauer/book-in/)
 
 Backend of the Book In application.
 

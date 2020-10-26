@@ -1,8 +1,11 @@
 package com.austral.bookin.service.review;
 
+import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.ReviewRepository;
+import com.austral.bookin.service.book.BookService;
+import com.austral.bookin.util.Strategy;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +15,11 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository repository;
+    private final BookService bookService;
 
-    public ReviewServiceImpl(ReviewRepository repository) {
+    public ReviewServiceImpl(ReviewRepository repository, BookService bookService) {
         this.repository = repository;
+        this.bookService = bookService;
     }
 
     @Override
@@ -41,6 +46,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review save(Review review) {
+        review.setBook(bookService.calculateStars(review.getBook().getId(), review.getStars(), Strategy.CREATE));
         return repository.save(review);
     }
 
@@ -49,8 +55,10 @@ public class ReviewServiceImpl implements ReviewService {
         return repository
                 .findById(id)
                 .map(old -> {
+                    Book updatedBook = bookService.calculateStars(old.getBook().getId(), review.getStars(), Strategy.UPDATE, old.getStars());
                     if (review.getStars() != 0) old.setStars(review.getStars());
                     if (review.getComment() != null) old.setComment(review.getComment());
+                    old.setBook(updatedBook);
                     return repository.save(old);
                 })
                 .orElseThrow(NotFoundException::new);
@@ -58,6 +66,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void delete(Long id) {
-        repository.delete(find(id));
+        Review review = find(id);
+        bookService.calculateStars(review.getBook().getId(), review.getStars(), Strategy.DELETE);
+        repository.delete(review);
     }
 }

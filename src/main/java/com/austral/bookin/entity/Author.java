@@ -23,6 +23,9 @@ public class Author {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "full_name", nullable = false)
+    private String fullName;
+
     @Column(name = "nationality")
     private String nationality;
 
@@ -46,5 +49,11 @@ public class Author {
         this.lastName = lastName;
         this.nationality = nationality;
         this.birthday = birthday;
+    }
+
+    @PreUpdate
+    @PrePersist
+    public void setFullName() {
+        fullName = firstName + " " + lastName;
     }
 }

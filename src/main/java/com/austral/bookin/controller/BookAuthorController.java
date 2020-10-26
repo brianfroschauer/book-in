@@ -1,6 +1,6 @@
 package com.austral.bookin.controller;
 
-import com.austral.bookin.dto.author.AuthorDTO;
+import com.austral.bookin.dto.author.SearchAuthorDTO;
 import com.austral.bookin.dto.book.BookDTO;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.entity.Book;
@@ -35,9 +35,8 @@ public class BookAuthorController {
     }
 
     @GetMapping("/books/{id}/authors")
-    public ResponseEntity<List<AuthorDTO>> findByBook(@PathVariable Long id) {
+    public ResponseEntity<List<SearchAuthorDTO>> findByBook(@PathVariable Long id) {
         final List<Author> authors = authorService.findByBook(id);
-        return ResponseEntity.ok(objectMapper.map(authors, AuthorDTO.class));
+        return ResponseEntity.ok(objectMapper.map(authors, SearchAuthorDTO.class));
     }
-
 }

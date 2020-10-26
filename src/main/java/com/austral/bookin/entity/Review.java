@@ -19,7 +19,7 @@ public class Review {
     @Column(name = "stars", nullable = false)
     private int stars;
 
-    @Column(name = "comment")
+    @Column(name = "comment", length = 1000)
     private String comment;
 
     @Column(name = "created_at", nullable = false)
@@ -36,5 +36,12 @@ public class Review {
     @PrePersist
     public void setCreatedAt() {
         createdAt = new Date();
+    }
+
+    public Review(int stars, String comment, User user, Book book) {
+        this.stars = stars;
+        this.comment = comment;
+        this.user = user;
+        this.book = book;
     }
 }

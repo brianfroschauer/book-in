@@ -182,7 +182,7 @@ public class BookLoader implements CommandLineRunner, Ordered {
 
         final Book book21 = new Book(
                 "The silkworm",
-                "Policíaco",
+                "Policiales",
                 "en",
                 new Date(114, Calendar.MARCH, 2),
                 authors4);

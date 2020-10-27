@@ -295,14 +295,6 @@ public class BookServiceTest {
         books.add(book2);
         books.add(book);
 
-        Mockito.doReturn(Optional.of(book))
-                .when(bookRepository)
-                .findById(1L);
-
-        Mockito.doReturn(Optional.of(book2))
-                .when(bookRepository)
-                .findById(2L);
-
         Mockito.doReturn(books)
                 .when(bookRepository)
                 .sortByStars(2);

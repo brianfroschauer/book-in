@@ -53,6 +53,12 @@ public class BookController {
         return ResponseEntity.ok(objectMapper.map(book, BookDTO.class));
     }
 
+    @GetMapping("/ranking")
+    public ResponseEntity<List<BookDTO>> sortByStars(@RequestParam(name = "size", defaultValue = "10") int size) {
+        final List<Book> books = bookService.sortByStars(size);
+        return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
+    }
+
     @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<BookDTO> create(@RequestPart("book") @Valid CreateBookDTO createBookDTO,

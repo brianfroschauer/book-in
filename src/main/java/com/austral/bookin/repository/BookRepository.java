@@ -14,4 +14,7 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
 
     @Query(value = "select * from book b where b.id in (select ba.book_id from book_author ba where ba.author_id = ?1)", nativeQuery = true)
     List<Book> findAllByAuthor(Long id);
+
+    @Query(value = "select * from book b where b.genre = ?1 order by b.stars desc limit 0, ?2", nativeQuery = true)
+    List<Book> sortByGenre(String genre, int size);
 }

@@ -61,6 +61,15 @@ public interface BookService {
     Book calculateStars(long id, int stars, Strategy strategy, int... oldStars);
 
     /**
+     * Gets list of books of given {@param genre} and {@param size}.
+     *
+     * @param genre to be sorted.
+     * @param size of the list expected.
+     * @return the sorted list of books.
+     */
+    List<Book> sortByGenre(String genre, int size);
+
+    /**
      * Update the provided {@param book} and {@param file}.
      *
      * @param id of the book to be updated.

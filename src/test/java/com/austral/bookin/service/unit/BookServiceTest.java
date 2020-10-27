@@ -1,5 +1,6 @@
 package com.austral.bookin.service.unit;
 
+import com.austral.bookin.dto.book.BookDTO;
 import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.entity.User;
@@ -12,9 +13,12 @@ import com.austral.bookin.util.Strategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
@@ -279,5 +283,33 @@ public class BookServiceTest {
         Book new_book = bookService.calculateStars(1L, 5, Strategy.DELETE);
 
         assert new_book.getStars() == 0.0;
+    }
+
+    @Test
+    @DisplayName("Get list of books ordered by stars")
+    public void getOrderedList() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        Book book2 = new Book(2L, "title2", "Aventura", "en", new Date(), new ArrayList<>());
+
+        List<Book> books = new ArrayList<>();
+        books.add(book2);
+        books.add(book);
+
+        Mockito.doReturn(Optional.of(book))
+                .when(bookRepository)
+                .findById(1L);
+
+        Mockito.doReturn(Optional.of(book2))
+                .when(bookRepository)
+                .findById(2L);
+
+        Mockito.doReturn(books)
+                .when(bookRepository)
+                .sortByStars(2);
+
+        final List<Book> response = bookService.sortByStars(2);
+
+        assertNotNull(response);
+        verify(bookRepository, times(1)).sortByStars(2);
     }
 }

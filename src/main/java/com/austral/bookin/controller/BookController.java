@@ -52,10 +52,17 @@ public class BookController {
         final Book book = bookService.find(id);
         return ResponseEntity.ok(objectMapper.map(book, BookDTO.class));
     }
-
+  
     @GetMapping("/ranking")
     public ResponseEntity<List<BookDTO>> sortByStars(@RequestParam(name = "size", defaultValue = "10") int size) {
         final List<Book> books = bookService.sortByStars(size);
+        return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
+    }
+
+    @GetMapping("/ranking/{genre}")
+    public ResponseEntity<List<BookDTO>> sortByGenre(@PathVariable String genre,
+                                                     @RequestParam(name = "size", defaultValue = "10") int size) {
+        final List<Book> books = bookService.sortByGenre(genre, size);
         return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
     }
 

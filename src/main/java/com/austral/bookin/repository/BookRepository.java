@@ -17,4 +17,7 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
 
     @Query(value = "select * from book b order by b.stars desc limit 0, ?1", nativeQuery = true)
     List<Book> sortByStars(int size);
+  
+    @Query(value = "select * from book b where b.genre = ?1 order by b.stars desc limit 0, ?2", nativeQuery = true)
+    List<Book> sortByGenre(String genre, int size);
 }

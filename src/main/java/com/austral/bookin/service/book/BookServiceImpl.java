@@ -82,11 +82,16 @@ public class BookServiceImpl implements BookService {
         book.setStars(newStars);
         return bookRepository.save(book);
     }
-
+  
     @Override
     public List<Book> sortByStars(int size) {
         return bookRepository.sortByStars(size);
     }
+
+    @Override
+    public List<Book> sortByGenre(String genre, int size) {
+        return bookRepository.sortByGenre(genre, size);
+    }  
 
     @Override
     public Book update(Long id, Book book, MultipartFile file) {

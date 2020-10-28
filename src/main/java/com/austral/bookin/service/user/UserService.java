@@ -41,6 +41,16 @@ public interface UserService {
     User find(Principal principal);
 
     /**
+     * Update password of given {@param user} with given {@param password} if {@param oldPassword} checks with saved.
+     *
+     * @param oldPassword to be checked.
+     * @param password to be updated.
+     * @param user to be updated.
+     * @return User updated.
+     */
+    User updatePassword(String oldPassword, String password, User user);
+
+    /**
      * Persist the provided {@param user}.
      *
      * @param user to be persisted.

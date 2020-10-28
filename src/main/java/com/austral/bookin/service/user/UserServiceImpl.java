@@ -1,11 +1,13 @@
 package com.austral.bookin.service.user;
 
 import com.austral.bookin.exception.AlreadyExistsException;
+import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.util.FileHandler;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,9 +19,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
+    private final PasswordEncoder encoder;
 
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
+        this.encoder = encoder;
     }
 
     @Override
@@ -51,6 +55,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updatePassword(String oldPassword, String password, User user) {
+        if (checkValidOldPassword(oldPassword, user))
+            user.setPassword(encoder.encode(password));
+        else
+             throw new InvalidOldPasswordException();
+        return repository.save(user);
+    }
+
+    @Override
     public User save(User user) {
         repository
                 .findByEmail(user.getEmail())
@@ -75,5 +88,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         repository.delete(find(id));
+    }
+
+    private boolean checkValidOldPassword(String old, User user) {
+        return encoder.matches(old, user.getPassword());
     }
 }

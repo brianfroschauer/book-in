@@ -1,15 +1,20 @@
 package com.austral.bookin.controller;
 
+import com.austral.bookin.dto.user.ChangeUserPasswordDTO;
 import com.austral.bookin.dto.user.UpdateUserDTO;
 import com.austral.bookin.dto.user.UserDTO;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;
 import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -44,6 +49,18 @@ public class UserController {
         if (principal == null) return null;
         final User user = userService.find(principal);
         return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
+    }
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<UserDTO> changeUserPassword(@Valid @RequestBody ChangeUserPasswordDTO changeUserPasswordDTO) {
+
+        User user = userService.find(SecurityContextHolder.getContext().getAuthentication().getName());
+        try {
+            user = userService.updatePassword(changeUserPasswordDTO.getOldPassword(), changeUserPasswordDTO.getPassword(), user);
+            return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
+        } catch (InvalidOldPasswordException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The old password is wrong");
+        }
     }
 
     @PutMapping("{id}")

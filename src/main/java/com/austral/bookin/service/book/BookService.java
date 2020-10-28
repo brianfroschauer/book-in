@@ -59,7 +59,15 @@ public interface BookService {
      * @return the updated book.
      */
     Book calculateStars(long id, int stars, Strategy strategy, int... oldStars);
-
+  
+    /**
+     * Sorts all books adn returns a list with the top {@param size} ranked.
+     *
+     * @param size of the list to be retrieved.
+     * @return the sorted list of books.
+     */
+    List<Book> sortByStars(int size);
+  
     /**
      * Gets list of books of given {@param genre} and {@param size}.
      *

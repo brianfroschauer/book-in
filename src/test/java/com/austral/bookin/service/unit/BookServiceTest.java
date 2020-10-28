@@ -286,8 +286,28 @@ public class BookServiceTest {
     }
 
     @Test
-    @DisplayName("Get list of books of the given genre ordered by stars, then return Ok response")
-    public void getOrderedList_thenReturnOkResponse() {
+    @DisplayName("Get list of books ordered by stars")
+    public void getOrderedList() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        Book book2 = new Book(2L, "title2", "Aventura", "en", new Date(), new ArrayList<>());
+
+        List<Book> books = new ArrayList<>();
+        books.add(book2);
+        books.add(book);
+
+        Mockito.doReturn(books)
+                .when(bookRepository)
+                .sortByStars(2);
+
+        final List<Book> response = bookService.sortByStars(2);
+
+        assertNotNull(response);
+        verify(bookRepository, times(1)).sortByStars(2);
+    }
+  
+    @Test
+    @DisplayName("Get list of books of the given genre ordered by stars")
+    public void getOrderedListWithGenre() {
         Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
         Book book2 = new Book(2L, "title2", "Aventura", "en", new Date(), new ArrayList<>());
 

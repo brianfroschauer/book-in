@@ -10,7 +10,6 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 public class ChangeUserPasswordDTO {
 
-    @Pattern(regexp = Patterns.PATTERN_PASSWORD)
     private String oldPassword;
 
     @Pattern(regexp = Patterns.PATTERN_PASSWORD)

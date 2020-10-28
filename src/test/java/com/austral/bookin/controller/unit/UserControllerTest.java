@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -145,9 +146,7 @@ public class UserControllerTest {
 
         ChangeUserPasswordDTO change = new ChangeUserPasswordDTO("password1234", "hola1234");
 
-        final ResponseEntity<UserDTO> responseEntity = userController.changeUserPassword(change);
-
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertThrows(ResponseStatusException.class, () -> userController.changeUserPassword(change));
         verify(userService, times(1)).find("katia@hotmail.com");
         verify(userService, times(1)).updatePassword("password1234", "hola1234", user);
     }

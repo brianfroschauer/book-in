@@ -58,7 +58,7 @@ public class UserController {
             user = userService.updatePassword(changeUserPasswordDTO.getOldPassword(), changeUserPasswordDTO.getPassword(), user);
             return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
         } catch (InvalidOldPasswordException e) {
-            return new ResponseEntity<>(objectMapper.map(user, UserDTO.class), HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The old password is wrong");
         }
     }
 

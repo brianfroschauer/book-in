@@ -4,7 +4,11 @@ import com.austral.bookin.controller.BookController;
 import com.austral.bookin.dto.book.BookDTO;
 import com.austral.bookin.dto.book.UpdateBookDTO;
 import com.austral.bookin.entity.Book;
+import com.austral.bookin.entity.Review;
+import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.NotFoundException;
+import com.austral.bookin.repository.BookRepository;
+import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.service.book.BookService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -27,6 +33,12 @@ public class BookControllerTest {
 
     @Autowired
     private BookController bookController;
+
+    @MockBean
+    private BookRepository bookRepository;
+
+    @MockBean
+    private ReviewRepository reviewRepository;
 
     @Test
     public void contextLoads() {
@@ -55,6 +67,27 @@ public class BookControllerTest {
                 .find(1L);
 
         assertThrows(NotFoundException.class, () -> bookController.find(1L));
+    }
+
+    @Test
+    @DisplayName("Get list of books ordered by stars, then return Ok response")
+    public void getOrderedList_thenReturnOkResponse() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        Book book2 = new Book(2L, "title2", "Aventura", "en", new Date(), new ArrayList<>());
+
+        List<Book> books = new ArrayList<>();
+        books.add(book2);
+        books.add(book);
+
+        Mockito.doReturn(books)
+                .when(bookRepository)
+                .sortByStars(2);
+
+        final ResponseEntity<List<BookDTO>> responseEntity = bookController.sortByStars(2);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+        verify(bookService, times(1)).sortByStars(2);
     }
 
     @Test

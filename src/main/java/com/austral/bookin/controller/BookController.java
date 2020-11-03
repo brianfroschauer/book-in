@@ -1,9 +1,6 @@
 package com.austral.bookin.controller;
 
-import com.austral.bookin.dto.book.BookDTO;
-import com.austral.bookin.dto.book.CreateBookDTO;
-import com.austral.bookin.dto.book.SearchBookDTO;
-import com.austral.bookin.dto.book.UpdateBookDTO;
+import com.austral.bookin.dto.book.*;
 import com.austral.bookin.entity.Book;
 import com.austral.bookin.service.book.BookService;
 import com.austral.bookin.specification.BookSpecification;
@@ -54,16 +51,16 @@ public class BookController {
     }
   
     @GetMapping("/ranking")
-    public ResponseEntity<List<BookDTO>> sortByStars(@RequestParam(name = "size", defaultValue = "10") int size) {
+    public ResponseEntity<List<BookWithAuthorsDTO>> sortByStars(@RequestParam(name = "size", defaultValue = "10") int size) {
         final List<Book> books = bookService.sortByStars(size);
-        return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
+        return ResponseEntity.ok(objectMapper.map(books, BookWithAuthorsDTO.class));
     }
 
     @GetMapping("/ranking/{genre}")
-    public ResponseEntity<List<BookDTO>> sortByGenre(@PathVariable String genre,
+    public ResponseEntity<List<BookWithAuthorsDTO>> sortByGenre(@PathVariable String genre,
                                                      @RequestParam(name = "size", defaultValue = "10") int size) {
         final List<Book> books = bookService.sortByGenre(genre, size);
-        return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
+        return ResponseEntity.ok(objectMapper.map(books, BookWithAuthorsDTO.class));
     }
 
     @Secured("ROLE_ADMIN")

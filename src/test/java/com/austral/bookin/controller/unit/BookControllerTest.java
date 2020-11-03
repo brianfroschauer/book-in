@@ -2,6 +2,7 @@ package com.austral.bookin.controller.unit;
 
 import com.austral.bookin.controller.BookController;
 import com.austral.bookin.dto.book.BookDTO;
+import com.austral.bookin.dto.book.BookWithAuthorsDTO;
 import com.austral.bookin.dto.book.UpdateBookDTO;
 import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
@@ -87,7 +88,7 @@ public class BookControllerTest {
                 .when(bookRepository)
                 .sortByStars(2);
 
-        final ResponseEntity<List<BookDTO>> responseEntity = bookController.sortByStars(2);
+        final ResponseEntity<List<BookWithAuthorsDTO>> responseEntity = bookController.sortByStars(2);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
@@ -108,7 +109,7 @@ public class BookControllerTest {
                 .when(bookRepository)
                 .sortByGenre("Aventura", 2);
 
-        final ResponseEntity<List<BookDTO>> responseEntity = bookController.sortByGenre("Aventura", 2);
+        final ResponseEntity<List<BookWithAuthorsDTO>> responseEntity = bookController.sortByGenre("Aventura", 2);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());

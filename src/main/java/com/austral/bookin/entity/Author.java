@@ -1,5 +1,8 @@
 package com.austral.bookin.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +40,7 @@ public class Author {
     private byte[] photo;
 
     @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Book> books;
 
     @PreRemove

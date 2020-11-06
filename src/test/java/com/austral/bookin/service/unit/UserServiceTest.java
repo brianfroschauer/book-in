@@ -3,13 +3,12 @@ package com.austral.bookin.service.unit;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;
+import com.austral.bookin.repository.TokenRepository;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;
-import org.junit.Rule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +33,6 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
-
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void contextLoads() {
@@ -130,6 +126,27 @@ public class UserServiceTest {
                 .save(user);
 
         final User result = userService.updatePassword("password123", "hola1234", user);
+
+        assertEquals(user2, result);
+    }
+
+    @Test
+    @DisplayName("Change password of given user")
+    public void changePasswordOfUser() {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        User user2 = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("hola1234"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+
+        Mockito.doReturn(Optional.of(user))
+                .when(userRepository)
+                .findById(1L);
+
+        Mockito.doReturn(user2)
+                .when(userRepository)
+                .save(user);
+
+        final User result = userService.setPassword(1L, "hola1234");
 
         assertEquals(user2, result);
     }

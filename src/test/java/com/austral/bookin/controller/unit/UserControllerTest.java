@@ -4,10 +4,13 @@ import com.austral.bookin.controller.UserController;
 import com.austral.bookin.dto.user.ChangeUserPasswordDTO;
 import com.austral.bookin.dto.user.UpdateUserDTO;
 import com.austral.bookin.dto.user.UserDTO;
+import com.austral.bookin.dto.user.UserNewPasswordDTO;
+import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.exception.ExpiredTokenException;
 import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;
-import com.austral.bookin.repository.UserRepository;
+import com.austral.bookin.service.token.TokenService;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;
 import org.junit.jupiter.api.DisplayName;
@@ -39,7 +42,7 @@ public class UserControllerTest {
     private UserService userService;
 
     @MockBean
-    private UserRepository userRepository;
+    private TokenService tokenService;
 
     @Autowired
     private UserController userController;
@@ -124,7 +127,6 @@ public class UserControllerTest {
     @Test
     @DisplayName("Change password of given user, then return bad request")
     public void changePasswordOfUser_thenReturnBadRequest() {
-
         User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
 
         Mockito.doReturn(user)
@@ -149,6 +151,75 @@ public class UserControllerTest {
         assertThrows(ResponseStatusException.class, () -> userController.changeUserPassword(change));
         verify(userService, times(1)).find("katia@hotmail.com");
         verify(userService, times(1)).updatePassword("password1234", "hola1234", user);
+    }
+
+//    @Test
+//    @DisplayName("Send mail to password of given user, then return OK response")
+//    public void resetPasswordOfUser_thenReturnOkResponse() {
+//        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+//        Token token = new Token(2L, "token12abc", user, new Date(125, Calendar.NOVEMBER, 1));
+//
+//        Mockito.doReturn(token)
+//                .when(tokenService)
+//                .createPasswordResetToken(user);
+//
+//        final HttpStatus status = userController.resetUserPassword("katia@hotmail.com");
+//
+//        assertEquals(HttpStatus.OK, status);
+//        verify(tokenService, times(1)).createPasswordResetToken(user);
+//    }
+
+    @Test
+    @DisplayName("Receive token to reset password of given user, verify it, then return OK response")
+    public void receiveToken_Verify_thenReturnOkResponse() {
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        Token token = new Token(2L, "token12abc", user, new Date(125, Calendar.NOVEMBER, 1));
+
+        Mockito.doReturn(token)
+                .when(tokenService)
+                .find("token12abc");
+
+        final HttpStatus status = userController.validateToken("token12abc");
+
+        assertEquals(HttpStatus.OK, status);
+        verify(tokenService, times(1)).find("token12abc");
+        verify(tokenService, times(1)).validateToken(token);
+    }
+
+    @Test
+    @DisplayName("Receive token to reset password of given user, verify it, then return Bad Request")
+    public void receiveToken_Verify_thenReturnBadRequest() {
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        Token token = new Token(2L, "token12abc", user, new Date(115, Calendar.NOVEMBER, 1));
+
+        Mockito.doReturn(token)
+                .when(tokenService)
+                .find("token12abc");
+
+        Mockito.doThrow(ExpiredTokenException.class)
+                .when(tokenService)
+                .validateToken(token);
+
+        assertThrows(ResponseStatusException.class, () -> userController.validateToken("token12abc"));
+        verify(tokenService, times(1)).find("token12abc");
+        verify(tokenService, times(1)).validateToken(token);
+    }
+
+    @Test
+    @DisplayName("Reset password, then return OK response")
+    public void resetPassword_thenReturnOkResponse() {
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        User user2 = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password1234", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        UserNewPasswordDTO newPasswordDTO = new UserNewPasswordDTO(user.getId(), "password1234");
+
+        Mockito.doReturn(user2)
+                .when(userService)
+                .setPassword(1L, "password1234");
+
+        final ResponseEntity<UserDTO> responseEntity = userController.setNewPassword(newPasswordDTO);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        verify(userService, times(1)).setPassword(1L, "password1234");
     }
 
     @Test

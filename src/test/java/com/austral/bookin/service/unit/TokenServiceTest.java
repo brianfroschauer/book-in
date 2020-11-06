@@ -8,6 +8,7 @@ import com.austral.bookin.repository.TokenRepository;
 import com.austral.bookin.service.token.TokenService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -83,6 +84,23 @@ public class TokenServiceTest {
 
         assertNotNull(token);
         verify(tokenRepository).findByUser(user);
+    }
+
+    @Test
+    @DisplayName("Save new token for given user, then return it")
+    public void saveTokenForUser_ThenReturnIt() {
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@gmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        Token token = new Token(2L, "asd12f", user, new Date(121, Calendar.NOVEMBER, 13));
+
+        Mockito.doReturn(token)
+                .when(tokenRepository)
+                .save(any(Token.class));
+
+        final Token result = tokenService.createPasswordResetToken(user);
+
+        assertNotNull(result);
+        verify(tokenRepository).save(any(Token.class));
     }
 
     @Test

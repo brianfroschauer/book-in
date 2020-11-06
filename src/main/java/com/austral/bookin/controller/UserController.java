@@ -8,6 +8,7 @@ import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.ExpiredTokenException;
 import com.austral.bookin.exception.InvalidOldPasswordException;
+import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.service.token.TokenService;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;
@@ -59,10 +60,14 @@ public class UserController {
 
     @PostMapping("/resetPassword")
     public HttpStatus resetUserPassword(@RequestParam("email") String email) {
-        final User user = userService.find(email);
-        final Token token = tokenService.createPasswordResetToken(user);
-        userService.sendMail(token);
-        return HttpStatus.OK;
+        try {
+            final User user = userService.find(email);
+            final Token token = tokenService.createPasswordResetToken(user);
+            userService.sendMail(token);
+            return HttpStatus.OK;
+        } catch (NotFoundException e) {
+            return HttpStatus.BAD_REQUEST;
+        }
     }
 
     @GetMapping("/resetPassword")

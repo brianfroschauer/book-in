@@ -153,21 +153,41 @@ public class UserControllerTest {
         verify(userService, times(1)).updatePassword("password1234", "hola1234", user);
     }
 
-//    @Test
-//    @DisplayName("Send mail to password of given user, then return OK response")
-//    public void resetPasswordOfUser_thenReturnOkResponse() {
-//        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
-//        Token token = new Token(2L, "token12abc", user, new Date(125, Calendar.NOVEMBER, 1));
-//
-//        Mockito.doReturn(token)
-//                .when(tokenService)
-//                .createPasswordResetToken(user);
-//
-//        final HttpStatus status = userController.resetUserPassword("katia@hotmail.com");
-//
-//        assertEquals(HttpStatus.OK, status);
-//        verify(tokenService, times(1)).createPasswordResetToken(user);
-//    }
+    @Test
+    @DisplayName("Send mail to password of given user, then return OK response")
+    public void resetPasswordOfUser_thenReturnOkResponse() {
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        Token token = new Token(2L, "token12abc", user, new Date(125, Calendar.NOVEMBER, 1));
+
+        Mockito.doReturn(user)
+                .when(userService)
+                .find("katia@hotmail.com");
+
+        Mockito.doReturn(token)
+                .when(tokenService)
+                .createPasswordResetToken(user);
+
+        final HttpStatus status = userController.resetUserPassword("katia@hotmail.com");
+
+        assertEquals(HttpStatus.OK, status);
+        verify(userService, times(1)).find("katia@hotmail.com");
+        verify(tokenService, times(1)).createPasswordResetToken(user);
+    }
+
+    @Test
+    @DisplayName("Try to send mail to password of given user not found, then return Bad Request")
+    public void resetPasswordOfUser_thenReturnBadRequest() {
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+
+        Mockito.doThrow(NotFoundException.class)
+                .when(userService)
+                .find("katia1@hotmail.com");
+
+        final HttpStatus status = userController.resetUserPassword("katia1@hotmail.com");
+
+        assertEquals(HttpStatus.BAD_REQUEST, status);
+        verify(userService, times(1)).find("katia1@hotmail.com");
+    }
 
     @Test
     @DisplayName("Receive token to reset password of given user, verify it, then return OK response")

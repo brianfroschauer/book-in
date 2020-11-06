@@ -19,7 +19,6 @@ public class TokenServiceImpl implements TokenService {
         this.tokenRepository = tokenRepository;
     }
 
-
     @Override
     public Token find(Long id) {
         return tokenRepository

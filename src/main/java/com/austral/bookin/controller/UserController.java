@@ -3,8 +3,12 @@ package com.austral.bookin.controller;
 import com.austral.bookin.dto.user.ChangeUserPasswordDTO;
 import com.austral.bookin.dto.user.UpdateUserDTO;
 import com.austral.bookin.dto.user.UserDTO;
+import com.austral.bookin.dto.user.UserNewPasswordDTO;
+import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.exception.ExpiredTokenException;
 import com.austral.bookin.exception.InvalidOldPasswordException;
+import com.austral.bookin.service.token.TokenService;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;
 import com.austral.bookin.util.ObjectMapper;
@@ -25,10 +29,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final TokenService tokenService;
     private final ObjectMapper objectMapper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TokenService tokenService) {
         this.userService = userService;
+        this.tokenService = tokenService;
         this.objectMapper = new ObjectMapperImpl();
     }
 
@@ -48,6 +54,31 @@ public class UserController {
     public ResponseEntity<UserDTO> find(Principal principal) {
         if (principal == null) return null;
         final User user = userService.find(principal);
+        return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
+    }
+
+    @PostMapping("/resetPassword")
+    public HttpStatus resetUserPassword(@RequestParam("email") String email) {
+        final User user = userService.find(email);
+        final Token token = tokenService.createPasswordResetToken(user);
+        userService.sendMail(token);
+        return HttpStatus.OK;
+    }
+
+    @GetMapping("/resetPassword")
+    public HttpStatus validateToken(@RequestParam("token") String tokenReceived) {
+        Token token = tokenService.find(tokenReceived);
+        try {
+            tokenService.validateToken(token);
+            return HttpStatus.OK;
+        } catch (ExpiredTokenException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The token is expired");
+        }
+    }
+
+    @PostMapping("/setNewPassword")
+    public ResponseEntity<UserDTO> setNewPassword(@Valid @RequestBody UserNewPasswordDTO userNewPasswordDTO) {
+        User user = userService.setPassword(userNewPasswordDTO.getId(), userNewPasswordDTO.getPassword());
         return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
     }
 

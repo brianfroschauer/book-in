@@ -1,5 +1,6 @@
 package com.austral.bookin.service.unit;
 
+import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;
@@ -159,6 +160,17 @@ public class UserServiceTest {
         User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
 
         assertThrows(InvalidOldPasswordException.class, () -> userService.updatePassword("password1234", "hola1234", user));
+    }
+
+    @Test
+    @DisplayName("Send mail without problems")
+    public void sendMailWithoutProblems() {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        Token token = new Token(2L, "asd12f", user, new Date(121, Calendar.NOVEMBER, 13));
+
+        userService.sendMail(token);
     }
 
     @Test

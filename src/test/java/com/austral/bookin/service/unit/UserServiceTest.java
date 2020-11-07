@@ -1,15 +1,15 @@
 package com.austral.bookin.service.unit;
 
+import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;
+import com.austral.bookin.repository.TokenRepository;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;
-import org.junit.Rule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +34,6 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
-
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void contextLoads() {
@@ -135,6 +132,27 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Change password of given user")
+    public void changePasswordOfUser() {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        User user2 = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("hola1234"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+
+        Mockito.doReturn(Optional.of(user))
+                .when(userRepository)
+                .findById(1L);
+
+        Mockito.doReturn(user2)
+                .when(userRepository)
+                .save(user);
+
+        final User result = userService.setPassword(1L, "hola1234");
+
+        assertEquals(user2, result);
+    }
+
+    @Test
     @DisplayName("Change password of given user, given wrong old password")
     public void changePasswordOfUser_givenWrongOldPassword() {
         final PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -142,6 +160,17 @@ public class UserServiceTest {
         User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
 
         assertThrows(InvalidOldPasswordException.class, () -> userService.updatePassword("password1234", "hola1234", user));
+    }
+
+    @Test
+    @DisplayName("Send mail without problems")
+    public void sendMailWithoutProblems() {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        Token token = new Token(2L, "asd12f", user, new Date(121, Calendar.NOVEMBER, 13));
+
+        userService.sendMail(token);
     }
 
     @Test

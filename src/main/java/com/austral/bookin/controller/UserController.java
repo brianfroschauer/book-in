@@ -3,8 +3,13 @@ package com.austral.bookin.controller;
 import com.austral.bookin.dto.user.ChangeUserPasswordDTO;
 import com.austral.bookin.dto.user.UpdateUserDTO;
 import com.austral.bookin.dto.user.UserDTO;
+import com.austral.bookin.dto.user.UserNewPasswordDTO;
+import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.exception.ExpiredTokenException;
 import com.austral.bookin.exception.InvalidOldPasswordException;
+import com.austral.bookin.exception.NotFoundException;
+import com.austral.bookin.service.token.TokenService;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;
 import com.austral.bookin.util.ObjectMapper;
@@ -25,10 +30,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final TokenService tokenService;
     private final ObjectMapper objectMapper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TokenService tokenService) {
         this.userService = userService;
+        this.tokenService = tokenService;
         this.objectMapper = new ObjectMapperImpl();
     }
 
@@ -48,6 +55,39 @@ public class UserController {
     public ResponseEntity<UserDTO> find(Principal principal) {
         if (principal == null) return null;
         final User user = userService.find(principal);
+        return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
+    }
+
+    @PostMapping("/resetPassword")
+    public HttpStatus resetUserPassword(@RequestParam("email") String email) {
+        try {
+            final User user = userService.find(email);
+            final Token token = tokenService.createPasswordResetToken(user);
+            userService.sendMail(token);
+            return HttpStatus.OK;
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This users doesn't exist");
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "There was a problem saving the token");
+        }
+    }
+
+    @GetMapping("/validateToken")
+    public HttpStatus validateToken(@RequestParam("token") String tokenReceived) {
+        try {
+            Token token = tokenService.find(tokenReceived);
+            tokenService.validateToken(token);
+            return HttpStatus.OK;
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The token doesn't exist");
+        } catch (ExpiredTokenException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The token is expired");
+        }
+    }
+
+    @PostMapping("/newPassword")
+    public ResponseEntity<UserDTO> setNewPassword(@Valid @RequestBody UserNewPasswordDTO userNewPasswordDTO) {
+        User user = userService.setPassword(userNewPasswordDTO.getId(), userNewPasswordDTO.getPassword());
         return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
     }
 

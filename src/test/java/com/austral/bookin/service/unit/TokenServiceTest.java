@@ -61,7 +61,7 @@ public class TokenServiceTest {
     @Test
     @DisplayName("Given present optional token, when find by token, then return token")
     public void givenPresentOptionalToken_whenFindByToken_ThenReturnToken() {
-        doReturn(new Token())
+        doReturn(Optional.of(new Token()))
                 .when(tokenRepository)
                 .findByToken("as123f");
 
@@ -72,17 +72,41 @@ public class TokenServiceTest {
     }
 
     @Test
+    @DisplayName("Given present optional token, when find by token, then throw not found exception")
+    public void givenPresentOptionalToken_whenFindByToken_ThenThrowNotFonudException() {
+        doThrow(NotFoundException.class)
+                .when(tokenRepository)
+                .findByToken("as123f");
+
+        assertThrows(NotFoundException.class, () -> tokenService.find("as123f"));
+        verify(tokenRepository).findByToken("as123f");
+    }
+
+    @Test
     @DisplayName("Given present optional token, when find by user, then return token")
     public void givenPresentOptionalToken_whenFindByUser_ThenReturnToken() {
 
         User user = new User(1L, "Katia", "Cammisa", "katia@gmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
-        doReturn(new Token())
+        doReturn(Optional.of(new Token()))
                 .when(tokenRepository)
                 .findByUser(user);
 
         final Token token = tokenService.find(user);
 
         assertNotNull(token);
+        verify(tokenRepository).findByUser(user);
+    }
+
+    @Test
+    @DisplayName("Given present optional token, when find by user, then throw not found exception")
+    public void givenPresentOptionalToken_whenFindByUser_ThenThrowNotFoundException() {
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@gmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        doThrow(NotFoundException.class)
+                .when(tokenRepository)
+                .findByUser(user);
+
+        assertThrows(NotFoundException.class, () -> tokenService.find(user));
         verify(tokenRepository).findByUser(user);
     }
 

@@ -175,18 +175,32 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Try to send mail to password of given user not found, then return Bad Request")
-    public void resetPasswordOfUser_thenReturnBadRequest() {
-        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+    @DisplayName("Try to send mail to password of given user not found, then throw Not Found")
+    public void resetPasswordOfUser_thenThrowNotFound() {
 
         Mockito.doThrow(NotFoundException.class)
                 .when(userService)
                 .find("katia1@hotmail.com");
 
-        final HttpStatus status = userController.resetUserPassword("katia1@hotmail.com");
-
-        assertEquals(HttpStatus.BAD_REQUEST, status);
+        assertThrows(ResponseStatusException.class, () -> userController.resetUserPassword("katia1@hotmail.com"));
         verify(userService, times(1)).find("katia1@hotmail.com");
+    }
+
+    @Test
+    @DisplayName("Try to send mail to password of given user not found, then throw Internal Server Error")
+    public void resetPasswordOfUser_thenThrowInternalServerError() {
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+
+        Mockito.doReturn(user)
+                .when(userService)
+                .find("katia@hotmail.com");
+
+        Mockito.doThrow(RuntimeException.class)
+                .when(tokenService)
+                .createPasswordResetToken(user);
+
+        assertThrows(ResponseStatusException.class, () -> userController.resetUserPassword("katia@hotmail.com"));
+        verify(userService, times(1)).find("katia@hotmail.com");
     }
 
     @Test
@@ -207,7 +221,20 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Receive token to reset password of given user, verify it, then return Bad Request")
+    @DisplayName("Receive expired token to reset password of given user, verify it, then return Not Found")
+    public void receiveToken_Verify_thenReturnNotFound() {
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
+
+        Mockito.doThrow(NotFoundException.class)
+                .when(tokenService)
+                .find("token123abc");
+
+        assertThrows(ResponseStatusException.class, () -> userController.validateToken("token123abc"));
+        verify(tokenService, times(1)).find("token123abc");
+    }
+
+    @Test
+    @DisplayName("Receive expired token to reset password of given user, verify it, then return Bad Request")
     public void receiveToken_Verify_thenReturnBadRequest() {
         User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
         Token token = new Token(2L, "token12abc", user, new Date(115, Calendar.NOVEMBER, 1));

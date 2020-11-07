@@ -28,12 +28,16 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Token find(String token) {
-        return tokenRepository.findByToken(token);
+        return tokenRepository
+                .findByToken(token)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
     public Token find(User user) {
-        return tokenRepository.findByUser(user);
+        return tokenRepository
+                .findByUser(user)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override

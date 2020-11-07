@@ -66,22 +66,26 @@ public class UserController {
             userService.sendMail(token);
             return HttpStatus.OK;
         } catch (NotFoundException e) {
-            return HttpStatus.BAD_REQUEST;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This users doesn't exist");
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "There was a problem saving the token");
         }
     }
 
-    @GetMapping("/resetPassword")
+    @GetMapping("/validateToken")
     public HttpStatus validateToken(@RequestParam("token") String tokenReceived) {
-        Token token = tokenService.find(tokenReceived);
         try {
+            Token token = tokenService.find(tokenReceived);
             tokenService.validateToken(token);
             return HttpStatus.OK;
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The token doesn't exist");
         } catch (ExpiredTokenException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The token is expired");
         }
     }
 
-    @PostMapping("/setNewPassword")
+    @PostMapping("/newPassword")
     public ResponseEntity<UserDTO> setNewPassword(@Valid @RequestBody UserNewPasswordDTO userNewPasswordDTO) {
         User user = userService.setPassword(userNewPasswordDTO.getId(), userNewPasswordDTO.getPassword());
         return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));

@@ -204,8 +204,8 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Receive token to reset password of given user, verify it, then return OK response")
-    public void receiveToken_Verify_thenReturnOkResponse() {
+    @DisplayName("Receive token to reset password of given user, verify it, then return user")
+    public void receiveToken_Verify_thenReturnUser() {
         User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
         Token token = new Token(2L, "token12abc", user, new Date(125, Calendar.NOVEMBER, 1));
 
@@ -213,9 +213,9 @@ public class UserControllerTest {
                 .when(tokenService)
                 .find("token12abc");
 
-        final HttpStatus status = userController.validateToken("token12abc");
+        final ResponseEntity<UserDTO> response = userController.validateToken("token12abc");
 
-        assertEquals(HttpStatus.OK, status);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(tokenService, times(1)).find("token12abc");
         verify(tokenService, times(1)).validateToken(token);
     }

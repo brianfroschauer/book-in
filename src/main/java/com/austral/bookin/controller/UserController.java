@@ -73,11 +73,11 @@ public class UserController {
     }
 
     @GetMapping("/validateToken")
-    public HttpStatus validateToken(@RequestParam("token") String tokenReceived) {
+    public ResponseEntity<UserDTO> validateToken(@RequestParam("token") String tokenReceived) {
         try {
             Token token = tokenService.find(tokenReceived);
             tokenService.validateToken(token);
-            return HttpStatus.OK;
+            return ResponseEntity.ok(objectMapper.map(token.getUser(), UserDTO.class));
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The token doesn't exist");
         } catch (ExpiredTokenException e) {

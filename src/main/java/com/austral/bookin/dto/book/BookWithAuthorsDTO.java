@@ -1,10 +1,11 @@
 package com.austral.bookin.dto.book;
 
-import com.austral.bookin.entity.Author;
+import com.austral.bookin.dto.author.RankingAuthorDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -16,5 +17,5 @@ public class BookWithAuthorsDTO {
     private String genre;
     private byte[] photo;
     private float stars;
-    private Author[] authors;
+    private List<RankingAuthorDTO> authors;
 }

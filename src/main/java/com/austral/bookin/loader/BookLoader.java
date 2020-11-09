@@ -126,21 +126,21 @@ public class BookLoader implements CommandLineRunner, Ordered {
 
         final Book book13 = new Book(
                 "Delirium",
-                "Ciencia Ficción",
+                "Ficción",
                 "en",
                 new Date(111, Calendar.FEBRUARY, 3),
                 authors7);
 
         final Book book14 = new Book(
                 "Pandemonium",
-                "Ciencia Ficción",
+                "Ficción",
                 "en",
                 new Date(112, Calendar.FEBRUARY, 28),
                 authors7);
 
         final Book book15 = new Book(
                 "Requiem",
-                "Ciencia Ficción",
+                "Ficción",
                 "en",
                 new Date(113, Calendar.MARCH, 5),
                 authors7);
@@ -189,7 +189,7 @@ public class BookLoader implements CommandLineRunner, Ordered {
 
         final Book book22 = new Book(
                 "Blanco letal",
-                "Ciencia Ficción",
+                "Ficción",
                 "es",
                 new Date(118, Calendar.DECEMBER, 26),
                 authors4);

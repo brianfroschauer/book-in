@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
 
-        String url = "http://localhost:8080/users/resetPassword?token=" + token.getToken();
+        String url = "http://localhost:3000/users/resetPassword?token=" + token.getToken();
 
         String htmlMessage = constructMessage(url);
 

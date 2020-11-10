@@ -7,6 +7,8 @@ import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.util.FileHandler;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,14 @@ import java.util.List;
 import java.util.Properties;
 
 @Service
+@PropertySource("classpath:application.properties")
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
     private final PasswordEncoder encoder;
+
+    @Value("${url}")
+    private String basicUrl;
 
     public UserServiceImpl(UserRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
@@ -88,7 +94,7 @@ public class UserServiceImpl implements UserService {
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
 
-        String url = "http://localhost:8080/users/resetPassword?token=" + token.getToken();
+        String url = basicUrl + token.getToken();
 
         String htmlMessage = constructMessage(url);
 

@@ -51,7 +51,7 @@ public class Patterns {
      * (?:[\s])          # space
      * $                 # end-of-string.
      */
-    public static final String PATTERN_GENRE = "^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s]+[A-Za-zÀ-ÖØ-öø-ÿ]+)*)$";
+    public static final String PATTERN_GENRE = "^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s-]+[A-Za-zÀ-ÖØ-öø-ÿ]+)*)$";
 
     /**
      * ^                 # start-of-string.

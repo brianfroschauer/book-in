@@ -7,6 +7,9 @@ import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.util.FileHandler;
+import com.austral.bookin.util.MailStrategy;
+import com.austral.bookin.util.SendMailHandler;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,12 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 import java.util.List;
-import java.util.Properties;
 
 @Service
 @PropertySource("classpath:application.properties")
@@ -28,13 +28,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
     private final PasswordEncoder encoder;
+    private final VelocityEngine velocityEngine;
 
     @Value("${url}")
     private String basicUrl;
 
-    public UserServiceImpl(UserRepository repository, PasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder encoder, VelocityEngine velocityEngine) {
         this.repository = repository;
         this.encoder = encoder;
+        this.velocityEngine = velocityEngine;
     }
 
     @Override
@@ -82,33 +84,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void sendMail(Token token) {
-        Properties props = System.getProperties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.user", "bookin.team.austral");
-        props.put("mail.smtp.clave", "bookin123");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.port", "587");
-
-        Session session = Session.getDefaultInstance(props);
-        MimeMessage message = new MimeMessage(session);
-
-        String url = basicUrl + token.getToken();
-
-        String htmlMessage = constructMessage(url);
-
-        try {
-            message.setFrom(new InternetAddress("bookin.team.austral"));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(token.getUser().getEmail()));
-            message.setSubject("Recuperá tu contraseña");
-            message.setContent(htmlMessage, "text/html; charset=utf-8");
-            Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", "bookin.team.austral", "bookin123");
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-        } catch (MessagingException me) {
-            me.printStackTrace();
+    public void sendMail(MailStrategy strategy, User user, String... token) {
+        Session session = SendMailHandler.setProperties();
+        if (strategy == MailStrategy.REGISTER) {
+            SendMailHandler.sendMail(velocityEngine, session, user, "Bienvenido a BookIn", "assets/templates/welcome.html");
+        } else {
+            String url = basicUrl + token[0];
+            SendMailHandler.sendMail(velocityEngine, session, user, "Recuperá tu contraseña", "assets/templates/recover.html", url);
         }
     }
 

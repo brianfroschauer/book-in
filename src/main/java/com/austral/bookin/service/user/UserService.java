@@ -2,6 +2,7 @@ package com.austral.bookin.service.user;
 
 import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.util.MailStrategy;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,7 +67,7 @@ public interface UserService {
      *
      * @param token to be sent.
      */
-    void sendMail(Token token);
+    void sendMail(MailStrategy strategy, User user, String... token);
 
     /**
      * Persist the provided {@param user}.

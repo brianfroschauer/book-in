@@ -252,34 +252,34 @@ public class BookLoader implements CommandLineRunner, Ordered {
 
         bookService.save(book1, new MockMultipartFile("huckleberry.jpg", new FileInputStream(new File("src/main/resources/assets/books/huckleberry.jpg"))));
         bookService.save(book2, new MockMultipartFile("thefildedage.jpg", new FileInputStream(new File("src/main/resources/assets/books/thefildedage.jpg"))));
-        bookService.save(book3, new MockMultipartFile("mysteryofedwin.jpg", new FileInputStream(new File("src/main/resources/assets/books/Drood.jpg"))));
+        bookService.save(book3, new MockMultipartFile("Drood.jpg", new FileInputStream(new File("src/main/resources/assets/books/Drood.jpg"))));
         bookService.save(book4, new MockMultipartFile("hamletotellomacbeth.jpg", new FileInputStream(new File("src/main/resources/assets/books/hamletothellomacbeth.jpg"))));
-        bookService.save(book5, new MockMultipartFile("fantasticbeasts.jpg", new FileInputStream(new File("src/main/resources/assets/books/FantasticBeasts.jpeg"))));
-        bookService.save(book6, new MockMultipartFile("philosopher.jpg", new FileInputStream(new File("src/main/resources/assets/books/Philosopher.jpeg"))));
+        bookService.save(book5, new MockMultipartFile("FantasticFeasts.jpg", new FileInputStream(new File("src/main/resources/assets/books/FantasticBeasts.jpeg"))));
+        bookService.save(book6, new MockMultipartFile("Philosopher.jpg", new FileInputStream(new File("src/main/resources/assets/books/Philosopher.jpeg"))));
         bookService.save(book7, new MockMultipartFile("redpyramid.jpg", new FileInputStream(new File("src/main/resources/assets/books/redpyramid.jpg"))));
         bookService.save(book8, new MockMultipartFile("throneoffire.jpg", new FileInputStream(new File("src/main/resources/assets/books/throneoffire.jpg"))));
         bookService.save(book9, new MockMultipartFile("serpentshadow.jpg", new FileInputStream(new File("src/main/resources/assets/books/serpentshadow.jpg"))));
         bookService.save(book10, new MockMultipartFile("orgulloyprejuicio.jpg", new FileInputStream(new File("src/main/resources/assets/books/orgulloyprejuicio.jpg"))));
         bookService.save(book11, new MockMultipartFile("persuasion.png", new FileInputStream(new File("src/main/resources/assets/books/persuasion.png"))));
         bookService.save(book12, new MockMultipartFile("sentidoysensibilidad.jpg", new FileInputStream(new File("src/main/resources/assets/books/sentidoysensibilidad.jpg"))));
-        bookService.save(book13, new MockMultipartFile("delirium.jpg", new FileInputStream(new File("src/main/resources/assets/books/Delirium.jpeg"))));
-        bookService.save(book14, new MockMultipartFile("pandemonium.jpg", new FileInputStream(new File("src/main/resources/assets/books/pandemonium.jpg"))));
+        bookService.save(book13, new MockMultipartFile("Delirium.jpg", new FileInputStream(new File("src/main/resources/assets/books/Delirium.jpeg"))));
+        bookService.save(book14, new MockMultipartFile("pandemonium.png", new FileInputStream(new File("src/main/resources/assets/books/pandemonium.png"))));
         bookService.save(book15, new MockMultipartFile("requiem.png", new FileInputStream(new File("src/main/resources/assets/books/requiem.png"))));
-        bookService.save(book16, new MockMultipartFile("caballero.jpg", new FileInputStream(new File("src/main/resources/assets/books/elCaballero.jpg"))));
-        bookService.save(book17, new MockMultipartFile("roughmagic.jpg", new FileInputStream(new File("src/main/resources/assets/books/ThisRoughMagic.jpg"))));
-        bookService.save(book18, new MockMultipartFile("vacante.jpg", new FileInputStream(new File("src/main/resources/assets/books/Vacancy.jpg"))));
-        bookService.save(book19, new MockMultipartFile("ickabog.jpg", new FileInputStream(new File("src/main/resources/assets/books/theIckabog.jpg"))));
-        bookService.save(book20, new MockMultipartFile("troubledblood.jpg", new FileInputStream(new File("src/main/resources/assets/books/TroubledBlood.jpeg"))));
+        bookService.save(book16, new MockMultipartFile("elCaballero.jpg", new FileInputStream(new File("src/main/resources/assets/books/elCaballero.jpg"))));
+        bookService.save(book17, new MockMultipartFile("ThisRoughMagic.jpg", new FileInputStream(new File("src/main/resources/assets/books/ThisRoughMagic.jpg"))));
+        bookService.save(book18, new MockMultipartFile("Vacancy.jpg", new FileInputStream(new File("src/main/resources/assets/books/Vacancy.jpg"))));
+        bookService.save(book19, new MockMultipartFile("theIckabog.jpg", new FileInputStream(new File("src/main/resources/assets/books/theIckabog.jpg"))));
+        bookService.save(book20, new MockMultipartFile("TroubledBlood.jpg", new FileInputStream(new File("src/main/resources/assets/books/TroubledBlood.jpeg"))));
         bookService.save(book21, new MockMultipartFile("silkworm.jpg", new FileInputStream(new File("src/main/resources/assets/books/silkworm.jpg"))));
-        bookService.save(book22, new MockMultipartFile("blancoletal.png", new FileInputStream(new File("src/main/resources/assets/books/BlancoLetal.png"))));
-        bookService.save(book23, new MockMultipartFile("romeoandjuliet.jpg", new FileInputStream(new File("src/main/resources/assets/books/RomeoJuliet.jpg"))));
-        bookService.save(book24, new MockMultipartFile("sueño.jpg", new FileInputStream(new File("src/main/resources/assets/books/Sueño.jpg"))));
+        bookService.save(book22, new MockMultipartFile("blancoLetal.jpg", new FileInputStream(new File("src/main/resources/assets/books/blancoLetal.jpg"))));
+        bookService.save(book23, new MockMultipartFile("RomeoJuliet.jpg", new FileInputStream(new File("src/main/resources/assets/books/RomeoJuliet.jpg"))));
+        bookService.save(book24, new MockMultipartFile("sueños.png", new FileInputStream(new File("src/main/resources/assets/books/sueños.png"))));
         bookService.save(book25, new MockMultipartFile("tempestad.jpg", new FileInputStream(new File("src/main/resources/assets/books/tempestad.jpg"))));
-        bookService.save(book26, new MockMultipartFile("tomsawyer.jpg", new FileInputStream(new File("src/main/resources/assets/books/TomSawyer.jpg"))));
+        bookService.save(book26, new MockMultipartFile("tomsawyer.jpg", new FileInputStream(new File("src/main/resources/assets/books/tomsawyer.jpg"))));
         bookService.save(book27, new MockMultipartFile("forastero.jpg", new FileInputStream(new File("src/main/resources/assets/books/forastero.jpg"))));
-        bookService.save(book28, new MockMultipartFile("olivertwist.jpg", new FileInputStream(new File("src/main/resources/assets/books/OliverTwist.jpg"))));
+        bookService.save(book28, new MockMultipartFile("olivertwist.gif", new FileInputStream(new File("src/main/resources/assets/books/olivertwist.gif"))));
         bookService.save(book29, new MockMultipartFile("navidad.jpg", new FileInputStream(new File("src/main/resources/assets/books/navidad.jpg"))));
-        bookService.save(book30, new MockMultipartFile("copperfield.jpg", new FileInputStream(new File("src/main/resources/assets/books/copperfield.jpg"))));
+        bookService.save(book30, new MockMultipartFile("davidcopperfield.png", new FileInputStream(new File("src/main/resources/assets/books/davidcopperfield.png"))));
     }
 
     @Override

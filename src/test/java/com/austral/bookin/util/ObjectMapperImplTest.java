@@ -3,10 +3,12 @@ package com.austral.bookin.util;
 import com.austral.bookin.dto.credentials.CredentialsDTO;
 import com.austral.bookin.dto.user.UserDTO;
 import com.austral.bookin.entity.User;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +20,9 @@ public class ObjectMapperImplTest {
 
     @Autowired
     private ObjectMapperImpl objectMapperImpl;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     @DisplayName("Given user, when map to user DTO, then return user DTO")

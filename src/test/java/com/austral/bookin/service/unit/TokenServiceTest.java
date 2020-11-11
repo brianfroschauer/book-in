@@ -6,6 +6,7 @@ import com.austral.bookin.exception.ExpiredTokenException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.TokenRepository;
 import com.austral.bookin.service.token.TokenService;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -28,6 +29,9 @@ public class TokenServiceTest {
 
     @MockBean
     private TokenRepository tokenRepository;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {

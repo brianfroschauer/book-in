@@ -4,6 +4,7 @@ import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.service.signup.SignupService;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class SignupServiceTest {
 
     @Autowired
     private SignupService signupService;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {

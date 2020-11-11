@@ -7,6 +7,7 @@ import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.service.review.ReviewService;
 import com.austral.bookin.specification.ReviewSpecification;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -36,6 +37,9 @@ public class ReviewControllerTest {
 
     @Autowired
     private ReviewController reviewController;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {

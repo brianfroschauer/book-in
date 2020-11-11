@@ -124,11 +124,4 @@ public class UserServiceImpl implements UserService {
     private boolean checkValidOldPassword(String old, User user) {
         return encoder.matches(old, user.getPassword());
     }
-
-    private String constructMessage(String url) {
-        String header = "<h2><strong> Recuperá tu contraseña </strong></h2>";
-        String link = "<a href=\"" + url +"\">click acá</a>";
-        String body = "Haga " + link + " para poder recuperar su contraseña.<br><br>Si Ud. no solicitó la recuperación de su contraseña o nunca se registró en Book <i>In</i> puede ignorar este mail.<br><br>Saludos,<br>Book <i>In</i>";
-        return header + "\n\n\n" + body;
-    }
 }

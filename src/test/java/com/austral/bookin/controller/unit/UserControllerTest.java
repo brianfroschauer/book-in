@@ -96,7 +96,6 @@ public class UserControllerTest {
         User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>(), new byte[4], new ArrayList<>());
         User user2 = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", "hola1234", "F", new HashSet<>(), new byte[4], new ArrayList<>());
 
-
         Mockito.doReturn(user)
                 .when(userService)
                 .find("katia@hotmail.com");

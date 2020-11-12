@@ -1,6 +1,5 @@
 package com.austral.bookin.service.unit;
 
-import com.austral.bookin.dto.book.BookDTO;
 import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.entity.User;
@@ -17,8 +16,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
@@ -323,5 +320,18 @@ public class BookServiceTest {
 
         assertNotNull(response);
         verify(bookRepository, times(1)).sortByGenre("Aventura", 2);
+    }
+
+    @Test
+    @DisplayName("Given author id, return books")
+    public void givenAuthorId_ReturnBooks() {
+        doReturn(Arrays.asList(new Book(), new Book()))
+                .when(bookRepository)
+                .findAllByAuthor(1L);
+
+        final List<Book> books = bookService.findByAuthor(1L);
+
+        assertEquals(books.size(), 2);
+        verify(bookRepository).findAllByAuthor(1L);
     }
 }

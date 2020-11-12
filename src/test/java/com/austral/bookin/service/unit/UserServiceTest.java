@@ -4,7 +4,6 @@ import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;
-import com.austral.bookin.repository.TokenRepository;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;

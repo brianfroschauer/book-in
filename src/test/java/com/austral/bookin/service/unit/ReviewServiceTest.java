@@ -92,6 +92,34 @@ public class ReviewServiceTest {
     }
 
     @Test
+    @DisplayName("Given review, when save, then return review")
+    public void givenReview_whenSave_thenReturnReview() {
+        User user = new User("First", "Last", "firstlast@gmail.com", "password1234", "M", new HashSet<>());
+        Book book = new Book(1L, "title", "Aventura", "english", new Date(), new ArrayList<>());
+        Book book2 = new Book(1L, "title2", "Aventura", "english", new Date(), new ArrayList<>());
+
+        Review reviewdto = new Review(4, "Muy bueno", user, book);
+        Review reviewToSave = new Review(4, "Muy bueno", user, book2);
+
+        doReturn(reviewToSave)
+                .when(reviewRepository)
+                .save(any(Review.class));
+
+        doReturn(Optional.of(book))
+                .when(bookRepository)
+                .findById(1L);
+
+        doReturn(book2)
+                .when(bookRepository)
+                .save(book);
+
+        final Review review = reviewService.save(reviewdto);
+
+        assertNotNull(review);
+        verify(reviewRepository).save(any(Review.class));
+    }
+
+    @Test
     @DisplayName("Given present optional review, when update, then update review")
     public void givenPresentOptionalReview_whenUpdate_thenUpdateReview() {
         Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
@@ -136,6 +164,33 @@ public class ReviewServiceTest {
     }
 
     @Test
+    @DisplayName("Given present optional review, when delete, then delete review")
+    public void givenPresentOptionalReview_whenDelete_thenDeleteReview() {
+
+        User user = new User("First", "Last", "firstlast@gmail.com", "password1234", "M", new HashSet<>());
+        Book book = new Book(1L, "title", "Aventura", "english", new Date(), new ArrayList<>());
+        Book book2 = new Book(1L, "title2", "Aventura", "english", new Date(), new ArrayList<>());
+
+        Review review = new Review(4, "Muy bueno", user, book);
+
+        doReturn(Optional.of(review))
+                .when(reviewRepository)
+                .findById(4L);
+
+        doReturn(Optional.of(book))
+                .when(bookRepository)
+                .findById(1L);
+
+        doReturn(book2)
+                .when(bookRepository)
+                .save(book);
+
+        reviewService.delete(4L);
+
+        verify(reviewRepository).delete(any(Review.class));
+    }
+
+    @Test
     @DisplayName("Given empty optional review, when delete, then throw not found exception")
     public void givenEmptyOptionalReview_whenDelete_thenThrowNotFoundException() {
         doReturn(Optional.empty())
@@ -145,5 +200,31 @@ public class ReviewServiceTest {
         assertThrows(NotFoundException.class, () -> reviewService.delete(4L));
         verify(reviewRepository).findById(4L);
         verify(reviewRepository, never()).delete(any(Review.class));
+    }
+
+    @Test
+    @DisplayName("Given book id, return reviews")
+    public void givenBookId_ReturnReviews() {
+        doReturn(Arrays.asList(new Review(), new Review()))
+                .when(reviewRepository)
+                .findByBook(1L);
+
+        final List<Review> reviews = reviewService.findByBook(1L);
+
+        assertEquals(reviews.size(), 2);
+        verify(reviewRepository).findByBook(1L);
+    }
+
+    @Test
+    @DisplayName("Given user id, return reviews")
+    public void givenUserId_ReturnReviews() {
+        doReturn(Arrays.asList(new Review(), new Review()))
+                .when(reviewRepository)
+                .findByUser(1L);
+
+        final List<Review> reviews = reviewService.findByUser(1L);
+
+        assertEquals(reviews.size(), 2);
+        verify(reviewRepository).findByUser(1L);
     }
 }

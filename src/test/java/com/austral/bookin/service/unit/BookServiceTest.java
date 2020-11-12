@@ -104,7 +104,7 @@ public class BookServiceTest {
                 .when(bookRepository)
                 .save(any(Book.class));
 
-        final Book book = bookService.save(new Book(), null);
+        final Book book = bookService.save(new Book(), new ArrayList<>(),null);
 
         assertNotNull(book);
         verify(bookRepository).save(any(Book.class));
@@ -121,7 +121,7 @@ public class BookServiceTest {
                 .when(bookRepository)
                 .save(any(Book.class));
 
-        final Book book = bookService.update(4L, new Book(), null);
+        final Book book = bookService.update(4L, new Book(), new ArrayList<>(),null);
 
         assertNotNull(book);
         verify(bookRepository).findById(4L);
@@ -135,7 +135,7 @@ public class BookServiceTest {
                 .when(bookRepository)
                 .findById(4L);
 
-        assertThrows(NotFoundException.class, () -> bookService.update(4L, new Book(), null));
+        assertThrows(NotFoundException.class, () -> bookService.update(4L, new Book(), new ArrayList<>(),null));
         verify(bookRepository).findById(4L);
         verify(bookRepository, never()).save(any(Book.class));
     }

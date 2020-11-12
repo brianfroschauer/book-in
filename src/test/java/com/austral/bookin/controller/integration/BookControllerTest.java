@@ -53,7 +53,7 @@ public class BookControllerTest {
 
         Mockito.doReturn(new Book())
                 .when(bookService)
-                .save(any(Book.class), any());
+                .save(any(Book.class), any(), any());
 
         MockMultipartFile book = new MockMultipartFile("book", "", "application/json", objectMapper.writeValueAsString(createBookDTO).getBytes());
         MockMultipartFile photo = new MockMultipartFile("photo", "", "multipart/form-data", new byte[2]);
@@ -76,7 +76,7 @@ public class BookControllerTest {
 
         Mockito.doReturn(new Book())
                 .when(bookService)
-                .save(any(Book.class), any());
+                .save(any(Book.class), any(), any());
 
         MockMultipartFile book = new MockMultipartFile("book", "", "application/json", objectMapper.writeValueAsString(createBookDTO).getBytes());
         MockMultipartFile photo = new MockMultipartFile("photo", "", "multipart/form-data", new byte[2]);

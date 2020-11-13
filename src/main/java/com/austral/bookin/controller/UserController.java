@@ -12,6 +12,7 @@ import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.service.token.TokenService;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;
+import com.austral.bookin.util.MailStrategy;
 import com.austral.bookin.util.ObjectMapper;
 import com.austral.bookin.util.ObjectMapperImpl;
 import org.springframework.http.HttpStatus;
@@ -63,7 +64,7 @@ public class UserController {
         try {
             final User user = userService.find(email);
             final Token token = tokenService.createPasswordResetToken(user);
-            userService.sendMail(token);
+            userService.sendMail(MailStrategy.RECOVER, token.getUser(), token.getToken());
             return HttpStatus.OK;
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This users doesn't exist");

@@ -6,6 +6,7 @@ import com.austral.bookin.dto.author.UpdateAuthorDTO;
 import com.austral.bookin.entity.Author;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.service.author.AuthorService;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -29,6 +30,9 @@ public class AuthorControllerTest {
 
     @Autowired
     private AuthorController authorController;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {

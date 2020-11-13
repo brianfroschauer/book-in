@@ -8,6 +8,7 @@ import com.austral.bookin.repository.BookRepository;
 import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.service.review.ReviewService;
 import com.austral.bookin.specification.ReviewSpecification;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -32,6 +33,9 @@ public class ReviewServiceTest {
 
     @MockBean
     private BookRepository bookRepository;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Autowired
     private ReviewService reviewService;

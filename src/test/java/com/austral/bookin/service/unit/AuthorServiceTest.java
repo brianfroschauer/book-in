@@ -45,8 +45,8 @@ public class AuthorServiceTest {
     }
 
     @Test
-    @DisplayName("Given authors list, when find all, then return authors")
-    public void givenAuthors_WhenFindAll_ReturnAuthors() {
+    @DisplayName("Given authors list, when find, then return authors")
+    public void givenAuthors_WhenFind_ReturnAuthors() {
         doReturn(Arrays.asList(new Author(), new Author()))
                 .when(authorRepository)
                 .findAll(authorSpecification);
@@ -58,8 +58,8 @@ public class AuthorServiceTest {
     }
 
     @Test
-    @DisplayName("Given empty list, when find all, then return empty list")
-    public void givenEmptyList_whenFindAll_ThenReturnEmptyList() {
+    @DisplayName("Given empty list, when find, then return empty list")
+    public void givenEmptyList_whenFind_ThenReturnEmptyList() {
         doReturn(Collections.emptyList())
                 .when(authorRepository)
                 .findAll(authorSpecification);
@@ -68,6 +68,19 @@ public class AuthorServiceTest {
 
         assertTrue(authors.isEmpty());
         verify(authorRepository).findAll(authorSpecification);
+    }
+
+    @Test
+    @DisplayName("Given book id, return authors")
+    public void givenBookId_ReturnAuthors() {
+        doReturn(Arrays.asList(new Author(), new Author()))
+                .when(authorRepository)
+                .findAllByBook(1L);
+
+        final List<Author> authors = authorService.findByBook(1L);
+
+        assertEquals(authors.size(), 2);
+        verify(authorRepository).findAllByBook(1L);
     }
 
     @Test

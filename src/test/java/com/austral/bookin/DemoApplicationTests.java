@@ -1,14 +1,15 @@
 package com.austral.bookin;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
 class DemoApplicationTests {
+
+	@MockBean
+	private VelocityEngine velocityEngine;
 
 	@Test
 	void contextLoads() {

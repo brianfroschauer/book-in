@@ -1,6 +1,5 @@
 package com.austral.bookin.service.user;
 
-import com.austral.bookin.entity.Token;
 import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;

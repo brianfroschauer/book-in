@@ -233,7 +233,7 @@ public class BookLoader implements CommandLineRunner, Ordered {
         bookService.save(book11, authors6, new MockMultipartFile("persuasion.png", new FileInputStream(new File("src/main/resources/assets/books/persuasion.png"))));
         bookService.save(book12, authors6, new MockMultipartFile("sentidoysensibilidad.jpg", new FileInputStream(new File("src/main/resources/assets/books/sentidoysensibilidad.jpg"))));
         bookService.save(book13, authors7, new MockMultipartFile("delirium.jpg", new FileInputStream(new File("src/main/resources/assets/books/Delirium.jpeg"))));
-        bookService.save(book14, authors7, new MockMultipartFile("pandemonium.jpg", new FileInputStream(new File("src/main/resources/assets/books/pandemonium.jpg"))));
+        bookService.save(book14, authors7, new MockMultipartFile("pandemonium.png", new FileInputStream(new File("src/main/resources/assets/books/pandemonium.png"))));
         bookService.save(book15, authors7, new MockMultipartFile("requiem.png", new FileInputStream(new File("src/main/resources/assets/books/requiem.png"))));
         bookService.save(book16, authors8, new MockMultipartFile("caballero.jpg", new FileInputStream(new File("src/main/resources/assets/books/elCaballero.jpg"))));
         bookService.save(book17, authors9, new MockMultipartFile("roughmagic.jpg", new FileInputStream(new File("src/main/resources/assets/books/ThisRoughMagic.jpg"))));
@@ -241,15 +241,15 @@ public class BookLoader implements CommandLineRunner, Ordered {
         bookService.save(book19, authors4, new MockMultipartFile("ickabog.jpg", new FileInputStream(new File("src/main/resources/assets/books/theIckabog.jpg"))));
         bookService.save(book20, authors4, new MockMultipartFile("troubledblood.jpg", new FileInputStream(new File("src/main/resources/assets/books/TroubledBlood.jpeg"))));
         bookService.save(book21, authors4, new MockMultipartFile("silkworm.jpg", new FileInputStream(new File("src/main/resources/assets/books/silkworm.jpg"))));
-        bookService.save(book22, authors4, new MockMultipartFile("blancoletal.png", new FileInputStream(new File("src/main/resources/assets/books/BlancoLetal.png"))));
+        bookService.save(book22, authors4, new MockMultipartFile("blancoLetal.jpg", new FileInputStream(new File("src/main/resources/assets/books/blancoLetal.jpg"))));
         bookService.save(book23, authors3, new MockMultipartFile("romeoandjuliet.jpg", new FileInputStream(new File("src/main/resources/assets/books/RomeoJuliet.jpg"))));
-        bookService.save(book24, authors3, new MockMultipartFile("sueño.jpg", new FileInputStream(new File("src/main/resources/assets/books/Sueño.jpg"))));
+        bookService.save(book24, authors3, new MockMultipartFile("sueños.png", new FileInputStream(new File("src/main/resources/assets/books/sueños.png"))));
         bookService.save(book25, authors3, new MockMultipartFile("tempestad.jpg", new FileInputStream(new File("src/main/resources/assets/books/tempestad.jpg"))));
         bookService.save(book26, authors1, new MockMultipartFile("tomsawyer.jpg", new FileInputStream(new File("src/main/resources/assets/books/TomSawyer.jpg"))));
         bookService.save(book27, authors1, new MockMultipartFile("forastero.jpg", new FileInputStream(new File("src/main/resources/assets/books/forastero.jpg"))));
-        bookService.save(book28, authors2, new MockMultipartFile("olivertwist.jpg", new FileInputStream(new File("src/main/resources/assets/books/OliverTwist.jpg"))));
+        bookService.save(book28, authors2, new MockMultipartFile("olivertwist.GIF", new FileInputStream(new File("src/main/resources/assets/books/olivertwist.GIF"))));
         bookService.save(book29, authors2, new MockMultipartFile("navidad.jpg", new FileInputStream(new File("src/main/resources/assets/books/navidad.jpg"))));
-        bookService.save(book30, authors2, new MockMultipartFile("copperfield.jpg", new FileInputStream(new File("src/main/resources/assets/books/copperfield.jpg"))));
+        bookService.save(book30, authors2, new MockMultipartFile("davidcopperfield.png", new FileInputStream(new File("src/main/resources/assets/books/davidcopperfield.png"))));
     }
 
     @Override

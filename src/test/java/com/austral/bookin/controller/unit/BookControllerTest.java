@@ -11,6 +11,7 @@ import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.BookRepository;
 import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.service.book.BookService;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -41,6 +42,9 @@ public class BookControllerTest {
 
     @MockBean
     private BookRepository bookRepository;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @MockBean
     private ReviewRepository reviewRepository;

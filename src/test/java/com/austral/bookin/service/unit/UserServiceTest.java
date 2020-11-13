@@ -7,6 +7,8 @@ import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;
+import com.austral.bookin.util.MailStrategy;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -33,6 +35,9 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {
@@ -162,14 +167,25 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Send mail without problems")
-    public void sendMailWithoutProblems() {
+    @DisplayName("Send recover mail without problems")
+    public void sendRecoverMailWithoutProblems() {
         final PasswordEncoder encoder = new BCryptPasswordEncoder();
 
         User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
         Token token = new Token(2L, "asd12f", user, new Date(121, Calendar.NOVEMBER, 13));
 
-        userService.sendMail(token);
+        userService.sendMail(MailStrategy.RECOVER, user, token.getToken());
+    }
+
+    @Test
+    @DisplayName("Send register mail without problems")
+    public void sendRegisterMailWithoutProblems() {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        Token token = new Token(2L, "asd12f", user, new Date(121, Calendar.NOVEMBER, 13));
+
+        userService.sendMail(MailStrategy.REGISTER, user);
     }
 
     @Test

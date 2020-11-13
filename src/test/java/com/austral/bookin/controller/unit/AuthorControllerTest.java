@@ -9,6 +9,7 @@ import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.service.author.AuthorService;
 import com.austral.bookin.specification.AuthorSpecification;
 import com.austral.bookin.specification.SearchAuthorSpecification;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -41,6 +42,9 @@ public class AuthorControllerTest {
 
     @Autowired
     private AuthorController authorController;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {

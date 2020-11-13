@@ -7,6 +7,7 @@ import com.austral.bookin.entity.Author;
 import com.austral.bookin.entity.Book;
 import com.austral.bookin.service.author.AuthorService;
 import com.austral.bookin.service.book.BookService;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -33,6 +34,9 @@ public class BookAuthorControllerTest {
 
     @MockBean
     private AuthorService authorService;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Autowired
     private BookAuthorController bookAuthorController;

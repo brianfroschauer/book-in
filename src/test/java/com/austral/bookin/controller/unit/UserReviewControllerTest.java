@@ -6,6 +6,7 @@ import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.service.review.ReviewService;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -31,6 +32,9 @@ public class UserReviewControllerTest {
 
     @Autowired
     private UserReviewController userReviewController;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {

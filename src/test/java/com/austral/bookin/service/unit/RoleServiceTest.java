@@ -1,17 +1,15 @@
 package com.austral.bookin.service.unit;
 
-import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Role;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.RoleRepository;
 import com.austral.bookin.service.role.RoleService;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
-import javax.persistence.EntityNotFoundException;
 
 import java.util.Optional;
 
@@ -28,6 +26,9 @@ public class RoleServiceTest {
 
     @Autowired
     private RoleService roleService;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {

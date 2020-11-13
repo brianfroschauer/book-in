@@ -11,4 +11,6 @@ public interface AuthorRepository extends JpaRepository<Author, Long>, JpaSpecif
 
     @Query(value = "select * from author a where a.id in (select ba.author_id from book_author ba where ba.book_id = ?1)", nativeQuery = true)
     List<Author> findAllByBook(Long id);
+
+    List<Author> findAllById(Iterable<Long> ids);
 }

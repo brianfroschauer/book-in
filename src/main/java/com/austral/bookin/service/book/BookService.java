@@ -47,7 +47,7 @@ public interface BookService {
      * @param file to be persisted.
      * @return the persisted book.
      */
-    Book save(Book book, MultipartFile file);
+    Book save(Book book, List<Long> authors, MultipartFile file);
 
     /**
      * Updates the provided book {@param id}, {@param stars}, {@param strategy} and {@param oldStars}.
@@ -85,7 +85,7 @@ public interface BookService {
      * @param file to be updated.
      * @return the updated book.
      */
-    Book update(Long id, Book book, MultipartFile file);
+    Book update(Long id, Book book, List<Long> authors, MultipartFile file);
 
     /**
      * Delete the provided author.

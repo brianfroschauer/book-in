@@ -1,6 +1,5 @@
 package com.austral.bookin.service.unit;
 
-import com.austral.bookin.dto.book.BookDTO;
 import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.entity.User;
@@ -18,8 +17,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
@@ -108,7 +105,7 @@ public class BookServiceTest {
                 .when(bookRepository)
                 .save(any(Book.class));
 
-        final Book book = bookService.save(new Book(), null);
+        final Book book = bookService.save(new Book(), new ArrayList<>(),null);
 
         assertNotNull(book);
         verify(bookRepository).save(any(Book.class));
@@ -125,7 +122,7 @@ public class BookServiceTest {
                 .when(bookRepository)
                 .save(any(Book.class));
 
-        final Book book = bookService.update(4L, new Book(), null);
+        final Book book = bookService.update(4L, new Book(), new ArrayList<>(),null);
 
         assertNotNull(book);
         verify(bookRepository).findById(4L);
@@ -139,7 +136,7 @@ public class BookServiceTest {
                 .when(bookRepository)
                 .findById(4L);
 
-        assertThrows(NotFoundException.class, () -> bookService.update(4L, new Book(), null));
+        assertThrows(NotFoundException.class, () -> bookService.update(4L, new Book(), new ArrayList<>(),null));
         verify(bookRepository).findById(4L);
         verify(bookRepository, never()).save(any(Book.class));
     }

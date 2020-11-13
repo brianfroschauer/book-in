@@ -67,7 +67,7 @@ public class BookController {
     @PostMapping
     public ResponseEntity<BookDTO> create(@RequestPart("book") @Valid CreateBookDTO createBookDTO,
                                           @RequestPart(value = "photo") MultipartFile file) {
-        final Book book = bookService.save(objectMapper.map(createBookDTO, Book.class), file);
+        final Book book = bookService.save(objectMapper.map(createBookDTO, Book.class), createBookDTO.getAuthors(), file);
         return ResponseEntity.ok(objectMapper.map(book, BookDTO.class));
     }
 
@@ -76,7 +76,7 @@ public class BookController {
     public ResponseEntity<BookDTO> update(@PathVariable Long id,
                                           @RequestPart("book") @Valid UpdateBookDTO updateBookDTO,
                                           @RequestPart(value = "photo", required = false) MultipartFile file) {
-        final Book book = bookService.update(id, objectMapper.map(updateBookDTO, Book.class), file);
+        final Book book = bookService.update(id, objectMapper.map(updateBookDTO, Book.class), updateBookDTO.getAuthors(), file);
         return ResponseEntity.ok(objectMapper.map(book, BookDTO.class));
     }
 

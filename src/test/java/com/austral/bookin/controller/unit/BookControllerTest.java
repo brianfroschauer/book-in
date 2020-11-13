@@ -1,16 +1,13 @@
 package com.austral.bookin.controller.unit;
 
 import com.austral.bookin.controller.BookController;
-import com.austral.bookin.dto.book.BookDTO;
-import com.austral.bookin.dto.book.BookWithAuthorsDTO;
-import com.austral.bookin.dto.book.UpdateBookDTO;
+import com.austral.bookin.dto.book.*;
 import com.austral.bookin.entity.Book;
-import com.austral.bookin.entity.Review;
-import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.BookRepository;
-import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.service.book.BookService;
+import com.austral.bookin.specification.BookSpecification;
+import com.austral.bookin.specification.SearchBookSpecification;
 import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,14 +15,17 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -46,9 +46,6 @@ public class BookControllerTest {
     @MockBean
     private VelocityEngine velocityEngine;
 
-    @MockBean
-    private ReviewRepository reviewRepository;
-
     @Test
     public void contextLoads() {
         assertNotNull(bookController);
@@ -66,6 +63,60 @@ public class BookControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
         verify(bookService, times(1)).find(1L);
+    }
+
+    @Test
+    @DisplayName("Given book spec, then return OK response")
+    public void givenBookSpec_thenReturnOkResponse() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        Book book2 = new Book(2L, "title2", "Aventura", "en", new Date(), new ArrayList<>());
+        List<Book> books = new ArrayList<>();
+        books.add(book);
+        books.add(book2);
+
+        BookSpecification specification = new BookSpecification() {
+            @Override
+            public Predicate toPredicate(Root<Book> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return null;
+            }
+        };
+
+        Mockito.doReturn(books)
+                .when(bookService)
+                .findAll(specification, PageRequest.of(1, 2));
+
+        final ResponseEntity<List<SearchBookDTO>> responseEntity = bookController.find(specification, 1, 2);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+        verify(bookService, times(1)).findAll(specification, PageRequest.of(1, 2));
+    }
+
+    @Test
+    @DisplayName("Given search book spec, then return OK response")
+    public void givenSearchBookSpec_thenReturnOkResponse() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        Book book2 = new Book(2L, "title2", "Aventura", "en", new Date(), new ArrayList<>());
+        List<Book> books = new ArrayList<>();
+        books.add(book);
+        books.add(book2);
+
+        SearchBookSpecification specification = new SearchBookSpecification() {
+            @Override
+            public Predicate toPredicate(Root<Book> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return null;
+            }
+        };
+
+        Mockito.doReturn(books)
+                .when(bookService)
+                .findAll(specification, PageRequest.of(1, 2));
+
+        final ResponseEntity<List<SearchBookWithAuthorsDTO>> responseEntity = bookController.find(specification, 1, 2);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+        verify(bookService, times(1)).findAll(specification, PageRequest.of(1, 2));
     }
 
     @Test
@@ -127,16 +178,17 @@ public class BookControllerTest {
         updateBookDTO.setTitle("Oblivion");
         updateBookDTO.setLanguage("english");
         updateBookDTO.setGenre("Fantasy");
+        updateBookDTO.setAuthors(new ArrayList<>());
 
         doReturn(new Book())
                 .when(bookService)
-                .update(eq(1L), any(Book.class), isNull());
+                .update(eq(1L), any(Book.class), anyList(),isNull());
 
         final ResponseEntity<BookDTO> responseEntity = bookController.update(1L, updateBookDTO, null);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
-        verify(bookService, times(1)).update(eq(1L), any(Book.class), isNull());
+        verify(bookService, times(1)).update(eq(1L), any(Book.class), anyList(), isNull());
     }
 
     @Test
@@ -146,13 +198,14 @@ public class BookControllerTest {
         updateBookDTO.setTitle("Oblivion");
         updateBookDTO.setLanguage("english");
         updateBookDTO.setGenre("Fantasy");
+        updateBookDTO.setAuthors(new ArrayList<>());
 
         doThrow(NotFoundException.class)
                 .when(bookService)
-                .update(eq(1L), any(Book.class), isNull());
+                .update(eq(1L), any(Book.class), anyList(), isNull());
 
         assertThrows(NotFoundException.class, () -> bookController.update(1L, updateBookDTO, null));
-        verify(bookService, times(1)).update(eq(1L), any(Book.class), isNull());
+        verify(bookService, times(1)).update(eq(1L), any(Book.class), anyList(), isNull());
     }
 
     @Test

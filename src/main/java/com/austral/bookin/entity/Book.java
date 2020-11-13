@@ -53,12 +53,11 @@ public class Book {
         authors.forEach(author -> author.getBooks().remove(this));
     }
 
-    public Book(String title, String genre, String language, Date date, List<Author> authors) {
+    public Book(String title, String genre, String language, Date date) {
         this.title = title;
         this.genre = genre;
         this.language = language;
         this.date = date;
-        this.authors = authors;
     }
 
     public Book(long id, String title, String genre, String language, Date date, List<Author> authors) {

@@ -5,11 +5,8 @@ import com.austral.bookin.dto.book.BookDTO;
 import com.austral.bookin.dto.book.BookWithAuthorsDTO;
 import com.austral.bookin.dto.book.UpdateBookDTO;
 import com.austral.bookin.entity.Book;
-import com.austral.bookin.entity.Review;
-import com.austral.bookin.entity.User;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.BookRepository;
-import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.service.book.BookService;
 import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
@@ -24,8 +21,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -45,9 +40,6 @@ public class BookControllerTest {
 
     @MockBean
     private VelocityEngine velocityEngine;
-
-    @MockBean
-    private ReviewRepository reviewRepository;
 
     @Test
     public void contextLoads() {
@@ -127,16 +119,17 @@ public class BookControllerTest {
         updateBookDTO.setTitle("Oblivion");
         updateBookDTO.setLanguage("english");
         updateBookDTO.setGenre("Fantasy");
+        updateBookDTO.setAuthors(new ArrayList<>());
 
         doReturn(new Book())
                 .when(bookService)
-                .update(eq(1L), any(Book.class), isNull());
+                .update(eq(1L), any(Book.class), anyList(),isNull());
 
         final ResponseEntity<BookDTO> responseEntity = bookController.update(1L, updateBookDTO, null);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
-        verify(bookService, times(1)).update(eq(1L), any(Book.class), isNull());
+        verify(bookService, times(1)).update(eq(1L), any(Book.class), anyList(), isNull());
     }
 
     @Test
@@ -146,13 +139,14 @@ public class BookControllerTest {
         updateBookDTO.setTitle("Oblivion");
         updateBookDTO.setLanguage("english");
         updateBookDTO.setGenre("Fantasy");
+        updateBookDTO.setAuthors(new ArrayList<>());
 
         doThrow(NotFoundException.class)
                 .when(bookService)
-                .update(eq(1L), any(Book.class), isNull());
+                .update(eq(1L), any(Book.class), anyList(), isNull());
 
         assertThrows(NotFoundException.class, () -> bookController.update(1L, updateBookDTO, null));
-        verify(bookService, times(1)).update(eq(1L), any(Book.class), isNull());
+        verify(bookService, times(1)).update(eq(1L), any(Book.class), anyList(), isNull());
     }
 
     @Test

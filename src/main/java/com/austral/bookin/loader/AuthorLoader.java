@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
@@ -89,7 +88,7 @@ public class AuthorLoader implements CommandLineRunner, Ordered {
         authorService.save(author6, new MockMultipartFile("jane_austen.jpg", new FileInputStream(new File("src/main/resources/assets/authors/jane_austen.jpg"))));
         authorService.save(author7, new MockMultipartFile("lauren_oliver.jpg", new FileInputStream(new File("src/main/resources/assets/authors/lauren_oliver.jpeg"))));
         authorService.save(author8, new MockMultipartFile("robert_fisher.jpg", new FileInputStream(new File("src/main/resources/assets/authors/robert_fisher.jpg"))));
-        authorService.save(author9, new MockMultipartFile("mary_stewart.jpeg", new FileInputStream(new File("src/main/resources/assets/authors/mary_stewart.jpeg"))));
+        authorService.save(author9, new MockMultipartFile("mary_stewart.jpg", new FileInputStream(new File("src/main/resources/assets/authors/mary_stewart.jpg"))));
     }
 
     @Override

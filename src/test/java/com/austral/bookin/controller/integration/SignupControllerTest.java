@@ -4,6 +4,7 @@ import com.austral.bookin.dto.user.SignupUserDTO;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.service.signup.SignupService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,6 +36,8 @@ public class SignupControllerTest {
     @MockBean
     private SignupService signupService;
 
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {
@@ -50,7 +55,9 @@ public class SignupControllerTest {
         signupUserDTO.setPassword("P@ssword1123");
         signupUserDTO.setGender("M");
 
-        Mockito.doReturn(new User())
+        final User user = new User("firstName", "lastName", "user@gmail.com", "P@ssword1123", "M", new HashSet<>());
+
+        Mockito.doReturn(user)
                 .when(signupService)
                 .signup(any(User.class));
 

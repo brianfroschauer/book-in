@@ -37,11 +37,11 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<BookDTO>> find(SearchBookSpecification searchBookSpecification,
+    public ResponseEntity<List<SearchBookWithAuthorsDTO>> find(SearchBookSpecification searchBookSpecification,
                                               @RequestParam(name = "page", defaultValue = "0") int page,
                                               @RequestParam(name = "size", defaultValue = "10") int size) {
         final List<Book> books = bookService.findAll(searchBookSpecification, PageRequest.of(page, size));
-        return ResponseEntity.ok(objectMapper.map(books, BookDTO.class));
+        return ResponseEntity.ok(objectMapper.map(books, SearchBookWithAuthorsDTO.class));
     }
 
     @GetMapping("{id}")

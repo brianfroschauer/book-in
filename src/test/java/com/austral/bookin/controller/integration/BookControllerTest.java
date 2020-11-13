@@ -4,6 +4,7 @@ import com.austral.bookin.dto.book.CreateBookDTO;
 import com.austral.bookin.entity.Book;
 import com.austral.bookin.service.book.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -35,6 +36,9 @@ public class BookControllerTest {
 
     @MockBean
     private BookService bookService;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {

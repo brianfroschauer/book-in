@@ -27,7 +27,7 @@ public class SendMailHandler {
         return Session.getDefaultInstance(props);
     }
 
-    public static void sendMail(VelocityEngine velocityEngine, Session session, User recipient, String subject, String template, String... redirections) {
+    public static void sendMail(VelocityEngine velocityEngine, Session session, User recipient, String subject, String template, MailStrategy strategy, String[] redirections) {
         MimeMessage message = new MimeMessage(session);
 
         try {
@@ -35,7 +35,10 @@ public class SendMailHandler {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient.getEmail()));
             message.setSubject(subject);
             VelocityContext velocityContext = new VelocityContext();
-            if (redirections.length != 0) velocityContext.put("url", redirections[0]);
+            if (strategy == MailStrategy.REGISTER) {
+                velocityContext.put("firstName", redirections[0]);
+                velocityContext.put("lastName", redirections[1]);
+            } else velocityContext.put("url", redirections[0]);
             StringWriter stringWriter = new StringWriter();
             velocityEngine.mergeTemplate(template, "UTF-8", velocityContext, stringWriter);
             message.setContent(stringWriter.toString(), "text/html; charset=utf-8");

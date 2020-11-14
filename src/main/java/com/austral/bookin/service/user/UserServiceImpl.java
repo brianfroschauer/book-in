@@ -1,6 +1,5 @@
 package com.austral.bookin.service.user;
 
-import com.austral.bookin.entity.Token;
 import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;
@@ -87,10 +86,13 @@ public class UserServiceImpl implements UserService {
     public void sendMail(MailStrategy strategy, User user, String... token) {
         Session session = SendMailHandler.setProperties();
         if (strategy == MailStrategy.REGISTER) {
-            SendMailHandler.sendMail(velocityEngine, session, user, "Bienvenido a BookIn", "assets/templates/welcome.html");
+            String firstName = user.getFirstName();
+            String lastName = user.getLastName();
+            String[] values = {firstName, lastName};
+            SendMailHandler.sendMail(velocityEngine, session, user, "Bienvenido a BookIn", "assets/templates/welcome.html", MailStrategy.REGISTER, values);
         } else {
-            String url = basicUrl + token[0];
-            SendMailHandler.sendMail(velocityEngine, session, user, "Recuperá tu contraseña", "assets/templates/recover.html", url);
+            String[] url = {basicUrl + token[0]};
+            SendMailHandler.sendMail(velocityEngine, session, user, "Recuperá tu contraseña", "assets/templates/recover.html", MailStrategy.RECOVER, url);
         }
     }
 

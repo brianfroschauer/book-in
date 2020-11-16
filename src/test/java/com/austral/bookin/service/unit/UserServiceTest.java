@@ -204,11 +204,13 @@ public class UserServiceTest {
     @Test
     @DisplayName("Given present optional user, when update, then update user")
     public void givenPresentOptionalUser_whenUpdate_thenUpdateUser() {
-        doReturn(Optional.of(new User()))
+        User userdto = new User("Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+
+        doReturn(Optional.of(userdto))
                 .when(userRepository)
                 .findById(1L);
 
-        doReturn(new User())
+        doReturn(userdto)
                 .when(userRepository)
                 .save(any(User.class));
 

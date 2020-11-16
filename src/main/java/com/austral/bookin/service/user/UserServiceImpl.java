@@ -111,10 +111,12 @@ public class UserServiceImpl implements UserService {
                 .map(old -> {
                     old.setFirstName(user.getFirstName());
                     old.setLastName(user.getLastName());
-                    old.setEmail(user.getEmail());
                     old.setGender(user.getGender());
                     if (file != null) old.setPhoto(FileHandler.getBytes(file));
-                    return save(old);
+                    if(!old.getEmail().equalsIgnoreCase(user.getEmail())) {
+                        old.setEmail(user.getEmail());
+                        return save(old);
+                    } else return repository.save(old);
                 })
                 .orElseThrow(NotFoundException::new);
     }

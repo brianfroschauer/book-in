@@ -6,6 +6,7 @@ import com.austral.bookin.dto.user.UserDTO;
 import com.austral.bookin.dto.user.UserNewPasswordDTO;
 import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.exception.ExpiredTokenException;
 import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;
@@ -108,8 +109,14 @@ public class UserController {
     public ResponseEntity<UserDTO> update(@PathVariable Long id,
                                           @RequestPart("user") @Valid UpdateUserDTO updateUserDTO,
                                           @RequestPart(value = "photo", required = false) MultipartFile file) {
-        final User user = userService.update(id, objectMapper.map(updateUserDTO, User.class), file);
-        return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
+        try {
+            final User user = userService.update(id, objectMapper.map(updateUserDTO, User.class), file);
+            return ResponseEntity.ok(objectMapper.map(user, UserDTO.class));
+        } catch (AlreadyExistsException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This email is already in use");
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The user is not registered");
+        }
     }
 
     @DeleteMapping("{id}")

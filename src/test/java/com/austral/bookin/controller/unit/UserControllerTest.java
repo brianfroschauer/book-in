@@ -7,6 +7,7 @@ import com.austral.bookin.dto.user.UserDTO;
 import com.austral.bookin.dto.user.UserNewPasswordDTO;
 import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.exception.ExpiredTokenException;
 import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;
@@ -174,7 +175,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Try to send mail to password of given user not found, then throw Not Found")
+    @DisplayName("Try to send mail to password of given user not found, then throw Not Found Exception")
     public void resetPasswordOfUser_thenThrowNotFound() {
 
         Mockito.doThrow(NotFoundException.class)
@@ -297,7 +298,22 @@ public class UserControllerTest {
                 .when(userService)
                 .update(eq(1L), any(User.class), isNull());
 
-        assertThrows(NotFoundException.class, () -> userController.update(1L, updateUserDTO, null));
+        assertThrows(ResponseStatusException.class, () -> userController.update(1L, updateUserDTO, null));
+        verify(userService, times(1)).update(eq(1L), any(User.class), isNull());
+    }
+
+    @Test
+    @DisplayName("Given already used mail, when update, then throw Already Exists Exception")
+    public void givenNonExistentUser_whenUpdate_thenReturnThrowAlreadyExistsException() {
+        final UpdateUserDTO updateUserDTO = new UpdateUserDTO();
+        updateUserDTO.setFirstName("firstName");
+        updateUserDTO.setLastName("lastName");
+
+        doThrow(AlreadyExistsException.class)
+                .when(userService)
+                .update(eq(1L), any(User.class), isNull());
+
+        assertThrows(ResponseStatusException.class, () -> userController.update(1L, updateUserDTO, null));
         verify(userService, times(1)).update(eq(1L), any(User.class), isNull());
     }
 

@@ -21,6 +21,9 @@ public class UpdateUserDTO {
     @Pattern(regexp = Patterns.PATTERN_NAME)
     private String lastName;
 
+    @Pattern(regexp = Patterns.PATTERN_EMAIL)
+    private String email;
+
     @Pattern(regexp = Patterns.PATTERN_GENDER)
     private String gender;
 }

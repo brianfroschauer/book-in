@@ -203,12 +203,36 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Given present optional user, when update, then update user")
-    public void givenPresentOptionalUser_whenUpdate_thenUpdateUser() {
-        doReturn(Optional.of(new User()))
+    public void givenPresentOptionalUserWithoutEmailChange_whenUpdate_thenUpdateUser() {
+        User userdto = new User("Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+
+        User userdto2 = new User("Katia", "Cammisaa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+
+        doReturn(Optional.of(userdto))
                 .when(userRepository)
                 .findById(1L);
 
-        doReturn(new User())
+        doReturn(userdto)
+                .when(userRepository)
+                .save(any(User.class));
+
+        final User user = userService.update(1L, userdto2, null);
+
+        assertNotNull(user);
+        verify(userRepository).findById(1L);
+        verify(userRepository).save(any(User.class));
+    }
+
+    @Test
+    @DisplayName("Given present optional user, when update, then update user")
+    public void givenPresentOptionalUser_whenUpdate_thenUpdateUser() {
+        User userdto = new User("Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+
+        doReturn(Optional.of(userdto))
+                .when(userRepository)
+                .findById(1L);
+
+        doReturn(userdto)
                 .when(userRepository)
                 .save(any(User.class));
 

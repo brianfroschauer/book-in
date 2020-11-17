@@ -1,5 +1,7 @@
 package com.austral.bookin.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +39,7 @@ public class Book {
     @JoinTable(name = "book_author",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
+    @JsonManagedReference
     private List<Author> authors = new ArrayList<>();
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true)
@@ -50,12 +53,11 @@ public class Book {
         authors.forEach(author -> author.getBooks().remove(this));
     }
 
-    public Book(String title, String genre, String language, Date date, List<Author> authors) {
+    public Book(String title, String genre, String language, Date date) {
         this.title = title;
         this.genre = genre;
         this.language = language;
         this.date = date;
-        this.authors = authors;
     }
 
     public Book(long id, String title, String genre, String language, Date date, List<Author> authors) {

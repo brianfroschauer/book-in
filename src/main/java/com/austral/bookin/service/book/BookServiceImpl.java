@@ -4,6 +4,7 @@ import com.austral.bookin.entity.Book;
 import com.austral.bookin.entity.Review;
 import com.austral.bookin.exception.AlreadyExistsException;
 import com.austral.bookin.exception.NotFoundException;
+import com.austral.bookin.repository.AuthorRepository;
 import com.austral.bookin.repository.BookRepository;
 import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.util.FileHandler;
@@ -20,11 +21,14 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final ReviewRepository reviewRepository;
+    private final AuthorRepository authorRepository;
 
     public BookServiceImpl(BookRepository bookRepository,
-                           ReviewRepository reviewRepository) {
+                           ReviewRepository reviewRepository,
+                           AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
         this.reviewRepository = reviewRepository;
+        this.authorRepository = authorRepository;
     }
 
     @Override
@@ -52,12 +56,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book save(Book book, MultipartFile file) {
+    public Book save(Book book, List<Long> authors, MultipartFile file) {
         bookRepository
                 .findBookByTitle(book.getTitle())
                 .ifPresent(found -> { throw new AlreadyExistsException(); });
 
         if (file != null) book.setPhoto(FileHandler.getBytes(file));
+        book.setAuthors(authorRepository.findAllById(authors));
         return bookRepository.save(book);
     }
 
@@ -82,9 +87,19 @@ public class BookServiceImpl implements BookService {
         book.setStars(newStars);
         return bookRepository.save(book);
     }
+  
+    @Override
+    public List<Book> sortByStars(int size) {
+        return bookRepository.sortByStars(size);
+    }
 
     @Override
-    public Book update(Long id, Book book, MultipartFile file) {
+    public List<Book> sortByGenre(String genre, int size) {
+        return bookRepository.sortByGenre(genre, size);
+    }  
+
+    @Override
+    public Book update(Long id, Book book, List<Long> authors, MultipartFile file) {
         return bookRepository
                 .findById(id)
                 .map(old -> {
@@ -93,6 +108,7 @@ public class BookServiceImpl implements BookService {
                     old.setLanguage(book.getLanguage());
                     old.setDate(book.getDate());
                     old.setAuthors(book.getAuthors());
+                    old.setAuthors(authorRepository.findAllById(authors));
                     if (file != null) old.setPhoto(FileHandler.getBytes(file));
                     return bookRepository.save(old);
                 })

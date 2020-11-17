@@ -6,6 +6,7 @@ import com.austral.bookin.dto.user.UserDTO;
 import com.austral.bookin.entity.User;
 import com.austral.bookin.service.signup.SignupService;
 
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -30,6 +33,9 @@ public class SignupControllerTest {
     @Autowired
     private SignupController signupController;
 
+    @MockBean
+    private VelocityEngine velocityEngine;
+
     @Test
     public void contextLoads() {
         assertNotNull(signupController);
@@ -38,7 +44,10 @@ public class SignupControllerTest {
     @Test
     @DisplayName("Given valid user, when signup, then return Ok response")
     public void givenUser_whenSignup_thenReturnOkResponse() {
-        Mockito.doReturn(new User())
+
+        final User user = new User("firstName", "lastName", "user@gmail.com", "P@ssword1123", "M", new HashSet<>());
+
+        Mockito.doReturn(user)
                 .when(signupService)
                 .signup(any(User.class));
 

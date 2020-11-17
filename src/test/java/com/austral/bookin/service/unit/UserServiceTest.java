@@ -1,21 +1,25 @@
 package com.austral.bookin.service.unit;
 
+import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.exception.InvalidOldPasswordException;
 import com.austral.bookin.exception.NotFoundException;
 import com.austral.bookin.repository.UserRepository;
 import com.austral.bookin.service.user.UserService;
 import com.austral.bookin.specification.UserSpecification;
+import com.austral.bookin.util.MailStrategy;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -31,6 +35,9 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {
@@ -112,6 +119,76 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Change password of given user, given right old password")
+    public void changePasswordOfUser_givenRightOldPassword() {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        User user2 = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("hola1234"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+
+        Mockito.doReturn(user2)
+                .when(userRepository)
+                .save(user);
+
+        final User result = userService.updatePassword("password123", "hola1234", user);
+
+        assertEquals(user2, result);
+    }
+
+    @Test
+    @DisplayName("Change password of given user")
+    public void changePasswordOfUser() {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        User user2 = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("hola1234"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+
+        Mockito.doReturn(Optional.of(user))
+                .when(userRepository)
+                .findById(1L);
+
+        Mockito.doReturn(user2)
+                .when(userRepository)
+                .save(user);
+
+        final User result = userService.setPassword(1L, "hola1234");
+
+        assertEquals(user2, result);
+    }
+
+    @Test
+    @DisplayName("Change password of given user, given wrong old password")
+    public void changePasswordOfUser_givenWrongOldPassword() {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+
+        assertThrows(InvalidOldPasswordException.class, () -> userService.updatePassword("password1234", "hola1234", user));
+    }
+
+    @Test
+    @DisplayName("Send recover mail without problems")
+    public void sendRecoverMailWithoutProblems() {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        Token token = new Token(2L, "asd12f", user, new Date(121, Calendar.NOVEMBER, 13));
+
+        userService.sendMail(MailStrategy.RECOVER, user, token.getToken());
+    }
+
+    @Test
+    @DisplayName("Send register mail without problems")
+    public void sendRegisterMailWithoutProblems() {
+        final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User user = new User(1L, "Katia", "Cammisa", "katia@hotmail.com", encoder.encode("password123"), "F", new HashSet<>(), new byte[4], new ArrayList<>());
+        Token token = new Token(2L, "asd12f", user, new Date(121, Calendar.NOVEMBER, 13));
+
+        userService.sendMail(MailStrategy.REGISTER, user);
+    }
+
+    @Test
     @DisplayName("Given user, when save, then return user")
     public void givenUser_whenSave_thenReturnUser() {
         doReturn(new User())
@@ -126,12 +203,36 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Given present optional user, when update, then update user")
-    public void givenPresentOptionalUser_whenUpdate_thenUpdateUser() {
-        doReturn(Optional.of(new User()))
+    public void givenPresentOptionalUserWithoutEmailChange_whenUpdate_thenUpdateUser() {
+        User userdto = new User("Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+
+        User userdto2 = new User("Katia", "Cammisaa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+
+        doReturn(Optional.of(userdto))
                 .when(userRepository)
                 .findById(1L);
 
-        doReturn(new User())
+        doReturn(userdto)
+                .when(userRepository)
+                .save(any(User.class));
+
+        final User user = userService.update(1L, userdto2, null);
+
+        assertNotNull(user);
+        verify(userRepository).findById(1L);
+        verify(userRepository).save(any(User.class));
+    }
+
+    @Test
+    @DisplayName("Given present optional user, when update, then update user")
+    public void givenPresentOptionalUser_whenUpdate_thenUpdateUser() {
+        User userdto = new User("Katia", "Cammisa", "katia@hotmail.com", "password123", "F", new HashSet<>());
+
+        doReturn(Optional.of(userdto))
+                .when(userRepository)
+                .findById(1L);
+
+        doReturn(userdto)
                 .when(userRepository)
                 .save(any(User.class));
 

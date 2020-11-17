@@ -1,7 +1,10 @@
 package com.austral.bookin.service.user;
 
+import com.austral.bookin.entity.Token;
 import com.austral.bookin.entity.User;
+import com.austral.bookin.util.MailStrategy;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
@@ -39,6 +42,32 @@ public interface UserService {
      * @return the user with provided token.
      */
     User find(Principal principal);
+
+    /**
+     * Change user's password.
+     *
+     * @param userId of the user to be updated.
+     * @param password to be set.
+     * @return the user updated.
+     */
+    User setPassword(Long userId, String password);
+
+    /**
+     * Update password of given {@param user} with given {@param password} if {@param oldPassword} checks with saved.
+     *
+     * @param oldPassword to be checked.
+     * @param password to be updated.
+     * @param user to be updated.
+     * @return User updated.
+     */
+    User updatePassword(String oldPassword, String password, User user);
+
+    /**
+     * Sending mail to user with password reset token.
+     *
+     * @param token to be sent.
+     */
+    void sendMail(MailStrategy strategy, User user, String... token);
 
     /**
      * Persist the provided {@param user}.

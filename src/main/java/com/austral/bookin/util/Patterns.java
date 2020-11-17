@@ -43,7 +43,7 @@ public class Patterns {
      * (?:[\s]+.+)           # any symbol
      * $                     # end-of-string.
      */
-    public static final String PATTERN_TITLE = "^([A-Za-zÀ-ÖØ-öø-ÿ0-9¡]+(?:[\\s]+.+)*){3,30}$";
+    public static final String PATTERN_TITLE = "^([A-Za-zÀ-ÖØ-öø-ÿ0-9¡]+(?:[\\s]*.+)*){3,30}$";
 
     /**
      * ^                 # start-of-string.
@@ -51,7 +51,7 @@ public class Patterns {
      * (?:[\s])          # space
      * $                 # end-of-string.
      */
-    public static final String PATTERN_GENRE = "^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s]+[A-Za-zÀ-ÖØ-öø-ÿ]+)*)$";
+    public static final String PATTERN_GENRE = "^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\\s-]+[A-Za-zÀ-ÖØ-öø-ÿ]+)*)$";
 
     /**
      * ^                 # start-of-string.

@@ -33,5 +33,5 @@ public class CreateBookDTO {
     @Past
     private Date date;
 
-    private List<AuthorDTO> authors;
+    private List<Long> authors;
 }

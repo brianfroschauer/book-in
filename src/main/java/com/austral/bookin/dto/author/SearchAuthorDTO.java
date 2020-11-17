@@ -12,4 +12,5 @@ public class SearchAuthorDTO {
     private Long id;
     private String firstName;
     private String lastName;
+    private byte[] photo;
 }

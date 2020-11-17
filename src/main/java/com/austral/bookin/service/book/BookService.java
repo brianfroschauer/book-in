@@ -47,7 +47,7 @@ public interface BookService {
      * @param file to be persisted.
      * @return the persisted book.
      */
-    Book save(Book book, MultipartFile file);
+    Book save(Book book, List<Long> authors, MultipartFile file);
 
     /**
      * Updates the provided book {@param id}, {@param stars}, {@param strategy} and {@param oldStars}.
@@ -59,6 +59,23 @@ public interface BookService {
      * @return the updated book.
      */
     Book calculateStars(long id, int stars, Strategy strategy, int... oldStars);
+  
+    /**
+     * Sorts all books adn returns a list with the top {@param size} ranked.
+     *
+     * @param size of the list to be retrieved.
+     * @return the sorted list of books.
+     */
+    List<Book> sortByStars(int size);
+  
+    /**
+     * Gets list of books of given {@param genre} and {@param size}.
+     *
+     * @param genre to be sorted.
+     * @param size of the list expected.
+     * @return the sorted list of books.
+     */
+    List<Book> sortByGenre(String genre, int size);
 
     /**
      * Update the provided {@param book} and {@param file}.
@@ -68,7 +85,7 @@ public interface BookService {
      * @param file to be updated.
      * @return the updated book.
      */
-    Book update(Long id, Book book, MultipartFile file);
+    Book update(Long id, Book book, List<Long> authors, MultipartFile file);
 
     /**
      * Delete the provided author.

@@ -9,9 +9,11 @@ import com.austral.bookin.repository.ReviewRepository;
 import com.austral.bookin.service.book.BookService;
 import com.austral.bookin.specification.BookSpecification;
 import com.austral.bookin.util.Strategy;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -37,6 +39,9 @@ public class BookServiceTest {
 
     @Autowired
     private BookService bookService;
+
+    @MockBean
+    private VelocityEngine velocityEngine;
 
     @Test
     public void contextLoads() {
@@ -100,7 +105,7 @@ public class BookServiceTest {
                 .when(bookRepository)
                 .save(any(Book.class));
 
-        final Book book = bookService.save(new Book(), null);
+        final Book book = bookService.save(new Book(), new ArrayList<>(),null);
 
         assertNotNull(book);
         verify(bookRepository).save(any(Book.class));
@@ -117,7 +122,7 @@ public class BookServiceTest {
                 .when(bookRepository)
                 .save(any(Book.class));
 
-        final Book book = bookService.update(4L, new Book(), null);
+        final Book book = bookService.update(4L, new Book(), new ArrayList<>(),null);
 
         assertNotNull(book);
         verify(bookRepository).findById(4L);
@@ -131,7 +136,7 @@ public class BookServiceTest {
                 .when(bookRepository)
                 .findById(4L);
 
-        assertThrows(NotFoundException.class, () -> bookService.update(4L, new Book(), null));
+        assertThrows(NotFoundException.class, () -> bookService.update(4L, new Book(), new ArrayList<>(),null));
         verify(bookRepository).findById(4L);
         verify(bookRepository, never()).save(any(Book.class));
     }
@@ -279,5 +284,58 @@ public class BookServiceTest {
         Book new_book = bookService.calculateStars(1L, 5, Strategy.DELETE);
 
         assert new_book.getStars() == 0.0;
+    }
+
+    @Test
+    @DisplayName("Get list of books ordered by stars")
+    public void getOrderedList() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        Book book2 = new Book(2L, "title2", "Aventura", "en", new Date(), new ArrayList<>());
+
+        List<Book> books = new ArrayList<>();
+        books.add(book2);
+        books.add(book);
+
+        Mockito.doReturn(books)
+                .when(bookRepository)
+                .sortByStars(2);
+
+        final List<Book> response = bookService.sortByStars(2);
+
+        assertNotNull(response);
+        verify(bookRepository, times(1)).sortByStars(2);
+    }
+  
+    @Test
+    @DisplayName("Get list of books of the given genre ordered by stars")
+    public void getOrderedListWithGenre() {
+        Book book = new Book(1L, "title", "Aventura", "en", new Date(), new ArrayList<>());
+        Book book2 = new Book(2L, "title2", "Aventura", "en", new Date(), new ArrayList<>());
+
+        List<Book> books = new ArrayList<>();
+        books.add(book2);
+        books.add(book);
+
+        Mockito.doReturn(books)
+                .when(bookRepository)
+                .sortByGenre("Aventura", 2);
+
+        final List<Book> response = bookService.sortByGenre("Aventura", 2);
+
+        assertNotNull(response);
+        verify(bookRepository, times(1)).sortByGenre("Aventura", 2);
+    }
+
+    @Test
+    @DisplayName("Given author id, return books")
+    public void givenAuthorId_ReturnBooks() {
+        doReturn(Arrays.asList(new Book(), new Book()))
+                .when(bookRepository)
+                .findAllByAuthor(1L);
+
+        final List<Book> books = bookService.findByAuthor(1L);
+
+        assertEquals(books.size(), 2);
+        verify(bookRepository).findAllByAuthor(1L);
     }
 }
